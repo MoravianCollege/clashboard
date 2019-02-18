@@ -204,6 +204,10 @@
 	* **ipd_url**
 * **study_docs**
 	* **study_doc**
+		* **doc_id**
+		* **doc_type**
+		* **doc_url**
+		* **doc_comment**
 * **pending_results** - appears only when the data provider has submitted study results for QC review, but those results have not yet been publicly posted
 	* **submitted** - date
 	* **returned** - date
