@@ -17,7 +17,7 @@ To authorize the rsconnect package, paste the following command into your R cons
 rsconnect::setAccountInfo(name='...', token='...', secret='...')
 ```
 * (The secret token can be found in the 1Password manager).
-
+NOTE: Need to add name, token, secret to README once we know what they are
 After authorizing rsconnect, run the following lines in your R console:
 
 ```bash
