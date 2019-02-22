@@ -3,12 +3,13 @@ Using ShinyR and Shinyapps.io, allows users to navigate through large quantities
 
 ##Installation
 
-Run the following command in the R console:
-	
+Run the following commands in the R console:
+
 ```bash
 install.packages('rsconnect')
+install.packages("tidyverse")
 ```
-This command only needs to be ran once per computer. 
+These command install the rsconnect and tidyverse libraries. These commands only needs to be ran once per computer. 
 
 ##Usage
 To authorize the rsconnect package, paste the following command into your R console:
@@ -26,8 +27,4 @@ After authorizing rsconnect, run the following lines in your R console:
 library(rsconnect)
 rsconnect::deployApp('path/to/your/app/folder')
 ```
-You should now be able to launch the ShinyR app successfully. The link to your new app will be in the R console. 
-
-
-
-
+You should now be able to launch the ShinyR app successfully. The link to your new app will be in the R console.
