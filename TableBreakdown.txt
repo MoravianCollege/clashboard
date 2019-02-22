@@ -1,4 +1,4 @@
-Primary Table
+ClinicalStudy Table
 	NCT_ID
 	BRIEF_TITLE
 	ACRONYM
@@ -14,10 +14,12 @@ Primary Table
 	HAS_EXPANDED_ACCESS
 	TARGET_DURATION
 	ENROLLMENT
+	NUMBER_OF_ARMS
 	URL
 	DOWNLOAD_DATE
 	RESPONSIBLE_PARTY
 	RESPONSIBLE_PARTY_TYPE
+	DETAILED_DESCRIPTION
 
 IDs Table
 	NCT_ID
@@ -43,10 +45,6 @@ OversightInfo Table
 	IS_UNAPPROVED_DEVICE
 	IS_PPSD
 	IS_US_EXPORT
-
-ExtraStudyInfo Table
-	NCT_ID
-	DETAILED_DESCRIPTION
 
 ExpandedAccessInfo
 	NCT_ID
@@ -78,7 +76,6 @@ Conditions Table
 
 Arms Table
 	NCT_ID
-	NUMBER_OF_ARMS
 	ARM_GROUP_LABEL
 	ARM_GROUP_TYPE
 	DESCRIPTION
@@ -107,7 +104,7 @@ Eligibility Table
 	MAXIMUM_AGE
 	HEALTHY_VOLUNTEERS
 
-OverallOfficial Table
+Official Table
 	NCT_ID
 	LAST_NAME
 	FIST_NAME
@@ -115,10 +112,11 @@ OverallOfficial Table
 	DEGREE
 	ROLE
 	AFFILIATION
+	TYPE (OVERALL_OFFICIAL or INVESTIGATOR)
 
 Contacts Table
 	NCT_ID
-	TYPE (PRIMARY or BACKUP)
+	TYPE (STUDY_PRIMARY or STUDY_BACKUP or FACILITY_PRIMARY or FACILITY_BACKUP)
 	FIRST_NAME
 	MIDDLE_NAME
 	LAST_NAME
@@ -134,6 +132,13 @@ Locations Table
 	STATE
 	COUNTRY
 	STATUS
+
+LocationsContacts Table
+	NCT_ID
+	FACILITY_NAME
+	CONTACT_LAST_NAME
+	CONTACT_TYPE (only FACILITY_PRIMARY or FACILITY_BACKUP)
+	INVESTGATOR_LAST_NAME
 
 RemovedCountries Table
 	NCT_ID
@@ -193,12 +198,65 @@ PendingResults Table
 	RETURNED
 	SUBMISSION_CANCELED
 
-** HAVE NOT TOUCHED CLINICAL RESULTS - not sure what to do with it all
+ClinicalResults Table
+	NCT_ID
+
+ParticipantFlowGroups Table
+	NCT_ID
+	GROUP
+	TITLE
+	DESCRTIPTION
+
+ParticipantFlowPeriods Table
+	NCT_ID
+	PERIOD
+	PERIOD_TITLE
+	MILESTONE
+	MILESTONE_TITLE
+	PARTICIPANTS_LIST (all participants associated with a specific milestone)
+
+BaselineGroups Table
+	NCT_ID
+	GROUP
+	TITLE
+	DESCRIPTION
+
+BaselineAnalyzedList Table
+	NCT_ID
+	ANALYZED
+	UNITS
+	SCOPE
+	COUNTS_LIST
+
+MeasureList Table
+	NCT_ID
+	MEASURE
+	TITLE
+	UNITS
+	PARAM
+	DISPERSION
+	CLASS
+	CATEGORY
+	MEASUREMENT_LIST
+
+OutcomeList Table
+	NCT_ID
+	OUTCOME
+	TYPE
+	TITLE
+	DESCRIPTION
+	TIME_FRAME
+	SAFETY_ISSUE
+	POSTING_DATE
+	POPULATION
+	GROUP_LIST
+
+** GOT TO GROUP_LIST UNDER OUTCOME_LIST
 
 THINGS THAT AREN'T INCLUDED
-	clinical_study
-	required_header
-	linked_text
+	clinical_study (just a wrapper)
+	required_header (just a wrapper)
+	link_text (same for every study)
 	source (same as lead_sponsor agency)
 	location_countries (included in location)
 	keyword (not sure what it is)
