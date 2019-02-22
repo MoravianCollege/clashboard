@@ -29,11 +29,17 @@
 * **source** - same as lead_sponsor agency
 * **oversight_info**
 	* **has_dmc** - whether or not the study has a data monitoring committee
-	* **is\_fda\_regulated_drug** - yes or no
-	* **is\_fda\_regulated_device** - yes or no
-	* **is\_unapproved\_device** - yes or no
+		* Values: Yes, No
+	* **is\_fda\_regulated_drug**
+		* Values: Yes, No
+	* **is\_fda\_regulated_device**
+		* Values: Yes, No
+	* **is\_unapproved\_device**
+		* Values: Yes, No
 	* **is_ppsd** - ???
-	* **is\_us\_export** - yes or no
+		* Values: Yes, No
+	* **is\_us\_export**
+		* Values: Yes, No
 * **brief_summary**
 	* **textblock** - short explanation of what the study is doing and looking to test
 * **detailed_description**
@@ -41,20 +47,25 @@
 * **overall\_status** - potential values depend on the study_type
 	* Study Type: Expanded Access - Values: Available, No Longer Available, Temporarily Not Available, Approved for Marketing
 	* Study Type: N/A - Values: Withheld
-	* Study Type: Anything Else - Values: Active not recruiting, Completed, Enrolling by initiative, Not yet recruiting, Recruiting, Suspended, Terminated, Withdrawn
+	* Study Type: Anything Else - Values: "Active, not recruiting", Completed, Enrolling by invitation, Not yet recruiting, Recruiting, Suspended, Terminated, Withdrawn
 * **last\_known\_status** - most recent status of a study that has not been verified in at least 2 years
 * **why_stopped** - reason for discontinuing the study
 * **start_date**
 * **completion_date**
 * **primary\_completion\_date**
 * **phase** - current phase of the clinical trial (1-4)
+	* Values: N/A, Early Phase 1, Phase 1, Phase 1/Phase2, Phase 2, Phase 2/Phase 3, Phase 3, Phase 4
 * **study_type** - classification of the study
-	* Values: Expanded Acess, N/A, Other
+	* Values: Expanded Acess, Interventional, N/A, Observational, Observational [Patient Registry]
 * **has\_expanded\_access** - does the clinical trial allow patients with immediately life threatening conditions to participate
+	* Values: Yes, No
 * **expanded\_access\_info** 
 	* **expanded\_access\_type\_individual**
+		* Values: Yes, No
 	* **expanded\_access\_type\_intermediate**
+		* Values: Yes, No
 	* **expanded\_access\_type\_treatment**
+		* Values: Yes, No
 * **study\_design\_info**
 	* **allocation** - how the tests are administered to the patients
 		* Value: Randomized
@@ -100,13 +111,16 @@
 * **eligibility** - who can participate in the study
 	* **study_pop** - population of the study
 	* **sampling_method**
+		* Values: Probability Sample, Non-Probability Sample
 	* **criteria**
 		* **textblock** - details about desired participants
 	* **gender**
+		* Values: Female, Male, All
 	* **gender_based**
+		* Values: Yes, No
 	* **minimum_age**
 	* **maximum_age**
-	* **healthy_volunteers** - yes or no
+	* **healthy_volunteers** - Yes or No
 * **overall_official** - person running the clinical study???
 	* **first_name**
 	* **middle_name**
@@ -138,6 +152,7 @@
 			* **state**
 			* **country**
 	*  **status**
+		* Values: "Active, not recruiting", Completed, Enrolling by invitation, Not yet recruiting, Recruiting, Suspended, Terminated, Withdrawn
 	*  **contact**
 		* **first_name**
 		* **middle_name**
@@ -160,6 +175,7 @@
 		* **last_name**
 		* **degree**
 		* **role**
+			* Values: Principal Investigator, Sub-Investigator, Study, Study Director
 		* **affiliation**
 * **location_countries** - countries the study is being conducted in
 	* **country**
@@ -244,8 +260,9 @@
 				* **title**
 				* **units** - what is being measured (ex: Participants, mL)
 				* **param** - the purpose or final result of the measurement
-					* Values: Mean, Count, etc.
-				* **dispersion** - how the spread is being calculated? (ex: Standard Deviation)
+					* Values: Geometric Mean, Geometric Least Squares Mean, Least Squares Mean, Log Mean, Mean, Median, Number, Count of Participants, Count of Units
+				* **dispersion** - how the spread is being calculated
+					* Values: 80% Confidence Interval, 90% Confidence Interval, 95% Confidence Interval, 97.5% Confidence Interval, 99% Confidence Interval, Full Range, Gemoetric Coefficient of Variation, Inter-Quartile Range, Standard Deviation, Standard Error
 				* **class_list**
 					* **class**
 						* **category_list**
@@ -255,10 +272,12 @@
 	* **outcome_list**
 		* **outcome**
 			* **type**
+				* Values: Primary, Secondary, Other Pre-specified, Post-Hoc
 			* **title**
 			* **description**
 			* **time_frame**
 			* **safety_issue**
+				* Values: Yes, No
 			* **posting_date**
 			* **population**
 			* **group_list**
@@ -283,6 +302,31 @@
 							* **category**
 								* **measurement_list**
 									* **measurement** - has a group_id and a value for the param
+			* **analysis_list**
+				* **analysis**
+					* **group\_id\_list**
+						* **group_id** - can be multiple
+					* **groups_desc**
+					* **non\_inferiority\_type**
+						* Values: Superiority, Non-Inferiority, Equivalence, Other, Non-Inferiority or Equivalence, Superiority or Other
+					* **non\_inferiority\_desc**
+					* **p_value**
+					* **p\_value\_desc**
+					* **method**
+					* **method_desc**
+					* **param_type**
+					* **param_value**
+					* **dispersion_type**
+						* Values: Standard Deviation, Standard Error of the Mean
+					* **dispersion_value**
+					* **ci_percent**
+					* **ci\_n\_sides**
+						* Values: 1-Sided, 2-Sided
+					* **ci\_lower\_limit**
+					* **ci\_upper\_limit**
+					* **ci\_upper\_limit\_na\_comment**
+					* **estimate_desc**
+					* **other\_analysis\_desc**
 	* **reported_events**
 		* **time_frame**
 		* **desc**
@@ -302,6 +346,7 @@
 						* **event**
 							* **subtitle**
 							* **assessment**
+								* Values: Non-systematic Assessment, Systematic Assessment
 							* **description**
 							* **counts**
 		* **other_events**
@@ -319,6 +364,7 @@
 							* **counts**
 	* **certain_agreements**
 		* **pi_employmee** - whether or not all principal agents are employed by the sponsor of the study
+			* Values: "All Principal Investigators ARE employed by the organization sponsoring the study.", "All Principal Investigators are NOT employed by the organization sponsoring the study."
 		* **restrictive_agreement**
 	* **point\_of\_contact**
 		* **name\_or\_title**
