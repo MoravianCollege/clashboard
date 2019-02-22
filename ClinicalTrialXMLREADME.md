@@ -67,17 +67,17 @@
 	* **masking** - tells who knows which people were treated
 	* **masking_description**
 * **target_duration** - optional - desired length of the study
-* **primary_outcome** - can be multiple
+* **primary_outcome** - can be multiple (outcome=endpoint)
 	* **measure** - important for evaluating the effect of the treatment, what it is supposed to do
-	* **time_frame** - ???
+	* **time_frame** - how long it takes to see the outcome's effects
 	* **description**
 * **secondary_outcome** - can be multiple
 	* **measure** - important for evaluating the effect of the treatment, what it is supposed to do
-	* **time_frame** - ???
-	* 	* **description**
+	* **time_frame** - how long it takes to see the outcome's effects
+	* **description**
 * **other_outcome** - can be multiple
 	* **measure** - important for evaluating the effect of the treatment, what it is supposed to do
-	* **time_frame** - ???
+	* **time_frame** - how long it takes to see the outcome's effects
 	* **description**
 * **number\_of\_arms** - number of groups/sub-groups in the clinical trial
 * **enrollment** - number of participants in the clinical study tagged with a type
