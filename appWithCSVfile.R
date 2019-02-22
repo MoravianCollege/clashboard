@@ -1,5 +1,5 @@
 library(shiny)
-
+library(tidyverse)
 CSVtitle<-read_csv("path/to/file/Ames.csv")
 # Define UI for app that draws a histogram ----
 ui <- fluidPage(
