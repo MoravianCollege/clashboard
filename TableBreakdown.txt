@@ -2,7 +2,8 @@ ClinicalStudy Table
 	NCT_ID
 	BRIEF_TITLE
 	ACRONYM
-	BRIEF_SUMMARY
+	OFFICIAL_TITLE
+	BRIEF_SUMMARY (from brief_summary --> textblock)
 	OVERALL_STATUS
 	LAST_KNOWN_STATUS
 	WHY_STOPPED
@@ -29,13 +30,10 @@ IDs Table
 
 Trial-Sponsors Table
 	NCT_ID
-	SPONSOR
-	TYPE (LEAD or COLLABORATOR)
-
-Sponsors Table
-	SPONSOR
+	SPONSOR_NAME
 	AGENCY
 	AGENCY_CLASS
+	TYPE (LEAD or COLLABORATOR)
 
 OversightInfo Table
 	NCT_ID
@@ -198,6 +196,8 @@ PendingResults Table
 	RETURNED
 	SUBMISSION_CANCELED
 
+
+ --- 24 tables ---
 ---- clinical results starts here ----
 
 ClinicalResults Table
@@ -308,6 +308,8 @@ ReportedEvents Table
 	ASSESSMENT
 	DESCRIPTION
 	COUNTS
+
+ --- 10 tables ---
 
 
 THINGS THAT AREN'T INCLUDED
