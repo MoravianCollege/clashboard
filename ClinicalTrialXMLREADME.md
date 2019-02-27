@@ -1,7 +1,7 @@
 # Clinical Trial Data from ClinicalTrials.gov
 -
 ## Quick explanatory guide of the possible fields in one XML file 
-### XML Conforms to this [Schema](https://clinicaltrials.gov/ct2/html/images/info/public.xsd)
+### XML Conforms to this [Schema](https://clinicaltrials.gov/ct2/html/images/info/public.xsd) which is updated regularly
 ### Further explanation of important terms can be found [here](https://clinicaltrials.gov/ct2/about-studies/glossary)
 -
 * **clinical_study** - all data about the clinical trial stored under this field (all fields until clinical_results are nested under here)
@@ -13,8 +13,10 @@
 * **id_info** - different ways to classify the study id
 	* **org\_study\_id** - full id of the study
 	* **secondary_id** - shortened or different id to use to find the study
+		* *can appear multiple times*
 	* **nct_id** - ClinicalTrials.gov identifier for the study (unique)
 	* **nct_alias**
+		* *can appear multiple times*
 * **brief_title** - title of the clinical trial
 * **acronym**
 * **sponsors**
@@ -22,7 +24,7 @@
 		* **agency** - organization running the clinical trial
 		* **agency_class** - the type of the organization
 			* Values: NIH, US Fed, Industry, Other
-	* **collaborator**
+	* **collaborator** - *can appear multiple times*
 		* **agency** - organization supporting the clinical trial that is not the sponsor
 		* **agency_class** - the type of the organization
 			* Values: NIH, US Fed, Industry, Other
@@ -78,32 +80,36 @@
 	* **masking** - tells who knows which people were treated
 	* **masking_description**
 * **target_duration** - optional - desired length of the study
-* **primary_outcome** - can be multiple (outcome=endpoint)
+* **primary_outcome** - *can appear multiple times* (outcome=endpoint)
 	* **measure** - important for evaluating the effect of the treatment, what it is supposed to do
 	* **time_frame** - how long it takes to see the outcome's effects
 	* **description**
-* **secondary_outcome** - can be multiple
+* **secondary_outcome** - *can appear multiple times*
 	* **measure** - important for evaluating the effect of the treatment, what it is supposed to do
 	* **time_frame** - how long it takes to see the outcome's effects
 	* **description**
-* **other_outcome** - can be multiple
+* **other_outcome** - *can appear multiple times*
 	* **measure** - important for evaluating the effect of the treatment, what it is supposed to do
 	* **time_frame** - how long it takes to see the outcome's effects
 	* **description**
 * **number\_of\_arms** - number of groups/sub-groups in the clinical trial
+* **number\_of\_groups**
 * **enrollment** - number of participants in the clinical study tagged with a type
 	* Types: Actual, Anticipated, Estimate
-* **condition** - disease, disorder, etc being studied - can be multiple
-* **arm_group**
+* **condition** - disease, disorder, etc being studied
+	* *can appear multiple times*
+* **arm_group** - *can appear multiple times*
 	* **arm\_group\_label** - treatment group
 	* **arm\_group\_type** - experimental or placebo comparator
 	* **description**
-* **intervention** - treatment (can be multiple)
+* **intervention** - treatment
+	* *can appear multiple times*
 	* **intervention_type** - type of treatment
 		* Values: Behavioral, Biological, Combination Product, Device, Diagnostic Test, Dietary Supplement, Drug, Genetic, Procedure, Radiation, Other
 	* **intervention_name** - name of treatment???
 	* **description**
 	* **arm\_group\_label** - arm group associated with this treatment
+		* *can appear multiple times*
 	* **other_name** - ???
 * **biospec_retention**
 	* Values: None Retained, Samples With DNA, Samples Without DNA
@@ -118,10 +124,12 @@
 		* Values: Female, Male, All
 	* **gender_based**
 		* Values: Yes, No
+	* **gender_description**
 	* **minimum_age**
 	* **maximum_age**
 	* **healthy_volunteers** - Yes or No
 * **overall_official** - person running the clinical study???
+	* *can appear multiple times*
 	* **first_name**
 	* **middle_name**
 	* **last_name**
@@ -144,16 +152,17 @@
 	* **phone**
 	* **phone_ext**
 	* **email**
-* **location** - where the study is being conducted, can be multiple
+* **location** - where the study is being conducted
+	* *can appear multiple times*
 	* **facility**
 		* **name** - name of the facility
 		* **address**
 			* **city**
 			* **state**
 			* **country**
-	*  **status**
+	* **status**
 		* Values: "Active, not recruiting", Completed, Enrolling by invitation, Not yet recruiting, Recruiting, Suspended, Terminated, Withdrawn
-	*  **contact**
+	* **contact**
 		* **first_name**
 		* **middle_name**
 		* **last_name**
@@ -161,7 +170,7 @@
 		* **phone**
 		* **phone_ext**
 		* **email**
-	*  **contact_backup**
+	* **contact_backup**
 		* **first_name**
 		* **middle_name**
 		* **last_name**
@@ -169,7 +178,8 @@
 		* **phone**
 		* **phone_ext**
 		* **email**
-	*  **investigator**
+	* **investigator**
+		* *can appear multiple times*
 		* **first_name**
 		* **middle_name**
 		* **last_name**
@@ -178,16 +188,18 @@
 			* Values: Principal Investigator, Sub-Investigator, Study, Study Director
 		* **affiliation**
 * **location_countries** - countries the study is being conducted in
-	* **country**
+	* **country** - *can appear multiple times*
 * **removed_countries** - countries no longer in the study
-	* **country**
-* **link**
+	* **country** - *can appear multiple times*
+* **link** - *can appear multiple times*
 	* **url**
 	* **description**
 * **reference** - sources of information for study???
+	* *can appear multiple times*
 	* **citation**
 	* **PMID** - ???
 * **results_reference**
+	* *can appear multiple times*
 	* **citation**
 	* **PMID** - ???
 * **verification_date** - most recent date that the study sponsor/investigator confirmed trial info is accurate
@@ -204,49 +216,76 @@
 * **last\_update\_submitted\_qc** - date when study was consistent with NLM quality control review criteria
 * **last\_update\_posted** - last date the sponsor/investigator updates were posted on ClinicalTrials.gov
 * **responsible_party** - person responsible for submitting information about the study to ClinicalTrials.gov
+	* **name_title** - *only used in old style*
+	* **organization** - *only used in old style*
 	* **responsible\_party\_type**
 		* Values: Sponsor, Principal Investigator, Sponsor-Investigator
-* **keyword** 
+	* **investigator_affiliation**
+	* **investigator\_full\_name**
+	* **investigator_title**
+* **keyword** - *can appear multiple times*
 * **condition_browse** - searchable conditions that this study would appear as a result of 
-	* **mesh_term** - one condition (can be multiple)
+	* **mesh_term** - one condition
+		* *can appear multiple times*
 * **intervention_browse** - searchable interventions that this study would appear as a result of 
-	* **mesh_term** - one intervention (can be multiple)
+	* **mesh_term** - one intervention
+		* *can appear multiple times*
 * **patient_data** - information about the patients
 	* **sharing_ipd** - whether or not they are sharing individual patient data
 	* **ipd_description**
 	* **ipd\_info\_type**
+		* *can appear multiple times*
 	* **ipd\_time\_frame**
 	* **ipd\_access\_criteria**
 	* **ipd_url**
 * **study_docs**
-	* **study_doc**
+	* **study_doc** - *can appear multiple times*
 		* **doc_id**
 		* **doc_type**
 		* **doc_url**
 		* **doc_comment**
+* **provided\_document\_section**
+	* **provided_document** - *can appear multiple times*
+		* **document_type**
+		* **document\_has\_protocol**
+		* **document_has_icf**
+		* **document_has_sap**
+		* **document_date**
+		* **document_url**
 * **pending_results** - appears only when the data provider has submitted study results for QC review, but those results have not yet been publicly posted
+	* *can appear multiple times*
 	* **submitted** - date
 	* **returned** - date
 	* **submission_canceled** - date
-* **clinical_results** - results of the clinical trial
+* **clinical_results** - results of the clinical trial (within clinical study wrapper)
 	* **participant_flow**
+		* **recruitment_details**
+		* **pre\_assignment\_details**
 		* **group_list**
-			* **group** - type specified as the phase
+			* **group** - has only a group_id as an attribute
+				* *can appear multiple times*
 				* Values: P1, P2, P3, P4
-			* **title**
-			* **description**
+				* **title**
+				* **description**
 		* **period_list**
-			* **period** - can be multiple
+			* **period** - *can appear multiple times*
 				* **title**
 				* **milestone_list**
-					* **milestone**
+					* **milestone** - *can appear multiple times*
 						* **title**
 						* **participants_list**
-							* **participants** - has group_id (phase ) and count (number of people)
+							* **participants** - has group_id (phase) and count (number of people) as attributes
+				* **drop\_withdraw\_reason\_list**
+					* **drop\_withrow\_reason** - *can appear multiple times*
+						* **title**
+						* **participants_list**
+							* **participants** - has group_id (phase) and count (number of people) as attributes
 	* **baseline**
+		* **population**
 		* **group_list**
-			* **group** - has group_id
-				* Values: B1, B2, B3, B4, etc.
+			* **group** - has only a group_id as attributes
+				* *can appear multiple times*
+				* Values: P1, P2, P3, P4
 				* **title**
 				* **description**
 		* **analyzed_list**
@@ -254,23 +293,43 @@
 				* **units** - what is being analyzed (ex: Participants)
 				* **scope**
 				* **count_list**
-					* **count** - has group_id similar to group above and value (number of units) 
+					* **count** - has group_id similar to group above and count (number of units) as attributes
+						* *can appear multiple times*
 		* **measure_list**
 			* **measure** - ???
+				* *can appear multiple times*
 				* **title**
+				* **description**
+				* **population**
 				* **units** - what is being measured (ex: Participants, mL)
 				* **param** - the purpose or final result of the measurement
 					* Values: Geometric Mean, Geometric Least Squares Mean, Least Squares Mean, Log Mean, Mean, Median, Number, Count of Participants, Count of Units
 				* **dispersion** - how the spread is being calculated
 					* Values: 80% Confidence Interval, 90% Confidence Interval, 95% Confidence Interval, 97.5% Confidence Interval, 99% Confidence Interval, Full Range, Gemoetric Coefficient of Variation, Inter-Quartile Range, Standard Deviation, Standard Error
+				* **units_analyzed**
+				* **analyzed_list**
+					* **analyzed** - *can appear multiple times*
+						* **units** - what is being analyzed (ex: Participants)
+						* **scope**
+						* **count_list**
+							* **count** - has group_id similar to group above and count (number of units) as attributes
+								* *can appear multiple times*
 				* **class_list**
-					* **class**
+					* **class** - *can appear multiple times*
+						* **title**
+						* * **analyzed_list**
+							* **analyzed** - *can appear multiple times*
+								* **units** - what is being analyzed (ex: Participants)
+								* **scope**
+								* **count_list**
+									* **count** - has group_id similar to group above and count (number of units) 
 						* **category_list**
-							* **category**
+							* **category** - *can appear multiple times*
+								* **title**
 								* **measurement_list**
-									* **measurement** - has a group_id and a value for the param
+									* **measurement** - has a group_id, value, spread, lower limit, upper limit as attributes
 	* **outcome_list**
-		* **outcome**
+		* **outcome** - *can appear multiple times*
 			* **type**
 				* Values: Primary, Secondary, Other Pre-specified, Post-Hoc
 			* **title**
@@ -281,31 +340,33 @@
 			* **posting_date**
 			* **population**
 			* **group_list**
-				* **group**
+				* **group** - has only a group_id as attributes
+					* *can appear multiple times*
+					* Values: P1, P2, P3, P4
 					* **title**
 					* **description**
-			* **measure**
+			* **measure** - ???
+				* *can appear multiple times*
 				* **title**
 				* **description**
 				* **population**
-				* **units** - what is being analyzed (ex: Participantsm mL)
+				* **units** - what is being measured (ex: Participants, mL)
 				* **param** - the purpose or final result of the measurement
+					* Values: Geometric Mean, Geometric Least Squares Mean, Least Squares Mean, Log Mean, Mean, Median, Number, Count of Participants, Count of Units
+				* **dispersion** - how the spread is being calculated
+					* Values: 80% Confidence Interval, 90% Confidence Interval, 95% Confidence Interval, 97.5% Confidence Interval, 99% Confidence Interval, Full Range, Gemoetric Coefficient of Variation, Inter-Quartile Range, Standard Deviation, Standard Error
+				* **units_analyzed**
 				* **analyzed_list**
-					* **analyzed**
-						* **units** - what is being analyzed (ex: Participantsm mL)
+					* **analyzed** - *can appear multiple times*
+						* **units** - what is being analyzed (ex: Participants)
 						* **scope**
 						* **count_list**
-							* **count** - has group_id similar to group 
-				* **class_list**
-					* **class**
-						* **category_list**
-							* **category**
-								* **measurement_list**
-									* **measurement** - has a group_id and a value for the param
+							* **count** - has group_id similar to group above and count (number of units) as attributes
+								* *can appear multiple times*
 			* **analysis_list**
-				* **analysis**
+				* **analysis** - *can appear multiple times*
 					* **group\_id\_list**
-						* **group_id** - can be multiple
+						* **group_id** - *can appear multiple times*
 					* **groups_desc**
 					* **non\_inferiority\_type**
 						* Values: Superiority, Non-Inferiority, Equivalence, Other, Non-Inferiority or Equivalence, Superiority or Other
@@ -331,8 +392,9 @@
 		* **time_frame**
 		* **desc**
 		* **group_list**
-			* **group** - has group_id
-				* Values: E1, E2, B1, B2, etc.
+			* **group** - has only a group_id as attributes
+				* *can appear multiple times*
+				* Values: P1, P2, P3, P4
 				* **title**
 				* **description**
 		* **serious_events**
@@ -340,11 +402,11 @@
 			* **default_vocab**
 			* **default_assessment**
 			* **category_list**
-				* **category**
+				* **category** - *can appear multiple times*
 					* **title**
 					* **event_list**
-						* **event**
-							* **subtitle**
+						* **event** - *can appear multiple times*
+							* **sub_title**
 							* **assessment**
 								* Values: Non-systematic Assessment, Systematic Assessment
 							* **description**
@@ -354,18 +416,20 @@
 			* **default_vocab**
 			* **default_assessment**
 			* **category_list**
-				* **category**
+				* **category** - *can appear multiple times*
 					* **title**
 					* **event_list**
-						* **event**
-							* **subtitle**
+						* **event** - *can appear multiple times*
+							* **sub_title**
 							* **assessment**
+								* Values: Non-systematic Assessment, Systematic Assessment
 							* **description**
 							* **counts**
 	* **certain_agreements**
 		* **pi_employmee** - whether or not all principal agents are employed by the sponsor of the study
 			* Values: "All Principal Investigators ARE employed by the organization sponsoring the study.", "All Principal Investigators are NOT employed by the organization sponsoring the study."
 		* **restrictive_agreement**
+	* **limitations\_and\_caveats**
 	* **point\_of\_contact**
 		* **name\_or\_title**
 		* **organization**
