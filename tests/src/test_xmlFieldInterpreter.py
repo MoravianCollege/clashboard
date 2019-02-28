@@ -3,8 +3,6 @@ import pytest
 import csv
 from getBaseFields import xmlFieldInterpreter
 
-# testInterpreter = xmlFieldInterpreter
-
 class TestXmlFieldInterpreter(TestCase):
 
     def overwriteDataFile(self):
