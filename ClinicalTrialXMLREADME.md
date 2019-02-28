@@ -19,6 +19,7 @@
 		* *can appear multiple times*
 * **brief_title** - title of the clinical trial
 * **acronym**
+* **official_title**
 * **sponsors**
 	* **lead_sponsor**
 		* **agency** - organization running the clinical trial
