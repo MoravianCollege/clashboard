@@ -1,5 +1,4 @@
 from xml_to_csv_conversion.src.xml_paths import *
-import os
 
 xml_to_csv_conversion_path = os.path.dirname(os.getcwd())
 clashboard_path = os.path.dirname(xml_to_csv_conversion_path)
