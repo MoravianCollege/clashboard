@@ -41,5 +41,3 @@ def get_xml_file_paths_of_sub_directories(sub_directory_paths):
 main_xml_path = get_main_xml_directory_path()
 sub_directory_paths = get_sub_directory_paths_of_main_xml_path(main_xml_path)
 xml_file_paths = get_xml_file_paths_of_sub_directories(sub_directory_paths)
-
-print(xml_file_paths)
