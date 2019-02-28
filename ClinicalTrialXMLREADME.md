@@ -4,7 +4,7 @@
 ### XML Conforms to this [Schema](https://clinicaltrials.gov/ct2/html/images/info/public.xsd) which is updated regularly
 ### Further explanation of important terms can be found [here](https://clinicaltrials.gov/ct2/about-studies/glossary)
 -
-* **clinical_study** - all data about the clinical trial stored under this field (all fields until clinical_results are nested under here)
+* **clinical_study** - all data about the clinical trial stored under this field including clinical_results
 * **required_header** - header that provides general info about the download
 	* **download_date** - date the data was downloaded
 	* **link_text** - the text that would display instead of the url if opened in a webpage
@@ -112,6 +112,7 @@
 	* **arm\_group\_label** - arm group associated with this treatment
 		* *can appear multiple times*
 	* **other_name** - ???
+		* *can appear multiple times*
 * **biospec_retention**
 	* Values: None Retained, Samples With DNA, Samples Without DNA
 * **biospec_descr**
@@ -259,6 +260,7 @@
 	* **returned** - date
 	* **submission_canceled** - date
 * **clinical_results** - results of the clinical trial (within clinical study wrapper)
+	* *can appear multiple times*
 	* **participant_flow**
 		* **recruitment_details**
 		* **pre\_assignment\_details**
