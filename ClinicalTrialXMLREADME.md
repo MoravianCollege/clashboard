@@ -410,7 +410,8 @@
 							* **assessment**
 								* Values: Non-systematic Assessment, Systematic Assessment
 							* **description**
-							* **counts**
+							* **counts** - has group_id, subjects_affected, subjects\_at\_risk, events as attributes
+								* *can appear multiple times*
 		* **other_events**
 			* **frequency_thresold**
 			* **default_vocab**
@@ -424,7 +425,8 @@
 							* **assessment**
 								* Values: Non-systematic Assessment, Systematic Assessment
 							* **description**
-							* **counts**
+							* **counts** - has group_id, subjects_affected, subjects\_at\_risk, events as attributes
+								* *can appear multiple times*
 	* **certain_agreements**
 		* **pi_employmee** - whether or not all principal agents are employed by the sponsor of the study
 			* Values: "All Principal Investigators ARE employed by the organization sponsoring the study.", "All Principal Investigators are NOT employed by the organization sponsoring the study."
