@@ -1,7 +1,6 @@
 from unittest import TestCase
-import pytest
 import csv
-from getBaseFields import xmlFieldInterpreter
+from xml_to_csv_conversion.src.getBaseFields import xmlFieldInterpreter
 
 class TestXmlFieldInterpreter(TestCase):
 

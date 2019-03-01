@@ -1,4 +1,4 @@
-from getBaseFields import xmlFieldInterpreter
+from xml_to_csv_conversion.src.getBaseFields import xmlFieldInterpreter
 from xml_to_csv_conversion.src.xml_paths import *
 
 

@@ -1,6 +1,5 @@
 from unittest import TestCase
-import pytest
-from createDepthOneCSVFile import depthOneCSVWriter
+from xml_to_csv_conversion.src.createDepthOneCSVFile import depthOneCSVWriter
 
 class test_addALLXMLToCSV(TestCase):
 
