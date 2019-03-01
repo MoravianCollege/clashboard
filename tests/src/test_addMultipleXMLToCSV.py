@@ -1,10 +1,10 @@
 from unittest import TestCase
 import csv
-from xml_to_csv_conversion.src.getBaseFields import xmlFieldInterpreter
+from xml_to_csv_conversion.src.getDepthOneFields import xmlFieldInterpreter
 from xml_to_csv_conversion.src.xml_paths import *
 
 
-class TestAllXMLToCSVInterpreter(TestCase):
+class TestAddMultipleXMLToCSV(TestCase):
     main_xml_path = get_main_xml_directory_path()
     sub_directory_paths = get_sub_directory_paths_of_main_xml_path(main_xml_path)
     xml_file_paths = get_xml_file_paths_of_sub_directories(sub_directory_paths)

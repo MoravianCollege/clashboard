@@ -1,8 +1,9 @@
 from unittest import TestCase
 import csv
-from xml_to_csv_conversion.src.getBaseFields import xmlFieldInterpreter
+from xml_to_csv_conversion.src.getDepthOneFields import xmlFieldInterpreter
 
-class TestXmlFieldInterpreter(TestCase):
+
+class TestXmlDepthOneSingleFileInterpreter(TestCase):
 
     def overwriteDataFile(self):
         file = open("clinicalTrialData.csv", mode='w')

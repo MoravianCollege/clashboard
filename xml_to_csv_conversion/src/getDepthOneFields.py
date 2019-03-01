@@ -51,7 +51,6 @@ class xmlFieldInterpreter():
         return elementFieldValues
 
     def get_all_keywords_or_conditions(self):
-        currentXMLInformation = xmlElementInformation
         condition_list = []
         keyword_list = []
         elementFieldValues = []
@@ -101,14 +100,12 @@ class xmlFieldInterpreter():
                 trial_data_writer.writerow(self.getBaseFieldValues())
 
     def write_xml_element_tags_to_csv(self):
-        # print(self.tag_list, "|||||_______________________|||||")
         if self.isCSVFileEmpty():
             with open('clinicalTrialData.csv', mode='w') as trial_data_file:
                 trial_data_writer = csv.writer(trial_data_file, delimiter=',')
                 trial_data_writer.writerow(self.tag_list)
 
     def write_xml_element_information_to_csv(self):
-        print(self.text_list, "|||||_______________________|||||")
         if not self.isCSVFileEmpty():
             with open('clinicalTrialData.csv', mode='a') as trial_data_file:
                 trial_data_writer = csv.writer(trial_data_file, delimiter=',')
