@@ -22,6 +22,7 @@ def get_main_xml_directory_path():
 
 def get_sub_directory_paths_of_main_xml_path(main_xml_path):
     sub_directory_paths = []
+
     for sub_directory in os.listdir(main_xml_path):
         sub_directory_paths.append(os.path.join(main_xml_path, sub_directory))
     for sub_directory_path in sub_directory_paths:
