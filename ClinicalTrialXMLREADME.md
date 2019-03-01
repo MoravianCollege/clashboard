@@ -4,33 +4,36 @@
 ### XML Conforms to this [Schema](https://clinicaltrials.gov/ct2/html/images/info/public.xsd) which is updated regularly
 ### Further explanation of important terms can be found [here](https://clinicaltrials.gov/ct2/about-studies/glossary)
 -
-* **clinical_study** - all data about the clinical trial stored under this field including clinical_results
-* **required_header** - header that provides general info about the download
-	* **download_date** - date the data was downloaded
-	* **link_text** - the text that would display instead of the url if opened in a webpage
+#### {M} - field appears multiple times
+#### {O} - field appears only once
+#### {M?} - field may appear multiple times
+#### {O?} - field may appear only once
+-
+* **clinical_study** {O} - all data about the clinical trial stored under this field including clinical_results
+* **required_header** {O} - header that provides general info about the download
+	* **download_date** {O} - date the data was downloaded
+	* **link_text** {O} - the text that would display instead of the url if opened in a webpage
 		* Says the same thing for each file
-	* **url** - where to find the data for the file online
-* **id_info** - different ways to classify the study id
-	* **org\_study\_id** - full id of the study
-	* **secondary_id** - shortened or different id to use to find the study
-		* *can appear multiple times*
-	* **nct_id** - ClinicalTrials.gov identifier for the study (unique)
-	* **nct_alias**
-		* *can appear multiple times*
-* **brief_title** - title of the clinical trial
-* **acronym**
-* **official_title**
-* **sponsors**
-	* **lead_sponsor**
+	* **url** {O} - where to find the data for the file online
+* **id_info** {O} - different ways to classify the study id
+	* **org\_study\_id** {O} - full id of the study
+	* **secondary_id** {M} - shortened or different id to use to find the study
+	* **nct_id** {O} - ClinicalTrials.gov identifier for the study (unique)
+	* **nct_alias** {M} - alternate version of the nct_id
+* **brief_title** {O} - title of the clinical trial
+* **acronym** {O} - condensed abbreviation of the title
+* **official_title** {O}
+* **sponsors** {O} - wrapper
+	* **lead_sponsor** {O} - wrapper
 		* **agency** - organization running the clinical trial
 		* **agency_class** - the type of the organization
 			* Values: NIH, US Fed, Industry, Other
-	* **collaborator** - *can appear multiple times*
+	* **collaborator** {M} - wrapper
 		* **agency** - organization supporting the clinical trial that is not the sponsor
 		* **agency_class** - the type of the organization
 			* Values: NIH, US Fed, Industry, Other
-* **source** - same as lead_sponsor agency
-* **oversight_info**
+* **source** {O} - who is funding the study
+* **oversight_info** {O} - wrapper
 	* **has_dmc** - whether or not the study has a data monitoring committee
 		* Values: Yes, No
 	* **is\_fda\_regulated_drug**
@@ -39,37 +42,37 @@
 		* Values: Yes, No
 	* **is\_unapproved\_device**
 		* Values: Yes, No
-	* **is_ppsd** - ???
+	* **is_ppsd**
 		* Values: Yes, No
 	* **is\_us\_export**
 		* Values: Yes, No
-* **brief_summary**
+* **brief_summary** {O} - wrapper
 	* **textblock** - short explanation of what the study is doing and looking to test
-* **detailed_description**
+* **detailed_description** {O} - wrapper
 	* **textblock** - more indepth explanation of the study, includes a lot more information than the breif summary
-* **overall\_status** - potential values depend on the study_type
+* **overall\_status** {O} - potential values depend on the study_type
 	* Study Type: Expanded Access - Values: Available, No Longer Available, Temporarily Not Available, Approved for Marketing
 	* Study Type: N/A - Values: Withheld
 	* Study Type: Anything Else - Values: "Active, not recruiting", Completed, Enrolling by invitation, Not yet recruiting, Recruiting, Suspended, Terminated, Withdrawn
-* **last\_known\_status** - most recent status of a study that has not been verified in at least 2 years
-* **why_stopped** - reason for discontinuing the study
-* **start_date**
-* **completion_date**
-* **primary\_completion\_date**
-* **phase** - current phase of the clinical trial (1-4)
+* **last\_known\_status** {O} - most recent status of a study that has not been verified in at least 2 years
+* **why_stopped** {O} - reason for discontinuing the study
+* **start_date** {O}
+* **completion_date** {O}
+* **primary\_completion\_date** {O}
+* **phase** {O} - current phase of the clinical trial (1-4)
 	* Values: N/A, Early Phase 1, Phase 1, Phase 1/Phase2, Phase 2, Phase 2/Phase 3, Phase 3, Phase 4
-* **study_type** - classification of the study
+* **study_type** {O} - classification of the study
 	* Values: Expanded Acess, Interventional, N/A, Observational, Observational [Patient Registry]
-* **has\_expanded\_access** - does the clinical trial allow patients with immediately life threatening conditions to participate
+* **has\_expanded\_access** {O} - does the clinical trial allow patients with immediately life threatening conditions to participate
 	* Values: Yes, No
-* **expanded\_access\_info** 
+* **expanded\_access\_info** {O} - wrapper
 	* **expanded\_access\_type\_individual**
 		* Values: Yes, No
 	* **expanded\_access\_type\_intermediate**
 		* Values: Yes, No
 	* **expanded\_access\_type\_treatment**
 		* Values: Yes, No
-* **study\_design\_info**
+* **study\_design\_info** {O} - wrapper
 	* **allocation** - how the tests are administered to the patients
 		* Value: Randomized
 	* **intervention_model** - general design of the strategy for assigning treatments to participants
@@ -80,44 +83,42 @@
 	* **time_persepective**
 	* **masking** - tells who knows which people were treated
 	* **masking_description**
-* **target_duration** - optional - desired length of the study
-* **primary_outcome** - *can appear multiple times* (outcome=endpoint)
+* **target_duration** {O} - optional - desired length of the study
+* **primary_outcome** {M} - (outcome=endpoint) just a wrapper
 	* **measure** - important for evaluating the effect of the treatment, what it is supposed to do
 	* **time_frame** - how long it takes to see the outcome's effects
 	* **description**
-* **secondary_outcome** - *can appear multiple times*
+* **secondary_outcome** {M} - (outcome=endpoint) just a wrapper
 	* **measure** - important for evaluating the effect of the treatment, what it is supposed to do
 	* **time_frame** - how long it takes to see the outcome's effects
 	* **description**
-* **other_outcome** - *can appear multiple times*
+* **other_outcome** {M} - (outcome=endpoint) just a wrapper
 	* **measure** - important for evaluating the effect of the treatment, what it is supposed to do
 	* **time_frame** - how long it takes to see the outcome's effects
 	* **description**
-* **number\_of\_arms** - number of groups/sub-groups in the clinical trial
-* **number\_of\_groups**
-* **enrollment** - number of participants in the clinical study tagged with a type
+* **number\_of\_arms** {O} - number of groups/sub-groups in the clinical trial
+* **number\_of\_groups** {O} - number of different overall trial goups (possibly)
+* **enrollment** {O} - number of participants in the clinical study tagged with a type
 	* Types: Actual, Anticipated, Estimate
-* **condition** - disease, disorder, etc being studied
-	* *can appear multiple times*
-* **arm_group** - *can appear multiple times*
-	* **arm\_group\_label** - treatment group
-	* **arm\_group\_type** - experimental or placebo comparator
+* **condition** {M} - disease, disorder, etc being studied
+* **arm_group** {M} - wrapper
+	* **arm\_group\_label** {M} - treatment group
+	* **arm\_group\_type**
+		* Values: Experimental, Placebo Comparator
 	* **description**
-* **intervention** - treatment
-	* *can appear multiple times*
+* **intervention** {M} - treatment
 	* **intervention_type** - type of treatment
 		* Values: Behavioral, Biological, Combination Product, Device, Diagnostic Test, Dietary Supplement, Drug, Genetic, Procedure, Radiation, Other
-	* **intervention_name** - name of treatment???
+	* **intervention_name** - name of treatment
 	* **description**
-	* **arm\_group\_label** - arm group associated with this treatment
-		* *can appear multiple times*
-	* **other_name** - ???
-		* *can appear multiple times*
-* **biospec_retention**
+	* **arm\_group\_label** {M} - arm group associated with this treatment
+	* **other_name** {M} - other way to identify the treatment
+* **biospec_retention** {O} - wrapper
 	* Values: None Retained, Samples With DNA, Samples Without DNA
-* **biospec_descr**
-* **eligibility** - who can participate in the study
+* **biospec_descr** {O} - wrapper
+* **eligibility** {O} - who can participate in the study
 	* **study_pop** - population of the study
+		* **textblock**
 	* **sampling_method**
 		* Values: Probability Sample, Non-Probability Sample
 	* **criteria**
@@ -128,17 +129,19 @@
 		* Values: Yes, No
 	* **gender_description**
 	* **minimum_age**
+		* Format: XX Years
 	* **maximum_age**
+		* Format: XX Years
 	* **healthy_volunteers** - Yes or No
-* **overall_official** - person running the clinical study???
-	* *can appear multiple times*
+* **overall_official** {M} - main point of contact for the clinical study
 	* **first_name**
 	* **middle_name**
 	* **last_name**
 	* **degree**
 	* **role**
+		* Values: Principal Investigator, Sub-Investigator, Study, Study Director
 	* **affiliation**
-* **overall_contact** - first person to call for more info about the study
+* **overall_contact** {M?} - first person to call for more info about the study
 	* **first_name**
 	* **middle_name**
 	* **last_name**
@@ -146,7 +149,7 @@
 	* **phone**
 	* **phone_ext**
 	* **email**
-* **overall\_contact\_backup** - second person to call for more info about the study
+* **overall\_contact\_backup** {M?} - second person to call for more info about the study
 	* **first_name**
 	* **middle_name**
 	* **last_name**
@@ -154,17 +157,16 @@
 	* **phone**
 	* **phone_ext**
 	* **email**
-* **location** - where the study is being conducted
-	* *can appear multiple times*
-	* **facility**
+* **location** {M} - where the study is being conducted
+	* **facility** - wrapper
 		* **name** - name of the facility
-		* **address**
+		* **address** - wrapper
 			* **city**
 			* **state**
 			* **country**
 	* **status**
 		* Values: "Active, not recruiting", Completed, Enrolling by invitation, Not yet recruiting, Recruiting, Suspended, Terminated, Withdrawn
-	* **contact**
+	* **contact** {M?}
 		* **first_name**
 		* **middle_name**
 		* **last_name**
@@ -172,7 +174,7 @@
 		* **phone**
 		* **phone_ext**
 		* **email**
-	* **contact_backup**
+	* **contact_backup** {M?}
 		* **first_name**
 		* **middle_name**
 		* **last_name**
@@ -180,8 +182,7 @@
 		* **phone**
 		* **phone_ext**
 		* **email**
-	* **investigator**
-		* *can appear multiple times*
+	* **investigator** {M}
 		* **first_name**
 		* **middle_name**
 		* **last_name**
@@ -189,35 +190,33 @@
 		* **role**
 			* Values: Principal Investigator, Sub-Investigator, Study, Study Director
 		* **affiliation**
-* **location_countries** - countries the study is being conducted in
-	* **country** - *can appear multiple times*
-* **removed_countries** - countries no longer in the study
-	* **country** - *can appear multiple times*
-* **link** - *can appear multiple times*
-	* **url**
+* **location_countries** {O} - countries the study is being conducted in
+	* **country** {M}
+* **removed_countries** {O} - countries no longer in the study
+	* **country** {M}
+* **link** {M} - wrapper
+	* **url** - link to another website about this data
 	* **description**
-* **reference** - sources of information for study???
-	* *can appear multiple times*
+* **reference** {M} - sources of information for study
 	* **citation**
-	* **PMID** - ???
-* **results_reference**
-	* *can appear multiple times*
+	* **PMID** - unique identifier used in PubMed
+* **results_reference** {M} - wrapper
 	* **citation**
-	* **PMID** - ???
-* **verification_date** - most recent date that the study sponsor/investigator confirmed trial info is accurate
-* **study\_first\_submitted** - date of first submission to ClinicalTrials.gov
-* **study\_first\_submitted\_qc** - date when study was consistent with NLM quality control review criteria
-* **study\_first\_posted** - date the study first appeared on ClinicalTrials.gov
-* **results\_first\_submitted** - date the summary results were first submitted to ClinicalTrials.gov
-* **results\_first\_submitted\_qc** - date when study results were consistent with NLM quality control review criteria
-* **results\_first\_posted** - date the summary results first appeared on ClinicalTrials.gov
-* **disposition\_first\_submitted** - date the disposition was first submitted to ClinicalTrials.gov
-* **disposition\_first\_submitted\_qc** - date when disposition was consistent with NLM quality control review criteria
-* **disposition\_first\_posted** - date the disposition first appeared on ClinicalTrials.gov
-* **last\_update\_submitted** - last date the sponsor/investigator submitted updates to the trial on ClinicalTrials.gov
-* **last\_update\_submitted\_qc** - date when study was consistent with NLM quality control review criteria
-* **last\_update\_posted** - last date the sponsor/investigator updates were posted on ClinicalTrials.gov
-* **responsible_party** - person responsible for submitting information about the study to ClinicalTrials.gov
+	* **PMID** - unique identifier used in PubMed
+* **verification_date** {O} - most recent date that the study sponsor/investigator confirmed trial info is accurate
+* **study\_first\_submitted** {O} - date of first submission to ClinicalTrials.gov
+* **study\_first\_submitted\_qc** {O} - date when study was consistent with NLM quality control review criteria
+* **study\_first\_posted** {O} - date the study first appeared on ClinicalTrials.gov
+* **results\_first\_submitted** {O} - date the summary results were first submitted to ClinicalTrials.gov
+* **results\_first\_submitted\_qc** {O} - date when study results were consistent with NLM quality control review criteria
+* **results\_first\_posted** {O} - date the summary results first appeared on ClinicalTrials.gov
+* **disposition\_first\_submitted** {O} - date the disposition was first submitted to ClinicalTrials.gov
+* **disposition\_first\_submitted\_qc** {O} - date when disposition was consistent with NLM quality control review criteria
+* **disposition\_first\_posted** {O} - date the disposition first appeared on ClinicalTrials.gov
+* **last\_update\_submitted** {O} - last date the sponsor/investigator submitted updates to the trial on ClinicalTrials.gov
+* **last\_update\_submitted\_qc** {O} - date when study was consistent with NLM quality control review criteria
+* **last\_update\_posted** {O} - last date the sponsor/investigator updates were posted on ClinicalTrials.gov
+* **responsible_party** {O?} - person responsible for submitting information about the study to ClinicalTrials.gov
 	* **name_title** - *only used in old style*
 	* **organization** - *only used in old style*
 	* **responsible\_party\_type**
@@ -225,40 +224,40 @@
 	* **investigator_affiliation**
 	* **investigator\_full\_name**
 	* **investigator_title**
-* **keyword** - *can appear multiple times*
-* **condition_browse** - searchable conditions that this study would appear as a result of 
-	* **mesh_term** - one condition
-		* *can appear multiple times*
-* **intervention_browse** - searchable interventions that this study would appear as a result of 
-	* **mesh_term** - one intervention
-		* *can appear multiple times*
-* **patient_data** - information about the patients
+* **keyword** {M} - keyword in the study
+* **condition_browse** {O} - searchable conditions that this study would appear as a result of 
+	* **mesh_term** {M} - one condition
+* **intervention_browse** {O} - searchable interventions that this study would appear as a result of 
+	* **mesh_term** {M} - one intervention
+* **patient_data** {O} - information about the patients
 	* **sharing_ipd** - whether or not they are sharing individual patient data
+		* Values: Yes, No
 	* **ipd_description**
-	* **ipd\_info\_type**
-		* *can appear multiple times*
+	* **ipd\_info\_type** {M}
 	* **ipd\_time\_frame**
 	* **ipd\_access\_criteria**
 	* **ipd_url**
-* **study_docs**
-	* **study_doc** - *can appear multiple times*
+* **study_docs** {O} - wrapper
+	* **study_doc** {M} - wrapper
 		* **doc_id**
 		* **doc_type**
 		* **doc_url**
 		* **doc_comment**
-* **provided\_document\_section**
-	* **provided_document** - *can appear multiple times*
+* **provided\_document\_section** {O} - wrapper
+	* **provided_document** {M} - wrapper
 		* **document_type**
 		* **document\_has\_protocol**
 		* **document_has_icf**
 		* **document_has_sap**
 		* **document_date**
 		* **document_url**
-* **pending_results** - appears only when the data provider has submitted study results for QC review, but those results have not yet been publicly posted
-	* *can appear multiple times*
+* **pending_results** {M} - appears only when the data provider has submitted study results for QC review, but those results have not yet been publicly posted
 	* **submitted** - date
 	* **returned** - date
 	* **submission_canceled** - date
+
+-
+### This section will only appear in the database as (Yes, No) of whether or not clinical_results exist in the study
 * **clinical_results** - results of the clinical trial (within clinical study wrapper)
 	* *can appear multiple times*
 	* **participant_flow**
