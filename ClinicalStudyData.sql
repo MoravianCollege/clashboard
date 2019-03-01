@@ -114,7 +114,8 @@ CREATE TABLE Outcomes (
 	outcome_type VARCHAR(9), # Primary, Secondary, Other
 	measure VARCHAR(200),
 	time_frame VARCHAR(75),
-	outcome_description VARCHAR(1000)
+	outcome_description VARCHAR(1000),
+	rank INT() # holds order of outcomes
 );
 
 CREATE TABLE Conditions (

@@ -31,7 +31,7 @@ IDInfo Table
 
 Sponsors Table
 	NCT_ID
-	SPONSOR_TYPE (LEAD or COLLABORATOR)
+	SPONSOR_TYPE (LEAD, COLLABORATOR)
 	AGENCY (name of the sponsor)
 	AGENCY_CLASS
 
@@ -67,6 +67,7 @@ Outcomes Table
 	MEASURE
 	TIME_FRAME
 	OUTCOME_DESCRIPTION
+	RANK (keeps order of the outcomes)
 
 Conditions Table
 	NCT_ID
@@ -228,6 +229,7 @@ PendingResults Table
 
  --- 29 tables ---
 ---- clinical results starts here ----
+ --- will not be in current version ---
 
 ClinicalResults Table
 	NCT_ID
