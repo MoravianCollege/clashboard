@@ -1,9 +1,13 @@
 ClinicalStudy Table
 	NCT_ID
+	DOWNLOAD_DATE
+	URL
 	BRIEF_TITLE
 	ACRONYM
 	OFFICIAL_TITLE
+	SOURCE
 	BRIEF_SUMMARY (from brief_summary --> textblock)
+	DETAILED_DESCRIPTION (from detailed_description --> textblock)
 	OVERALL_STATUS
 	LAST_KNOWN_STATUS
 	WHY_STOPPED
@@ -14,26 +18,22 @@ ClinicalStudy Table
 	STUDY_TYPE
 	HAS_EXPANDED_ACCESS
 	TARGET_DURATION
-	ENROLLMENT
 	NUMBER_OF_ARMS
-	URL
-	DOWNLOAD_DATE
-	RESPONSIBLE_PARTY
-	RESPONSIBLE_PARTY_TYPE
-	DETAILED_DESCRIPTION
+	NUMBER_OF_GROUPS
+	ENROLLMENT
+	ENROLLMENT_TYPE
 
-IDs Table
+IDInfo Table
 	NCT_ID
 	ORG_STUDY_ID
 	SECONDARY_ID
 	NCT_ALIAS
 
-Trial-Sponsors Table
+Sponsors Table
 	NCT_ID
-	SPONSOR_NAME
-	AGENCY
+	SPONSOR_TYPE (LEAD or COLLABORATOR)
+	AGENCY (name of the sponsor)
 	AGENCY_CLASS
-	TYPE (LEAD or COLLABORATOR)
 
 OversightInfo Table
 	NCT_ID
@@ -63,58 +63,59 @@ StudyDesignInfo Table
 
 Outcomes Table
 	NCT_ID
+	OUTCOME_TYPE (PRIMARY, SECONDARY, OTHER)
 	MEASURE
 	TIME_FRAME
-	DESCRIPTION
-	TYPE (PRIMARY, SECONDARY, OTHER)
+	OUTCOME_DESCRIPTION
 
 Conditions Table
 	NCT_ID
 	CONDITION
 
-Arms Table
+ArmGroups Table
 	NCT_ID
 	ARM_GROUP_LABEL
 	ARM_GROUP_TYPE
-	DESCRIPTION
+	ARM_GROUP_DESCRIPTION
 
 Interventions Table
 	NCT_ID
-	INTERVENTION_NAME
 	INTERVENTION_TYPE
+	INTERVENTION_NAME
 	DESCRIPTION
 	ARM_GROUP_LABEL
 	OTHER_NAME
 
-Biospec Table
+Biospecs Table
 	NCT_ID
 	BIOSPEC_RETENTION
 	BIOSPEC_DESCR
 
 Eligibility Table
 	NCT_ID
-	STUDY_POP
+	STUDY_POP (study_pop --> textblock)
 	SAMPLING_METHOD
-	CRITERIA
+	CRITERIA (criteria --> textblock)
 	GENDER
 	GENDER_BASED
+	GENDER_DESCRIPTION
 	MINIMUM_AGE
 	MAXIMUM_AGE
 	HEALTHY_VOLUNTEERS
 
-Official Table
+Officials Table
 	NCT_ID
-	LAST_NAME
+	TYPE (INVESTIGATOR, OVERALL)
 	FIST_NAME
 	MIDDLE_NAME
+	LAST_NAME
 	DEGREE
 	ROLE
 	AFFILIATION
-	TYPE (OVERALL_OFFICIAL or INVESTIGATOR)
 
 Contacts Table
 	NCT_ID
-	TYPE (STUDY_PRIMARY or STUDY_BACKUP or FACILITY_PRIMARY or FACILITY_BACKUP)
+	CONTACT_TYPE (STUDY_PRIMARY, STUDY_BACKUP, FACILITY_PRIMARY, FACILITY_BACKUP)
 	FIRST_NAME
 	MIDDLE_NAME
 	LAST_NAME
@@ -125,33 +126,40 @@ Contacts Table
 
 Locations Table
 	NCT_ID
-	FACILITY_NAME
+	FACILITY_NAME (facility --> name)
 	CITY
 	STATE
 	COUNTRY
 	STATUS
 
-LocationsContacts Table
+LocationContacts Table
+	NCT_ID
+	FACILITY_NAME (facility --> name)
+	CONTACT_TYPE (FACILITY_PRIMARY, FACILITY_BACKUP)
+
+LocationInvestigators Table
 	NCT_ID
 	FACILITY_NAME
-	CONTACT_LAST_NAME
-	CONTACT_TYPE (only FACILITY_PRIMARY or FACILITY_BACKUP)
-	INVESTGATOR_LAST_NAME
+	INVESTIGATOR_LAST_NAME
+
+LocationCountries Table
+	NCT_ID
+	COUNTRY
 
 RemovedCountries Table
 	NCT_ID
 	COUNTRY
 
-Link Table
+Links Table
 	NCT_ID
 	URL
-	DESCRIPTION
+	LINK_DESCRIPTION
 
 Reference Table
 	NCT_ID
 	CITATION
 	PMID
-	TYPE (RESULT or ORIGIN)
+	REFERENCE_TYPE (RESULT, ORIGIN)
 
 OnlineDates Table
 	NCT_ID
@@ -168,6 +176,19 @@ OnlineDates Table
 	LAST_UPDATE_SUBMITTED
 	LAST_UPDATE_SUBMITTED_QC
 	LAST_UPDATE_POSTED
+
+ResponsibleParty Table
+	NCT_ID
+	NAME_TITLE
+	ORGANIZATION
+	RESPONSIBLE_PARTY_TYPE
+	INVESTIGATOR_AFFILIATION
+	INVESTIGATOR_FULL_NAME
+	INVESTIGATOR_TITLE
+
+Keywords Table
+	NCT_ID
+	KEYWORD
 
 BrowseTerms Table
 	NCT_ID
@@ -190,14 +211,22 @@ StudyDocs Table
 	DOC_URL
 	DOC_COMMENT
 
+ProvidedDocuments Table
+	NCT_ID
+	DOCUMENT_TYPE
+	DOCUMENT_HAS_PROTOCOL
+	DOCUMENT_HAS_ICF
+	DOCUMENT_HAS_SAP
+	DOCUMENT_DATE
+	DOCUMENT_URL
+
 PendingResults Table
 	NCT_ID
 	SUBMITTED
 	RETURNED
 	SUBMISSION_CANCELED
 
-
- --- 24 tables ---
+ --- 29 tables ---
 ---- clinical results starts here ----
 
 ClinicalResults Table
@@ -310,12 +339,9 @@ ReportedEvents Table
 	COUNTS
 
  --- 10 tables ---
-
+---- 39 total tables ----
 
 THINGS THAT AREN'T INCLUDED
 	clinical_study (just a wrapper)
 	required_header (just a wrapper)
 	link_text (same for every study)
-	source (same as lead_sponsor agency)
-	location_countries (included in location)
-	keyword (not sure what it is)
