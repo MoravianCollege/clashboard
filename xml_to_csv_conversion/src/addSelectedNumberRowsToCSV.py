@@ -1,6 +1,6 @@
 from xml_to_csv_conversion.src.getDepthOneFields import xmlFieldInterpreter
 from xml_to_csv_conversion.src.xml_paths import *
-csv_writer = xmlFieldInterpreter1
+csv_writer = xmlFieldInterpreter
 
 main_xml_path = get_main_xml_directory_path()
 sub_directory_paths = get_sub_directory_paths_of_main_xml_path(main_xml_path)
@@ -18,8 +18,3 @@ def AddSelectedDepthOneXMLValuesToCSV(number_of_xml_files):
 
 def overwriteDataFile():
     file = open("clinicalTrialData.csv", mode='w')
-
-
-overwriteDataFile()
-numFiles = input("How many XML files should be put into the CSV? ")
-AddSelectedDepthOneXMLValuesToCSV(int(numFiles))

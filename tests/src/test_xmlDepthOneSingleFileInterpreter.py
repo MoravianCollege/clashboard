@@ -55,33 +55,33 @@ class TestXmlDepthOneSingleFileInterpreter(TestCase):
     def test_addBaseFieldsToCSV(self):
         test_interpreter = xmlFieldInterpreter("NCT00001289.xml")
         self.overwriteDataFile()
-        test_interpreter.writeFieldNamesWithIDToFile()
+        test_interpreter.write_xml_element_tags_to_csv()
         self.assertFalse(test_interpreter.isCSVFileEmpty())
         self.assertEqual(1, self.countCSVFileLines())
 
     def test_addingFieldNamesTwice(self):
         test_interpreter = xmlFieldInterpreter("NCT00001289.xml")
         self.overwriteDataFile()
-        test_interpreter.writeFieldNamesWithIDToFile()
-        test_interpreter.writeFieldNamesWithIDToFile()
+        test_interpreter.write_xml_element_tags_to_csv()
+        test_interpreter.write_xml_element_tags_to_csv()
         self.assertFalse(test_interpreter.isCSVFileEmpty())
         self.assertEqual(1, self.countCSVFileLines())
 
     def test_addFieldValuesToCSV(self):
         test_interpreter = xmlFieldInterpreter("NCT00001289.xml")
         self.overwriteDataFile()
-        test_interpreter.writeFieldNamesWithIDToFile()
-        test_interpreter.writeFieldValuesWithIDToFile()
+        test_interpreter.write_xml_element_tags_to_csv()
+        test_interpreter.write_xml_element_information_to_csv()
         self.assertFalse(test_interpreter.isCSVFileEmpty())
         self.assertEqual(2, self.countCSVFileLines())
 
     def test_multipleFieldValuesAdded(self):
         test_interpreter = xmlFieldInterpreter("NCT00001289.xml")
         self.overwriteDataFile()
-        test_interpreter.writeFieldNamesWithIDToFile()
-        test_interpreter.writeFieldValuesWithIDToFile()
+        test_interpreter.write_xml_element_tags_to_csv()
+        test_interpreter.write_xml_element_information_to_csv()
         test_interpreter = xmlFieldInterpreter("NCT00001308.xml")
-        test_interpreter.writeFieldValuesWithIDToFile()
+        test_interpreter.write_xml_element_information_to_csv()
         self.assertFalse(test_interpreter.isCSVFileEmpty())
         self.assertEqual(3, self.countCSVFileLines())
 

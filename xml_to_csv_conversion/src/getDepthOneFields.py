@@ -2,14 +2,17 @@ import xml.etree.ElementTree as ET
 import csv
 from xml_to_csv_conversion.src.xmlElementInformation import xmlElementInformation
 
+
 class xmlFieldInterpreter():
 
-    def __init__(self, xmlFile):
-        self.tree = ET.parse(xmlFile)
+    def __init__(self, xml_file):
+        self.tree = ET.parse(xml_file)
         self.root = self.tree.getroot()
         self.currentXMLInformation = xmlElementInformation
         self.tag_list = []
         self.text_list = []
+        self.condition_list = []
+        self.keyword_list = []
 
     def getNCTid(self):
         for child in self.root:
@@ -28,76 +31,47 @@ class xmlFieldInterpreter():
         id_info_pair = [self.getNCTid(), self.getTopLevelFieldsTags()]
         return id_info_pair
 
-    def doesElementHaveChildren(self, currentElement):
-        for child in currentElement:
+    def doesElementHaveChildren(self, current_element):
+        for child in current_element:
             return True
         else:
             return False
-
-    def getBaseFieldTags(self):
-        elementFieldTags = []
-        elementFieldTags.append(self.getNCTid()[0])
-        for child in self.root:
-            if not self.doesElementHaveChildren(child):
-                elementFieldTags.append(child.tag)
-        return elementFieldTags
-
-    def getBaseFieldValues(self):
-        elementFieldValues = []
-        elementFieldValues.append(self.getNCTid()[1])
-        for child in self.root:
-            if not self.doesElementHaveChildren(child):
-                elementFieldValues.append(child.text)
-        return elementFieldValues
 
     def get_all_keywords_or_conditions(self):
-        condition_list = []
-        keyword_list = []
-        elementFieldValues = []
-        elementFieldTags = []
-        elementFieldValues.append(self.getNCTid()[1])
-        elementFieldTags.append(self.getNCTid()[0])
+        self.tag_list.append(self.getNCTid()[0])
+        self.text_list.append(self.getNCTid()[1])
         for child in self.root:
             if not self.doesElementHaveChildren(child):
-                if self.isChildDuplicateField(child):
-                    if self.isDuplicateFieldCondition(child):
-                        condition_list.append(child.text)
-                    else:
-                        keyword_list.append(child.text)
-                else:
-                    elementFieldTags.append(child.tag)
-                    elementFieldValues.append(child.text)
-        elementFieldTags.append("conditions")
-        elementFieldTags.append("keywords")
-        self.tag_list = elementFieldTags
-        elementFieldValues.append(condition_list)
-        elementFieldValues.append(keyword_list)
-        self.text_list = elementFieldValues
+                self.accomodateDuplicateTags(child)
+
+    def accomodateDuplicateTags(self, current_element):
+        if self.isChildDuplicateField(current_element):
+            if self.isDuplicateFieldCondition(current_element):
+                self.condition_list.append(current_element.text)
+            else:
+                self.keyword_list.append(current_element.text)
+        else:
+            self.tag_list.append(current_element.tag)
+            self.text_list.append(current_element.text)
+
+    def addDuplicateValuesToValueList(self):
+        self.tag_list.append("conditions")
+        self.tag_list.append("keywords")
+        self.text_list.append(self.condition_list)
+        self.text_list.append(self.keyword_list)
 
 
-    def isChildDuplicateField(self, currentElement):
-        if currentElement.tag == "condition" or currentElement.tag == "keyword":
+    def isChildDuplicateField(self, current_element):
+        if current_element.tag == "condition" or current_element.tag == "keyword":
             return True
         else:
             return False
 
-    def isDuplicateFieldCondition(self, currentElement):
-        if currentElement.tag == "condition":
+    def isDuplicateFieldCondition(self, current_element):
+        if current_element.tag == "condition":
             return True
         else:
             return False
-
-    def writeFieldNamesWithIDToFile(self):
-        if self.isCSVFileEmpty():
-            with open('clinicalTrialData.csv', mode='w') as trial_data_file:
-                trial_data_writer = csv.writer(trial_data_file, delimiter=',')
-                trial_data_writer.writerow(self.getBaseFieldTags())
-
-    def writeFieldValuesWithIDToFile(self):
-        if not self.isCSVFileEmpty():
-            with open('clinicalTrialData.csv', mode='a') as trial_data_file:
-                trial_data_writer = csv.writer(trial_data_file, delimiter=',')
-                trial_data_writer.writerow(self.getBaseFieldValues())
 
     def write_xml_element_tags_to_csv(self):
         self.get_all_keywords_or_conditions()
