@@ -33,7 +33,7 @@ class TestAddMultipleXMLToCSV(TestCase):
         self.overwriteDataFile()
         for i in range(0, 10, 1):
             test_interpreter = xmlFieldInterpreter(xml_file_paths[i])
-            test_interpreter.writeFieldNamesWithIDToFile()
-            test_interpreter.writeFieldValuesWithIDToFile()
+            test_interpreter.write_xml_element_tags_to_csv()
+            test_interpreter.write_xml_element_information_to_csv()
         self.assertTrue(self.countCSVFileLines() == 11)
 
