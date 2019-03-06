@@ -23,16 +23,16 @@ class TestAddMultipleXMLToCSV(TestCase):
     def test_zeroXMLFileAddedToCSVLine(self):
         self.overwriteDataFile()
         addSelected.AddSelectedDepthOneXMLValuesToCSV(0)
-        self.assertTrue(self.countCSVFileLines() == 1)
+        self.assertEqual(self.countCSVFileLines(), 0)
 
     def test_oneXMLFileAddedToCSVLine(self):
         self.overwriteDataFile()
         addSelected.AddSelectedDepthOneXMLValuesToCSV(1)
-        self.assertTrue(self.countCSVFileLines() == 2)
+        self.assertEqual(self.countCSVFileLines(), 2)
 
     def test_tenXMLFileAddedToCSVLine(self):
         self.overwriteDataFile()
-        addSelected.AddSelectedDepthOneXMLValuesToCSV(10)
-        self.assertEquals(11, self.countCSVFileLines())
+        addSelected.AddSelectedDepthOneXMLValuesToCSV(5)
+        self.assertEquals(6, self.countCSVFileLines())
 
 

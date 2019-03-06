@@ -32,15 +32,15 @@ class TestWriteGroupedFieldXMLToCSV(TestCase):
     def test_tenXMLFilePathToCSVLine(self):
         test_interpreter = xmlFieldInterpreter("NCT00001289.xml")
         self.overwriteDataFile()
-        test_interpreter.get_all_keywords_or_conditions()
+        test_interpreter.getAllKeywordsOrConditions()
         test_interpreter.write_xml_element_tags_to_csv()
         test_interpreter.write_xml_element_information_to_csv()
         test_interpreter = xmlFieldInterpreter("NCT00001308.xml")
-        test_interpreter.get_all_keywords_or_conditions()
+        test_interpreter.getAllKeywordsOrConditions()
         test_interpreter.write_xml_element_information_to_csv()
         for i in range(0, 10, 1):
             test_interpreter = xmlFieldInterpreter(xml_file_paths[i])
-            test_interpreter.get_all_keywords_or_conditions()
+            test_interpreter.getAllKeywordsOrConditions()
             test_interpreter.write_xml_element_information_to_csv()
         self.assertEquals(self.countCSVFileLines(), 13)
 

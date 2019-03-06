@@ -37,7 +37,9 @@ class xmlFieldInterpreter():
         else:
             return False
 
-    def get_all_keywords_or_conditions(self):
+    def getAllKeywordsOrConditions(self):
+        self.tag_list = []
+        self.text_list = []
         self.tag_list.append(self.getNCTid()[0])
         self.text_list.append(self.getNCTid()[1])
         for child in self.root:
@@ -74,14 +76,15 @@ class xmlFieldInterpreter():
             return False
 
     def write_xml_element_tags_to_csv(self):
-        self.get_all_keywords_or_conditions()
+        self.getAllKeywordsOrConditions()
         if self.isCSVFileEmpty():
             with open('clinicalTrialData.csv', mode='w') as trial_data_file:
                 trial_data_writer = csv.writer(trial_data_file, delimiter=',')
                 trial_data_writer.writerow(self.tag_list)
+                trial_data_file.close()
 
     def write_xml_element_information_to_csv(self):
-        self.get_all_keywords_or_conditions()
+        self.getAllKeywordsOrConditions()
         if not self.isCSVFileEmpty():
             with open('clinicalTrialData.csv', mode='a') as trial_data_file:
                 trial_data_writer = csv.writer(trial_data_file, delimiter=',')
@@ -91,11 +94,15 @@ class xmlFieldInterpreter():
         try:
             with open("clinicalTrialData.csv", mode='r') as csv_file:
                 csv_reader = csv.reader(csv_file, delimiter=',')
-                linecount = 0
-                for row in csv_reader:
-                    if not row == []:
-                        linecount += 1
-                return linecount == 0
+                return self.countCSVRows(csv_reader) == 0
         except IOError:
             file = open("clinicalTrialData.csv", mode='w')
+            file.close()
             return True
+
+    def countCSVRows(self, csv_reader):
+        line_count = 0
+        for row in csv_reader:
+            if not row == []:
+                line_count += 1
+        return line_count

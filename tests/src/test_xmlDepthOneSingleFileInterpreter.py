@@ -38,15 +38,6 @@ class TestXmlDepthOneSingleFileInterpreter(TestCase):
         self.assertIsNotNone(all_top_fields)
         self.assertNotEqual([], all_top_fields)
 
-    def test_getIDFieldsPair(self):
-        test_interpreter = xmlFieldInterpreter("NCT00001289.xml")
-        nct_id = test_interpreter.getNCTid()
-        all_top_fields = test_interpreter.getTopLevelFieldsTags()
-        id_field_pair = test_interpreter.getFieldsWithID()
-        self.assertIsNotNone(id_field_pair)
-        self.assertEqual(nct_id, id_field_pair[0])
-        self.assertEqual(all_top_fields, id_field_pair[1])
-
     def test_blankCSVFile(self):
         self.overwriteDataFile()
         test_interpreter = xmlFieldInterpreter("NCT00001289.xml")

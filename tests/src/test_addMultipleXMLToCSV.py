@@ -1,6 +1,7 @@
 from unittest import TestCase
 import csv
 from xml_to_csv_conversion.src.getDepthOneFields import xmlFieldInterpreter
+import xml_to_csv_conversion.src.addSelectedNumberRowsToCSV as addSelected
 from xml_to_csv_conversion.src.xml_paths import *
 
 
