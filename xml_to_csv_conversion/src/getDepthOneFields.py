@@ -45,6 +45,7 @@ class xmlFieldInterpreter():
         for child in self.root:
             if not self.doesElementHaveChildren(child):
                 self.accomodateDuplicateTags(child)
+        self.addDuplicateValuesToValueList()
 
     def accomodateDuplicateTags(self, current_element):
         if self.isChildDuplicateField(current_element):

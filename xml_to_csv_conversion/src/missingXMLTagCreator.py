@@ -6,7 +6,7 @@ def missingXMLTagCreator(current_text_list, current_tag_list, overall_tag_list):
     while current_tag_iterator < len(overall_tag_list):
         if isXMLTagMissing(current_tag_list, overall_tag_list[current_tag_iterator]):
             if current_tag_iterator < len(current_text_list):
-                current_text_list.insert(current_tag_iterator, 100)
+                current_text_list.insert(current_tag_iterator, "N/A")
             else:
                 current_text_list.append("N/A")
         current_tag_iterator += 1

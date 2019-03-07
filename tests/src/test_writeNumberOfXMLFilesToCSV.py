@@ -32,7 +32,12 @@ class TestAddMultipleXMLToCSV(TestCase):
 
     def test_tenXMLFileAddedToCSVLine(self):
         self.overwriteDataFile()
-        addSelected.AddSelectedDepthOneXMLValuesToCSV(5)
-        self.assertEquals(6, self.countCSVFileLines())
+        addSelected.AddSelectedDepthOneXMLValuesToCSV(10)
+        self.assertEquals(11, self.countCSVFileLines())
+
+    def test_largerXMLFileAddedToCSVLine(self):
+        self.overwriteDataFile()
+        addSelected.AddSelectedDepthOneXMLValuesToCSV(100)
+        self.assertEquals(101, self.countCSVFileLines())
 
 

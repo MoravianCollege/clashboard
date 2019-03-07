@@ -8,13 +8,30 @@ class largestXMLTagGroup():
 
     def ensureLargestTagList(self, current_element):
         self.getAllUniqueTags(current_element)
-        self.isNewTagListLarger()
-        self.write_xml_element_tags_to_csv()
+        self.missingXMLTagCreator()
+        if self.isNewTagListLargest():
+            self.write_xml_element_tags_to_csv()
 
-    def isNewTagListLarger(self):
-        if len(self.current_tag_list) > len(self.longest_tag_list):
-            self.longest_tag_list = self.current_tag_list
+    def isNewTagListLargest(self):
+        if len(self.current_tag_list) <= len(self.longest_tag_list):
             self.overwriteDataFile()
+            return True
+        else:
+            return False
+
+    def missingXMLTagCreator(self):
+        for current_tag_iterator in range(0, len(self.current_tag_list), 1):
+            if self.isXMLTagMissing(self.current_tag_list[current_tag_iterator]):
+                if current_tag_iterator < len(self.longest_tag_list):
+                    self.longest_tag_list.insert(current_tag_iterator, self.current_tag_list[current_tag_iterator])
+                else:
+                    self.longest_tag_list.append(self.current_tag_list[current_tag_iterator])
+
+    def isXMLTagMissing(self, current_tag):
+        if current_tag in self.longest_tag_list:
+            return False
+        else:
+            return True
 
     def doesElementHaveChildren(self, current_element):
         for child in current_element:

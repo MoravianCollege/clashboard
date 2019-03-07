@@ -19,7 +19,11 @@ def AddSelectedDepthOneXMLValuesToCSV(number_of_xml_files):
 
 def DetermineXMLValueList(xml_interpreter):
     xml_interpreter.getAllKeywordsOrConditions()
-    missingXMLTagCreator(xml_interpreter.text_list, xml_interpreter.tag_list, xml_to_csv_tag_writer.longest_tag_list)
+    missingXMLTagCreator(xml_interpreter.tag_list, xml_interpreter.tag_list, xml_to_csv_tag_writer.longest_tag_list)
+
+# def DetermineXMLValueList(xml_interpreter):
+#     xml_interpreter.getAllKeywordsOrConditions()
+#     missingXMLTagCreator(xml_interpreter.text_list, xml_interpreter.tag_list, xml_to_csv_tag_writer.longest_tag_list)
 
 
 def DetermineXMLTagList(number_of_xml_files):
