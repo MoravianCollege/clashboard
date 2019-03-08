@@ -32,12 +32,6 @@ class TestXmlDepthOneSingleFileInterpreter(TestCase):
         second_nct_id = second_test_interpreter.getNCTid()
         self.assertIsNot(first_nct_id, second_nct_id)
 
-    def test_getBaseFields(self):
-        test_interpreter = xmlFieldInterpreter("NCT00001289.xml")
-        all_top_fields = test_interpreter.getTopLevelFieldsTags()
-        self.assertIsNotNone(all_top_fields)
-        self.assertNotEqual([], all_top_fields)
-
     def test_blankCSVFile(self):
         self.overwriteDataFile()
         test_interpreter = xmlFieldInterpreter("NCT00001289.xml")

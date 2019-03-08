@@ -1,6 +1,6 @@
 from xml_to_csv_conversion.src.getDepthOneFields import xmlFieldInterpreter
 from xml_to_csv_conversion.src.largestXMLTagGroup import largestXMLTagGroup
-from xml_to_csv_conversion.src.missingXMLTagCreator import missingXMLTagCreator
+from xml_to_csv_conversion.src.missingXMLValueCreator import missingXMLValueCreator
 from xml_to_csv_conversion.src.xml_paths import *
 csv_writer = xmlFieldInterpreter
 xml_to_csv_tag_writer = largestXMLTagGroup()
@@ -19,7 +19,7 @@ def AddSelectedDepthOneXMLValuesToCSV(number_of_xml_files):
 
 def DetermineXMLValueList(xml_interpreter):
     xml_interpreter.getAllKeywordsOrConditions()
-    missingXMLTagCreator(xml_interpreter.text_list, xml_interpreter.tag_list, xml_to_csv_tag_writer.longest_tag_list)
+    missingXMLValueCreator(xml_interpreter.text_list, xml_interpreter.tag_list, xml_to_csv_tag_writer.longest_tag_list)
 
 def DetermineXMLTagList(number_of_xml_files):
     if number_of_xml_files <= len(xml_file_paths):

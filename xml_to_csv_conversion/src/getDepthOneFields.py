@@ -21,16 +21,6 @@ class xmlFieldInterpreter():
                     if grand_child.tag == "nct_id":
                         return [grand_child.tag, grand_child.text]
 
-    def getTopLevelFieldsTags(self):
-        top_fields = []
-        for child in self.root:
-            top_fields.append(child.tag)
-        return top_fields
-
-    def getFieldsWithID(self):
-        id_info_pair = [self.getNCTid(), self.getTopLevelFieldsTags()]
-        return id_info_pair
-
     def doesElementHaveChildren(self, current_element):
         for child in current_element:
             return True
@@ -57,13 +47,6 @@ class xmlFieldInterpreter():
             self.tag_list.append(current_element.tag)
             self.text_list.append(current_element.text)
 
-    def addDuplicateValuesToValueList(self):
-        self.tag_list.append("conditions")
-        self.tag_list.append("keywords")
-        self.text_list.append(self.condition_list)
-        self.text_list.append(self.keyword_list)
-
-
     def isChildDuplicateField(self, current_element):
         if current_element.tag == "condition" or current_element.tag == "keyword":
             return True
@@ -75,6 +58,12 @@ class xmlFieldInterpreter():
             return True
         else:
             return False
+
+    def addDuplicateValuesToValueList(self):
+        self.tag_list.append("conditions")
+        self.tag_list.append("keywords")
+        self.text_list.append(self.condition_list)
+        self.text_list.append(self.keyword_list)
 
     def write_xml_element_tags_to_csv(self):
         self.getAllKeywordsOrConditions()
