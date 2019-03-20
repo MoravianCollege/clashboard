@@ -2,29 +2,26 @@ from dotenv import load_dotenv
 import os
 import psycopg2
 import pandas as pd
-import dash
-import dash_core_components as dcc
-import dash_html_components as html
-from dash.dependencies import Input, Output
-import plotly.graph_objs as go
 
 
 class ClashInterface:
-    conn = None
-    df = None
 
-    # study_type_counts = None
-    # status_counts = None
-    # phase_counts = None
 
     def __init__(self):
-        load_dotenv()
+        self.conn = None
+        self.data_table = None
+        self.value_counts = None
+        self.group_by = None
+        self.filters = []
 
+        load_dotenv()
         hostname = os.getenv('hostname')
-        port = os.getenv('port')
         database = os.getenv('database')
         username = os.getenv('username')
         password = os.getenv('password')
+
+        conn = psycopg2.connect(host=hostname, database=database, user=username, password=password)
+        self.data_table = pd.read_sql('select * from studies', con=conn)
 
     def remove_filter(self, filter):
         pass
@@ -33,19 +30,19 @@ class ClashInterface:
         pass
 
     def get_current_filters(self):
-        pass
+        return self.filters
 
     def set_group_by(self, attribute):
         pass
 
     def get_group_by(self):
-        return []
+        return self.group_by
 
     def get_labels(self):
-        pass
+        return self.value_counts.index
 
     def get_values(self):
-        pass
+        return self.value_counts.values
 
     def get_variables(self):
-        pass
+        return []
