@@ -2,41 +2,66 @@ from dotenv import load_dotenv
 import os
 import psycopg2
 import pandas as pd
-import dash
-import dash_core_components as dcc
-import dash_html_components as html
-from dash.dependencies import Input, Output
-import plotly.graph_objs as go
 
-class clash_interface:
+
+class ClashInterface:
 
 	conn = None
-	df = None
-	#study_type_counts = None
-	#status_counts = None
-	#phase_counts = None
+	data_table = None
+	value_counts = None
+	group_by = None
+	filters = []
 
 	def __init__(self):
 		load_dotenv()
 
 		hostname = os.getenv('hostname')
-		port = os.getenv('port')
 		database = os.getenv('database')
 		username = os.getenv('username')
 		password = os.getenv('password')
 
-	def remove_filter(filter):
+		print('connecting to the AACT database')
+		conn = psycopg2.connect(host=hostname, database=database, user=username, password=password)
+		global data_table
+		data_table = pd.read_sql('select * from studies', con=conn)
+		print('connection successful')
 
-	def apply_filter(filter):
+	def remove_filter(self, filter):
+		self.filters.remove(filter)
 
-	def get_current_filters():
+	def apply_filter(self, filter):
+		self.filters.append(filter)
 
-	def set_group_by(attribute):
+	def get_current_filters(self):
+		return self.filters
 
-	def get_group_by():
+	def set_group_by(self, attribute):
+		global data_table
+		global value_counts
+		value_counts = data_table.groupby(attribute).size()
+		global group_by
+		group_by = attribute
 
-	def get_labels():
+	def get_group_by(self):
+		global group_by
+		return group_by
 
-	def get_values():
+	def get_labels(self):
+		global value_counts
+		return value_counts.index
 
-	def get_variables():
+	def get_values(self):
+		global value_counts
+		return value_counts.values
+
+	def get_variables(self):
+		print()
+
+
+c = ClashInterface()
+c.set_group_by("overall_status")
+c.apply_filter("phase")
+c.apply_filter("enrollment")
+print(c.get_current_filters())
+c.remove_filter("phase")
+print(c.get_current_filters())
