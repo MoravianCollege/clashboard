@@ -8,35 +8,44 @@ import dash_html_components as html
 from dash.dependencies import Input, Output
 import plotly.graph_objs as go
 
-class clash_interface:
 
-	conn = None
-	df = None
-	#study_type_counts = None
-	#status_counts = None
-	#phase_counts = None
+class ClashInterface:
+    conn = None
+    df = None
 
-	def __init__(self):
-		load_dotenv()
+    # study_type_counts = None
+    # status_counts = None
+    # phase_counts = None
 
-		hostname = os.getenv('hostname')
-		port = os.getenv('port')
-		database = os.getenv('database')
-		username = os.getenv('username')
-		password = os.getenv('password')
+    def __init__(self):
+        load_dotenv()
 
-	def remove_filter(filter):
+        hostname = os.getenv('hostname')
+        port = os.getenv('port')
+        database = os.getenv('database')
+        username = os.getenv('username')
+        password = os.getenv('password')
 
-	def apply_filter(filter):
+    def remove_filter(self, filter):
+        pass
 
-	def get_current_filters():
+    def apply_filter(self, filter):
+        pass
 
-	def set_group_by(attribute):
+    def get_current_filters(self):
+        pass
 
-	def get_group_by():
+    def set_group_by(self, attribute):
+        pass
 
-	def get_labels():
+    def get_group_by(self):
+        return []
 
-	def get_values():
+    def get_labels(self):
+        pass
 
-	def get_variables():
+    def get_values(self):
+        pass
+
+    def get_variables(self):
+        pass
