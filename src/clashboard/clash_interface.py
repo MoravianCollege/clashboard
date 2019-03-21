@@ -1,67 +1,41 @@
-from dotenv import load_dotenv
-import os
-import psycopg2
-import pandas as pd
 
 
 class ClashInterface:
 
-	conn = None
-	data_table = None
-	value_counts = None
-	group_by = None
-	filters = []
+    def __init__(self, db):
+        pass
 
-	def __init__(self):
-		load_dotenv()
+    # Uncomment when tested and implemented
+    # def remove_filter(self, filter):
+    #    pass
 
-		hostname = os.getenv('hostname')
-		database = os.getenv('database')
-		username = os.getenv('username')
-		password = os.getenv('password')
+    # Uncomment when tested and implemented
+    # def apply_filter(self, filter):
+    #    pass
 
-		print('connecting to the AACT database')
-		conn = psycopg2.connect(host=hostname, database=database, user=username, password=password)
-		global data_table
-		data_table = pd.read_sql('select * from studies', con=conn)
-		print('connection successful')
+    # Uncomment when tested and implemented
+    # def get_current_filters(self):
+    #    pass
 
-	def remove_filter(self, filter):
-		self.filters.remove(filter)
+    # Uncomment when tested and implemented
+    # def set_group_by(self, attribute):
+    #    pass
 
-	def apply_filter(self, filter):
-		self.filters.append(filter)
+    def get_group_by(self):
+        """
+        Get the variable currently used to group the data
+        :return: a human-readable string
+        """
+        return ''
 
-	def get_current_filters(self):
-		return self.filters
+    # Uncomment when tested and implemented
+    # def get_labels(self):
+    #    pass
 
-	def set_group_by(self, attribute):
-		global data_table
-		global value_counts
-		value_counts = data_table.groupby(attribute).size()
-		global group_by
-		group_by = attribute
+    # Uncomment when tested and implemented
+    # def get_values(self):
+    #    pass
 
-	def get_group_by(self):
-		global group_by
-		return group_by
-
-	def get_labels(self):
-		global value_counts
-		return value_counts.index
-
-	def get_values(self):
-		global value_counts
-		return value_counts.values
-
-	def get_variables(self):
-		print()
-
-
-c = ClashInterface()
-c.set_group_by("overall_status")
-c.apply_filter("phase")
-c.apply_filter("enrollment")
-print(c.get_current_filters())
-c.remove_filter("phase")
-print(c.get_current_filters())
+    # Uncomment when tested and implemented
+    # def get_variables(self):
+    #    pass
