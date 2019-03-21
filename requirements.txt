@@ -7,3 +7,5 @@ dash_html_components==0.14.0
 plotly==3.6.1
 gunicorn==19.9.0
 pytest==4.3.1
+pytest-cov==2.6.1
+pycodestyle=2.5.0

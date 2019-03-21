@@ -5,3 +5,5 @@
 *.pem
 __pycache__/
 *.egg-info/
+.coverage
+

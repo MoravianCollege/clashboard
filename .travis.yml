@@ -4,4 +4,9 @@ dist: xenial
 install:
   - pip install -r requirements.txt
   - pip install .
-script: pytest
+jobs:
+  include:
+    - stage: Unit Tests With Coverage
+      script: pytest --cov=clashboard --cov-fail-under=90
+    - stage: Style Check
+      script pycodestyle src tests
