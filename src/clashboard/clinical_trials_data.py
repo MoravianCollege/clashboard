@@ -1,9 +1,16 @@
 
 
-class ClashInterface:
+class ClinicalTrialsData:
 
-    def __init__(self, db):
-        pass
+    studies = None
+    db = None
+    conn = None
+    type_counts = None
+    curr_group = 'phase'
+
+    def __init__(self, db, conn):
+        self.db = db
+        self.conn = conn
 
     # Uncomment when tested and implemented
     # def remove_filter(self, filter_category, filter_name):
@@ -38,21 +45,22 @@ class ClashInterface:
     #    pass
 
     # Uncomment when tested and implemented
-    # def set_group_by(self, attribute):
-    #    """
-    #    Sets the attribute to group the data by,
-    #       runs the query for the first time
-    #    :param attribute:
-    #           human-readable string
-    #    """
-    #    pass
+    def set_group_by(self, attribute):
+        """
+        Sets the attribute to group the data by,
+           runs the query for the first time
+        :param attribute:
+               human-readable string
+        """
+        self.curr_group = attribute
+        # self.type_counts = self.studies.groupby(attribute).size()
 
     def get_group_by(self):
         """
         Get the variable currently used to group the data
         :return: a human-readable string
         """
-        return ''
+        return self.curr_group
 
     # Uncomment when tested and implemented
     # def get_labels(self):
@@ -62,7 +70,7 @@ class ClashInterface:
     #    :return:
     #           list of human-readable strings
     #    """
-    #    pass
+    #    return self.type_counts.index
 
     # Uncomment when tested and implemented
     # def get_values(self):
@@ -84,3 +92,7 @@ class ClashInterface:
     #    ex - {'label': 'Study Type', 'value': 'study_type'}
     #    """
     #    pass
+
+    # Uncomment when tested and implemented
+    def populate_tables(self):
+        self.studies = self.db.read_sql('select * from studies', con=self.conn)
