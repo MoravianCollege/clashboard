@@ -8,18 +8,24 @@ class ClashInterface:
     # Uncomment when tested and implemented
     # def remove_filter(self, filter_category, filter_name):
     #    """
-    #    Removes a specified filter from the list of filters, and re-runs the query
-    #    :param filter_category: the column in the DB that the user wants to filter
-    #    :param filter_name: the specific value to filter on in that column
+    #    Removes a specified filter from the list of filters,
+    #       and re-runs the query
+    #    :param filter_category:
+    #           the column in the DB that the user wants to filter
+    #    :param filter_name:
+    #           the specific value to filter on in that column
     #    """
     #    pass
 
     # Uncomment when tested and implemented
     # def apply_filter(self, filter_category, filter_name):
     #    """
-    #    Adds the specified filter to the list of filters, and re-runs the current query
-    #    :param filter_category: the column in the DB that the user wants to filter
-    #    :param filter_name: the specific value to filter on in that column
+    #    Adds the specified filter to the list of filters,
+    #       and re-runs the current query
+    #    :param filter_category:
+    #           the column in the DB that the user wants to filter
+    #    :param filter_name:
+    #           the specific value to filter on in that column
     #    """
     #    pass
 
@@ -34,8 +40,10 @@ class ClashInterface:
     # Uncomment when tested and implemented
     # def set_group_by(self, attribute):
     #    """
-    #    Sets the attribute to group the data by, runs the query for the first time
-    #    :param attribute: human-readable string
+    #    Sets the attribute to group the data by,
+    #       runs the query for the first time
+    #    :param attribute:
+    #           human-readable string
     #    """
     #    pass
 
@@ -49,8 +57,10 @@ class ClashInterface:
     # Uncomment when tested and implemented
     # def get_labels(self):
     #    """
-    #    Get the lists of strings describing each category for grouping the data
-    #    :return: list of human-readable strings
+    #    Get the lists of strings describing each category
+    #       for grouping the data
+    #    :return:
+    #           list of human-readable strings
     #    """
     #    pass
 
@@ -66,8 +76,11 @@ class ClashInterface:
     # def get_variables(self):
     #    """
     #    Get the variables describing the options for displaying data
-    #    :return: a list of dictionaries containing the label for human-readable display
-    #    and the corresponding string in terms of the XML Schema
+    #    :return:
+    #           a list of dictionaries containing
+    #           the label for human-readable display
+    #           and the corresponding string in terms
+    #           of the XML Schema
     #    ex - {'label': 'Study Type', 'value': 'study_type'}
     #    """
     #    pass
