@@ -9,4 +9,4 @@ jobs:
     - stage: Unit Tests With Coverage
       script: pytest --cov=clashboard --cov-fail-under=90
     - stage: Style Check
-      script pycodestyle src tests
+      script: pycodestyle src tests
