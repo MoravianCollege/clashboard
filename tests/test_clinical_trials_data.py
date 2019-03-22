@@ -18,7 +18,7 @@ def test_change_group_by():
     clash.set_group_by('study_type')
     assert clash.get_group_by() == 'study_type'
 
-#def test_get_some_data():
+# def test_get_some_data():
 #
 #    db = MockDB('mocks/trial_test_data.csv')
 #    db.populate_tables()

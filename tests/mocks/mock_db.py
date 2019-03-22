@@ -28,6 +28,3 @@ class MockDB:
 
     def size(self):
         pass
-
-
-
