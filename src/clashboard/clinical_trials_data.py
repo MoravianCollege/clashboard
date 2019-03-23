@@ -1,13 +1,12 @@
+import pandas as pd
 
 
 class ClinicalTrialsData:
 
     def __init__(self):
-        self.db = None
-        self.conn = None
-        self.studies = None
         self.type_counts = None
         self.curr_group = ''
+        self.studies = pd.DataFrame()
 
     # Uncomment when tested and implemented
     # def remove_filter(self, filter_category, filter_name):
@@ -33,23 +32,20 @@ class ClinicalTrialsData:
     #    """
     #    pass
 
-    # Uncomment when tested and implemented
-    # def get_current_filters(self):
-    #    """
-    #    Get the list of currently applied filters
-    #    :return: the list of human-readable strings
-    #    """
-    #    pass
+    def get_current_filters(self):
+        """
+        Get the list of currently applied filters
+        :return: the list of human-readable strings
+        """
+        return []
 
     def set_group_by(self, attribute):
         """
-        Sets the attribute to group the data by,
-           runs the query for the first time
+        Sets the attribute to group the data by
         :param attribute:
                human-readable string
         """
         self.curr_group = attribute
-        self.type_counts = self.studies.groupby(attribute).size()
 
     def get_group_by(self):
         """
@@ -65,14 +61,20 @@ class ClinicalTrialsData:
         :return:
                list of human-readable strings
         """
-        return self.type_counts.index
+        if self.curr_group in self.studies:
+            return list(self.studies.groupby(self.get_group_by()).size().index)
+
+        return []
 
     def get_values(self):
         """
         Get the list of integers describing the amounts for each label
-        :return: an array of ints
+        :return: an list of ints
         """
-        return self.type_counts.values
+        if self.curr_group in self.studies:
+            return list(self.studies.groupby(self.get_group_by()).size().values)
+
+        return []
 
     # Uncomment when tested and implemented
     # def get_variables(self):
@@ -88,4 +90,4 @@ class ClinicalTrialsData:
     #    pass
 
     def populate_tables(self):
-        self.studies = self.db.read_sql('select * from studies', con=self.conn)
+        pass
