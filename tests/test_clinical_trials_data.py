@@ -20,7 +20,8 @@ def test_new_instance_produces_empty_data():
 
 
 def test_get_some_data(monkeypatch):
-    monkeypatch.setattr(ClinicalTrialsData, 'populate_tables', mock_populate_tables)
+    monkeypatch.setattr(ClinicalTrialsData, 'populate_tables',
+                        mock_populate_tables)
     ctd = ClinicalTrialsData()
     ctd.populate_tables()
     assert ctd.get_group_by() == 'phase'
@@ -30,7 +31,8 @@ def test_get_some_data(monkeypatch):
 
 
 def test_change_group_by_changes_data(monkeypatch):
-    monkeypatch.setattr(ClinicalTrialsData, 'populate_tables', mock_populate_tables)
+    monkeypatch.setattr(ClinicalTrialsData, 'populate_tables',
+                        mock_populate_tables)
     ctd = ClinicalTrialsData()
     ctd.populate_tables()
     ctd.set_group_by('study_type')
