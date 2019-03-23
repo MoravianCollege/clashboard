@@ -1,25 +1,30 @@
 
-from clashboard.clinical_trials_data import ClinicalTrialsData
-from tests.mocks.mock_db import MockDB
+from tests.mocks.mock_trials_data import MockClinicalTrialsData
 
 
 def test_new_instance_has_no_group():
 
-    db = MockDB(None)
-    clash = ClinicalTrialsData(db, None)
-    assert clash.get_group_by() == 'phase'
+    mctd = MockClinicalTrialsData()
+    assert mctd.get_group_by() == ''
 
 
 def test_change_group_by():
 
-    db = MockDB(None)
-    clash = ClinicalTrialsData(db, None)
-    assert clash.get_group_by() == 'phase'
-    clash.set_group_by('study_type')
-    assert clash.get_group_by() == 'study_type'
+    mctd = MockClinicalTrialsData()
+    mctd.populate_tables()
+    assert mctd.get_group_by() == ''
+    mctd.set_group_by('study_type')
+    assert mctd.get_group_by() == 'study_type'
 
-# def test_get_some_data():
-#
-#    db = MockDB('mocks/trial_test_data.csv')
-#    db.populate_tables()
-#    clash = ClinicalTrialsData(db, None)
+
+def test_get_some_data():
+
+    mctd = MockClinicalTrialsData()
+    mctd.populate_tables()
+    mctd.set_group_by('phase')
+    assert mctd.get_labels()[0] == 'Phase 2'
+    assert mctd.get_labels()[1] == 'Phase 3'
+    assert mctd.get_labels()[2] == 'Phase 4'
+    assert mctd.get_values()[0] == 1
+    assert mctd.get_values()[1] == 2
+    assert mctd.get_values()[2] == 3
