@@ -62,7 +62,8 @@ class ClinicalTrialsData:
                list of human-readable strings
         """
         if self.curr_group in self.studies:
-            return list(self.studies.groupby(self.get_group_by()).size().index)
+            labels = self.studies.groupby(self.get_group_by()).size().index
+            return list(labels)
 
         return []
 
@@ -72,7 +73,8 @@ class ClinicalTrialsData:
         :return: an list of ints
         """
         if self.curr_group in self.studies:
-            return list(self.studies.groupby(self.get_group_by()).size().values)
+            values = self.studies.groupby(self.get_group_by()).size().values
+            return list(values)
 
         return []
 

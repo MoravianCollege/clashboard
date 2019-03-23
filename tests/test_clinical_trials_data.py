@@ -36,7 +36,6 @@ def test_change_group_by_changes_data(monkeypatch):
     ctd.set_group_by('study_type')
     assert ctd.get_group_by() == 'study_type'
     assert ctd.get_values() == [9, 1]
-    assert ctd.get_labels() == ['Interventional', 'Observational [Patient Registry]']
+    labels = ['Interventional', 'Observational [Patient Registry]']
+    assert ctd.get_labels() == labels
     assert ctd.get_current_filters() == []
-
-
