@@ -1,9 +1,12 @@
+import pandas as pd
 
 
-class ClashInterface:
+class ClinicalTrialsData:
 
-    def __init__(self, db):
-        pass
+    def __init__(self):
+        self.type_counts = None
+        self.curr_group = ''
+        self.studies = pd.DataFrame()
 
     # Uncomment when tested and implemented
     # def remove_filter(self, filter_category, filter_name):
@@ -29,48 +32,51 @@ class ClashInterface:
     #    """
     #    pass
 
-    # Uncomment when tested and implemented
-    # def get_current_filters(self):
-    #    """
-    #    Get the list of currently applied filters
-    #    :return: the list of human-readable strings
-    #    """
-    #    pass
+    def get_current_filters(self):
+        """
+        Get the list of currently applied filters
+        :return: the list of human-readable strings
+        """
+        return []
 
-    # Uncomment when tested and implemented
-    # def set_group_by(self, attribute):
-    #    """
-    #    Sets the attribute to group the data by,
-    #       runs the query for the first time
-    #    :param attribute:
-    #           human-readable string
-    #    """
-    #    pass
+    def set_group_by(self, attribute):
+        """
+        Sets the attribute to group the data by
+        :param attribute:
+               human-readable string
+        """
+        self.curr_group = attribute
 
     def get_group_by(self):
         """
         Get the variable currently used to group the data
         :return: a human-readable string
         """
-        return ''
+        return self.curr_group
 
-    # Uncomment when tested and implemented
-    # def get_labels(self):
-    #    """
-    #    Get the lists of strings describing each category
-    #       for grouping the data
-    #    :return:
-    #           list of human-readable strings
-    #    """
-    #    pass
+    def get_labels(self):
+        """
+        Get the lists of strings describing each category
+           for grouping the data
+        :return:
+               list of human-readable strings
+        """
+        if self.curr_group in self.studies:
+            labels = self.studies.groupby(self.get_group_by()).size().index
+            return list(labels)
 
-    # Uncomment when tested and implemented
-    # def get_values(self):
-    #    """
-    #    Get the list of integers describing the amounts for each label
-    #    :return: an array of ints
-    #    """
-    #    pass
+        return []
+
+    def get_values(self):
+        """
+        Get the list of integers describing the amounts for each label
+        :return: an list of ints
+        """
+        if self.curr_group in self.studies:
+            values = self.studies.groupby(self.get_group_by()).size().values
+            return list(values)
+
+        return []
 
     # Uncomment when tested and implemented
     # def get_variables(self):
@@ -84,3 +90,6 @@ class ClashInterface:
     #    ex - {'label': 'Study Type', 'value': 'study_type'}
     #    """
     #    pass
+
+    def populate_tables(self):
+        pass
