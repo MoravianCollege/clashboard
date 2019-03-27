@@ -41,3 +41,25 @@ def test_change_group_by_changes_data(monkeypatch):
     labels = ['Interventional', 'Observational [Patient Registry]']
     assert ctd.get_labels() == labels
     assert ctd.get_current_filters() == []
+
+
+def test_change_current_filters(monkeypatch):
+    monkeypatch.setattr(ClinicalTrialsData, 'populate_tables',
+                        mock_populate_tables)
+    ctd = ClinicalTrialsData()
+    ctd.populate_tables()
+    assert ctd.get_current_filters() == []
+    ctd.apply_filter('phase', 'Phase 1')
+    assert ctd.get_current_filters() == [['phase', 'Phase 1']]
+    ctd.remove_filter('phase', 'Phase 1')
+    assert ctd.get_current_filters() == []
+    ctd.apply_filter('study_type', 'Interventional')
+    ctd.apply_filter('study_type', 'Observational [Patient Registry]')
+    ctd.apply_filter('phase', 'Phase 2')
+    filters = [['study_type', 'Interventional'],
+               ['study_type', 'Observational [Patient Registry]'],
+               ['phase', 'Phase 2']]
+    assert ctd.get_current_filters() == filters
+    ctd.remove_filter('study_type', 'Observational [Patient Registry]')
+    assert ctd.get_current_filters() == [['study_type', 'Interventional'],
+                                         ['phase', 'Phase 2']]
