@@ -9,7 +9,6 @@ class ClinicalTrialsData:
         self.studies = pd.DataFrame()
         self.filters = []
 
-
     def remove_filter(self, filter_category, filter_name):
         """
         Removes a specified filter from the list of filters,
