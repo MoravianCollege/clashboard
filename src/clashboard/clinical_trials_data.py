@@ -7,37 +7,36 @@ class ClinicalTrialsData:
         self.type_counts = None
         self.curr_group = ''
         self.studies = pd.DataFrame()
+        self.filters = []
 
-    # Uncomment when tested and implemented
-    # def remove_filter(self, filter_category, filter_name):
-    #    """
-    #    Removes a specified filter from the list of filters,
-    #       and re-runs the query
-    #    :param filter_category:
-    #           the column in the DB that the user wants to filter
-    #    :param filter_name:
-    #           the specific value to filter on in that column
-    #    """
-    #    pass
+    def remove_filter(self, filter_category, filter_name):
+        """
+        Removes a specified filter from the list of filters,
+           and re-runs the query
+        :param filter_category:
+               the column in the DB that the user wants to filter
+        :param filter_name:
+               the specific value to filter on in that column
+        """
+        self.filters.remove([filter_category, filter_name])
 
-    # Uncomment when tested and implemented
-    # def apply_filter(self, filter_category, filter_name):
-    #    """
-    #    Adds the specified filter to the list of filters,
-    #       and re-runs the current query
-    #    :param filter_category:
-    #           the column in the DB that the user wants to filter
-    #    :param filter_name:
-    #           the specific value to filter on in that column
-    #    """
-    #    pass
+    def apply_filter(self, filter_category, filter_name):
+        """
+        Adds the specified filter to the list of filters,
+           and re-runs the current query
+        :param filter_category:
+               the column in the DB that the user wants to filter
+        :param filter_name:
+               the specific value to filter on in that column
+        """
+        self.filters.append([filter_category, filter_name])
 
     def get_current_filters(self):
         """
         Get the list of currently applied filters
         :return: the list of human-readable strings
         """
-        return []
+        return self.filters
 
     def set_group_by(self, attribute):
         """
