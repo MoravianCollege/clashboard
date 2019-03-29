@@ -60,7 +60,7 @@ def test_change_current_filters(monkeypatch):
     assert ctd.get_current_filters() == filters
     ctd.remove_filter('study type', 'Observational [Patient Registry]')
     assert ctd.get_current_filters() == [['study type', 'Interventional'],
-                                        ['phase', 'Phase 2']]
+                                         ['phase', 'Phase 2']]
 
 
 def test_remove_from_empty_filters_list(monkeypatch):
@@ -114,4 +114,3 @@ def test_replace_multiple_spaces(monkeypatch):
     ctd = set_up_tests(monkeypatch)
     assert ctd.replace_space('last known status') == \
         'last_known_status'
-
