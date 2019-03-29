@@ -61,14 +61,14 @@ class ClinicalTrialsData:
         :param attribute:
                human-readable string
         """
-        self.curr_group = attribute
+        self.curr_group = self.replace_space(attribute)
 
     def get_group_by(self):
         """
         Get the variable currently used to group the data
         :return: a human-readable string
         """
-        return self.curr_group
+        return self.replace_underscore(self.curr_group)
 
     def get_labels(self):
         """
@@ -78,7 +78,7 @@ class ClinicalTrialsData:
                list of human-readable strings
         """
         if self.curr_group in self.studies:
-            labels = self.studies.groupby(self.get_group_by()).size().index
+            labels = self.studies.groupby(self.curr_group).size().index
             return list(labels)
 
         return []
@@ -89,7 +89,7 @@ class ClinicalTrialsData:
         :return: an list of ints
         """
         if self.curr_group in self.studies:
-            values = self.studies.groupby(self.get_group_by()).size().values
+            values = self.studies.groupby(self.curr_group).size().values
             return list(values)
 
         return []

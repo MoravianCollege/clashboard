@@ -36,8 +36,8 @@ def test_get_some_data(monkeypatch):
 
 def test_change_group_by_changes_data(monkeypatch):
     ctd = set_up_tests(monkeypatch)
-    ctd.set_group_by('study_type')
-    assert ctd.get_group_by() == 'study_type'
+    ctd.set_group_by('study type')
+    assert ctd.get_group_by() == 'study type'
     assert ctd.get_values() == [9, 1]
     labels = ['Interventional', 'Observational [Patient Registry]']
     assert ctd.get_labels() == labels
@@ -83,7 +83,7 @@ def test_remove_from_populated_filter(monkeypatch):
 
 def test_remove_with_space_check(monkeypatch):
     ctd = set_up_tests(monkeypatch)
-    ctd.apply_filter('study_type', 'Interventional')
+    ctd.apply_filter('study type', 'Interventional')
     ctd.remove_filter('study type', 'Interventional')
     assert ctd.get_current_filters() == []
 
@@ -114,3 +114,9 @@ def test_replace_multiple_spaces(monkeypatch):
     ctd = set_up_tests(monkeypatch)
     assert ctd.replace_space('last known status') == \
         'last_known_status'
+
+
+def set_get_group_by_with_space(monkeypatch):
+    ctd = set_up_tests(monkeypatch)
+    ctd.set_group_by('study type')
+    assert ctd.get_group_by() == 'study type'
