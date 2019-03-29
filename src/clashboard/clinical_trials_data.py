@@ -1,4 +1,5 @@
 import pandas as pd
+import copy
 
 
 class ClinicalTrialsData:
@@ -9,6 +10,14 @@ class ClinicalTrialsData:
         self.studies = pd.DataFrame()
         self.filters = []
 
+    def replace_underscore(self, filter_category):
+        filter_category = filter_category.replace("_", " ")
+        return filter_category
+
+    def replace_space(self, filter_category):
+        filter_category = filter_category.replace(" ", "_")
+        return filter_category
+
     def remove_filter(self, filter_category, filter_name):
         """
         Removes a specified filter from the list of filters,
@@ -18,7 +27,11 @@ class ClinicalTrialsData:
         :param filter_name:
                the specific value to filter on in that column
         """
-        self.filters.remove([filter_category, filter_name])
+        filter_category = self.replace_space(filter_category)
+        try:
+            self.filters.remove([filter_category, filter_name])
+        except ValueError:
+            pass
 
     def apply_filter(self, filter_category, filter_name):
         """
@@ -29,6 +42,7 @@ class ClinicalTrialsData:
         :param filter_name:
                the specific value to filter on in that column
         """
+        filter_category = self.replace_space(filter_category)
         self.filters.append([filter_category, filter_name])
 
     def get_current_filters(self):
@@ -36,7 +50,10 @@ class ClinicalTrialsData:
         Get the list of currently applied filters
         :return: the list of human-readable strings
         """
-        return self.filters
+        new_filters = copy.deepcopy(self.filters)
+        for x in new_filters:
+            x[0] = self.replace_underscore(x[0])
+        return new_filters
 
     def set_group_by(self, attribute):
         """
@@ -87,6 +104,7 @@ class ClinicalTrialsData:
     #           and the corresponding string in terms
     #           of the XML Schema
     #    ex - {'label': 'Study Type', 'value': 'study_type'}
+    #         {'Study Type': 'study_type'}
     #    """
     #    pass
 
