@@ -3,10 +3,11 @@ import pandas as pd
 
 
 class ClinicalTrialsQuery:
+    
     def __init__(self):
-        sql_command = ''
-        trials_data = pd.DataFrame()
-        is_called = False
+        self.sql_command = ''
+        self.trials_data = pd.DataFrame()
+        self.is_called = False
 
 
     def db_query(self, filters = [], group = ''):
