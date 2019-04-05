@@ -47,7 +47,7 @@ app.layout = html.Div(children=[
            id='my-graph'
        ),
 
-       style={'width': '70%', 'display': 'inline-block',},
+       style={'width': '70%', 'display': 'inline-block', },
        id='plot-area'
    ),
    html.Div(
@@ -76,14 +76,14 @@ app.layout = html.Div(children=[
     State('adding-rows-table', 'columns')])
 def get_filter(click_data, n_clicks, selected_rows, rows, columns):
     global count
-    filter = (click_data.get("points")[0].get("label") + ": " + currentGroupBy)
+    filter = (currentGroupBy + ": " + click_data.get("points")[0].get("label"))
     if n_clicks > count:
         count += 1
-        CTD.remove_filter(currentGroupBy,click_data.get("points")[0].get("label"))
-        return delete_filter(selected_rows,rows)
+        CTD.remove_filter(currentGroupBy, click_data.get("points")[0].get("label"))
+        return delete_filter(selected_rows, rows)
     else:
-        CTD.apply_filter(currentGroupBy,click_data.get("points")[0].get("label"))
-        return add_filter(rows, columns,filter)
+        CTD.apply_filter(currentGroupBy, click_data.get("points")[0].get("label"))
+        return add_filter(rows, columns, filter)
 
 
 def delete_filter(selected_rows, rows):
