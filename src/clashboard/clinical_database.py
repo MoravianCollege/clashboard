@@ -22,14 +22,12 @@ class ClinicalTrialsQuery:
         :param group:
         :return:
         """
-        self.sql_command = 'SELECT * FROM '
-        self.sql_command += self.make_local_table()
+        self.sql_command = 'SELECT * FROM ' + self.make_local_table()
         self.is_called = True
-        conn = psycopg2.connect(host=self.hostname,
-                                database=self.database,
-                                user=self.username,
-                                password=self.password)
-        self.trials_data = pd.read_sql(sql=self.sql_command, con=conn)
+        self.trials_data = pd.read_sql(sql=self.sql_command, con=psycopg2.connect(host=self.hostname,
+                                                                                  database=self.database,
+                                                                                  user=self.username,
+                                                                                  password=self.password))
         return self.trials_data
 
     def make_local_table(self, table = '', local=True):
