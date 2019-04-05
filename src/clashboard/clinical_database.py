@@ -1,31 +1,44 @@
 import pandas as pd
-
+import os
+import psycopg2
 
 
 class ClinicalTrialsQuery:
-    
+
     def __init__(self):
         self.sql_command = ''
         self.trials_data = pd.DataFrame()
         self.is_called = False
+        self.hostname = os.getenv('hostname')
+        self.port = os.getenv('port')
+        self.database = os.getenv('database')
+        self.username = os.getenv('username')
+        self.password = os.getenv('password')
 
-
-    def db_query(self, filters = [], group = ''):
+    def db_query(self, filters=[], group=''):
         """
-        New SQL QUERY
+        New SQL query
         :param filters:
-        :param groupby:
+        :param group:
         :return:
         """
-        self.sql_command = "SELECT * FROM ctgov.studies"
+        self.sql_command = 'SELECT * FROM '
+        self.sql_command += self.make_local_table()
         self.is_called = True
+        conn = psycopg2.connect(host=self.hostname,
+                                database=self.database,
+                                user=self.username,
+                                password=self.password)
+        self.trials_data = pd.read_sql(sql=self.sql_command, con=conn)
         return self.trials_data
 
+    def make_local_table(self, table = '', local=True):
+        return 'ctgov.' + table
 
-    def update_data(self, group = ''):
+    def update_data(self, group='phase'):
         """
-        Update GROUP BY
-        :param groupby:
+        Update Group By
+        :param group:
         :return:
         """
         return self.trials_data.groupby([group]) if self.is_called else None
