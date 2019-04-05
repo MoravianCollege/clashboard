@@ -6,7 +6,8 @@ TEST_DATA_DIR = Path(__file__).resolve().parent / 'data'
 
 
 def mock_query(self):
-    self.trials_data = pd.read_csv('{}/trial_test_data.csv'.format(TEST_DATA_DIR))
+    file_location = '{}/trial_test_data.csv'
+    self.trials_data = pd.read_csv(file_location.format(TEST_DATA_DIR))
     self.sql_command = 'SELECT * FROM ctgov.studies'
     self.is_called = True
 
@@ -20,11 +21,11 @@ def set_up_tests(monkeypatch):
 
 def test_query_no_params(monkeypatch):
     ctd = set_up_tests(monkeypatch)
-    assert None == ctd.db_query()
+    assert ctd.db_query() is None
 
 
 def test_no_data_update():
-     assert None == ClinicalTrialsQuery().update_data('phase')
+    assert ClinicalTrialsQuery().update_data('phase') is None
 
 
 def test_correct_data(monkeypatch):
@@ -32,9 +33,16 @@ def test_correct_data(monkeypatch):
     results = pd.read_csv('{}/trial_test_data.csv'.format(TEST_DATA_DIR))
     assert len(results) == len(ctd.trials_data)
 
+
 def test_local_table():
     ctd = ClinicalTrialsQuery()
-    assert 'ctgov.studies' == ctd.make_local_table('studies')
+    assert 'ctgov.studies' == ctd.make_local_table('studies', True)
+
+
+def test_remote_table():
+    ctd = ClinicalTrialsQuery()
+    assert 'studies' == ctd.make_local_table('studies', False)
+
 
 def test_query_groupby(monkeypatch):
     ctd = set_up_tests(monkeypatch)
