@@ -32,6 +32,7 @@ def test_delete_filter_one_in_list():
     selected_rows = [0]
     assert  delete_filter(selected_rows,rows) == []
 
+
 def test_delete_filter_two_in_list():
     rows = [{'column-0': 'Observational [Patient Registry]: Study Type'},{'column-0': 'Interventional: Study Type'}]
     selected_rows = [0]

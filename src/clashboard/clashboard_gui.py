@@ -4,15 +4,14 @@ import dash_table
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output, State
-import plotly.graph_objs as go
 from clashboard.clinical_trials_data import ClinicalTrialsData as CTD
+import plotly.graph_objs as go
 
 study_type_counts = None
 status_counts = None
 phase_counts = None
 currentGroupBy = None
 count = 0
-
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
@@ -64,9 +63,6 @@ app.layout = html.Div(children=[
        value='study_type',
        id='dropdown-id'
    ),
-
-
-
    html.Div(id='click-data'),
 ])
 
@@ -81,22 +77,27 @@ app.layout = html.Div(children=[
 def get_filter(click_data, n_clicks, selected_rows, rows, columns):
     global count
     filter = (click_data.get("points")[0].get("label") + ": " + currentGroupBy)
-    is_in = check_if_exists(rows, filter)
-
     if n_clicks > count:
         count += 1
-        print("hello delete")
-
-        for n in selected_rows:
-            print(rows[n])
-            del rows[n]
-        return rows
+        CTD.remove_filter(currentGroupBy,click_data.get("points")[0].get("label"))
+        return delete_filter(selected_rows,rows)
     else:
-        if not is_in:
-            rows.append({c['id']: filter for c in columns})
-            return rows
-        else:
-            return rows
+        CTD.apply_filter(currentGroupBy,click_data.get("points")[0].get("label"))
+        return add_filter(rows, columns,filter)
+
+
+def delete_filter(selected_rows, rows):
+    if len(rows) > 0:
+        for n in selected_rows:
+            del rows[n]
+    return rows
+
+
+def add_filter(rows,columns, filter):
+    is_in = check_if_exists(rows, filter)
+    if not is_in:
+        rows.append({c['id']: filter for c in columns})
+    return rows
 
 
 def check_if_exists(rows, filter):
@@ -110,24 +111,10 @@ def check_if_exists(rows, filter):
              [Input('dropdown-id', 'value')])
 def update_plot(value):
     global currentGroupBy
-    if value == 'study_type':
-        labels = study_type_counts.index
-        values = study_type_counts.values
-        title = 'Study Type'
-    elif value == 'overall_status':
-        labels = status_counts.index
-        values = status_counts.values
-        title = 'Status'
-    elif value == 'phase':
-        labels = phase_counts.index
-        values = phase_counts.values
-        title = 'Phase'
-    else:
-        labels = []
-        values = []
-        title = ''
-
-    currentGroupBy = title
+    CTD.set_group_by(value)
+    labels = CTD.get_labels()
+    values = CTD.get_values()
+    title = currentGroupBy
 
     return go.Figure(
            data=[
