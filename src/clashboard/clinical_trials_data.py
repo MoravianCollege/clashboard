@@ -1,5 +1,6 @@
 import pandas as pd
 import copy
+from clashboard.clinical_database import ClinicalTrialsQuery
 
 
 class ClinicalTrialsData:
@@ -9,6 +10,7 @@ class ClinicalTrialsData:
         self.curr_group = ''
         self.studies = pd.DataFrame()
         self.filters = []
+        self.ctq = ClinicalTrialsQuery()
 
     def replace_underscore(self, filter_category):
         filter_category = filter_category.replace("_", " ")
@@ -79,6 +81,7 @@ class ClinicalTrialsData:
         """
         if self.curr_group in self.studies:
             labels = self.studies.groupby(self.curr_group).size().index
+            # labels = self.studies.size().index
             return list(labels)
 
         return []
@@ -90,6 +93,7 @@ class ClinicalTrialsData:
         """
         if self.curr_group in self.studies:
             values = self.studies.groupby(self.curr_group).size().values
+            # values = self.studies.size().values
             return list(values)
 
         return []
@@ -109,4 +113,4 @@ class ClinicalTrialsData:
     #    pass
 
     def populate_tables(self):
-        pass
+        self.studies = self.ctq.db_query()
