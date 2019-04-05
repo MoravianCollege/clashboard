@@ -1,18 +1,38 @@
-# How to Use Clashboard Interface
+# Clashboard Interface
 -
-## Layout of Clashboard
-* The top left section contains any declared filters to be applied to the chart
-* The top right section contains the Key for the table
-* The top center contains the pie chart for displaying the selected information
-* The bottom section contains the *Delete Row* button, and the drop-down for selecting the grouping variable
+* **replace\_underscore(self, filter\_category)**
+	* **filter\_category**: The name of the filter to be altered
+	* Removes all underscores from **filter\_category**, and replaces them with spaces
 
-## Manipulating Filters
-#### Adding a Filter
-* When the mouse is moved over a section of the pie chart, that section's information is displayed
-* Click on that section to add a filter for the information
-* Now, only data entries fitting the currently selected filters will be displayed
+* **replace\_space(self, filter\_category)**
+ 	* **filter\_category**: The name of the filter to be altered
+	* Removes all spaces from **filter\_category**, and replaces them with underscores
 
-#### Removing a Filter
-* Select any desired filters on the filter list, by checking their respective check boxes
-* To delete the selected filters, click the *Delete Row* button
-* Now, only data entries fitting the remaining filters will be displayed
+* **remove\_filter(self, filter\_category, filter\_name)**
+	* **filter\_category**: The column in the database to be filtered
+	* **filter\_name**: Specific value within specified column to filter on
+	* Removes the filter with the specified category and name from the list of filters, and then reruns the database query
+
+* **apply\_filter(self, filter\_category, filter\_name)**
+	* **filter\_category**: The column in the database to be filtered
+	* **filter\_name**: Specific value within specified column to filter on
+	* Adds a filter with the specified category and name to the list of filters, and then reruns the database query
+
+* **get\_current\_filters(self)**
+	* Returns the list of currently applied filters as a list of human-readable strings
+
+* **set\_group\_by(self, attribute)**
+	* **attribute**: A human-readable string
+	* Converts the **attribute** into its equivalent database value, and sets the data to be grouped by that attribute 
+	
+* **get\_group\_by(self)**
+	* Returns the attribute the data is currently grouped by as a human-readable string
+ 
+* **get\_labels(self)**
+	* Returns each category for grouping the data under the current attribute, as a list of human-readable strings
+ 
+* **get\_values(self)**
+	* Returns a list of integers describing the frequency of each label for the current attribute
+ 
+* **populate\_tables(self)**
+	* Stores a copy of the database table in memory
