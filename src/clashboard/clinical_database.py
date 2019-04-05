@@ -1,6 +1,7 @@
 import pandas as pd
 import os
 import psycopg2
+from dotenv import load_dotenv
 
 
 class ClinicalTrialsQuery:
@@ -9,6 +10,7 @@ class ClinicalTrialsQuery:
         self.sql_command = ''
         self.trials_data = pd.DataFrame()
         self.is_called = False
+        load_dotenv()
         self.hostname = os.getenv('hostname')
         self.port = os.getenv('port')
         self.database = os.getenv('database')
