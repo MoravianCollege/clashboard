@@ -11,22 +11,21 @@ def test_gather_data_missing_group(mock1, mock2):
     assert mock2.called is False
 
 
-@patch('clashboard.clinical_database.query_data')
 @patch('clashboard.clinical_database.update_data')
 @patch('pandas.DataFrame.size')
-def test_gather_data_happy_path_query(query, update, size):
-    data = gather_data('phase', [['phase', 'Phase 1']])
-    assert query.called
-    assert update.called
+def test_gather_data_happy_path_query(update, size):
+    with patch('clashboard.clinical_database.query_data') as query:
+        data = gather_data('study_type', [['phase', 'Phase 1']])
+        assert query.called
     assert size.called
 
 
-@patch('clashboard.clinical_database.query_data')
 @patch('clashboard.clinical_database.update_data')
 @patch('pandas.DataFrame.size')
-def test_gather_data_happy_path_no_query(query, update, size):
-    first = gather_data('phase')
-    assert update.called
+def test_gather_data_happy_path_no_query(update, size):
+    with patch('clashboard.clinical_database.query_data') as query:
+        first = gather_data('phase')
+        assert query.called
     assert size.called
     with patch('clashboard.clinical_database.query_data') as no_query:
         data = gather_data('study_type')
@@ -68,14 +67,3 @@ def test_make_connection(mock):
 def test_fetch_data(mock):
     data = fetch_sql_data('')
     assert mock.called
-
-
-@patch('pandas.DataFrame.groupby')
-def test_update_data(mock):
-    data = update_data()
-    assert mock.called
-
-
-
-
-
