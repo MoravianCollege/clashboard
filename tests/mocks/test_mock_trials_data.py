@@ -1,5 +1,5 @@
 from pathlib import Path
-from tests.mocks.mock_trials_data import MockClinicalTrialsData
+from tests.mocks.motck_trials_data import MockClinicalTrialsData
 
 TEST_DATA_DIR = Path(__file__).resolve().parent.parent / 'data'
 
