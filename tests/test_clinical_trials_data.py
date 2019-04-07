@@ -5,9 +5,10 @@ import pandas as pd
 TEST_DATA_DIR = Path(__file__).resolve().parent / 'data'
 
 
-def mock_populate_tables(self):
-    self.studies = pd.read_csv('{}/trial_test_data.csv'.format(TEST_DATA_DIR))
-    self.curr_group = 'phase'
+def mock_update_data(self, grouping):
+    data = pd.read_csv('{}/trial_test_data.csv'.format(TEST_DATA_DIR))
+    self.studies = data.groupby(grouping).size()
+    self.curr_group = grouping
 
 
 def test_new_instance_produces_empty_data():
@@ -19,10 +20,10 @@ def test_new_instance_produces_empty_data():
 
 
 def set_up_tests(monkeypatch):
-    monkeypatch.setattr(ClinicalTrialsData, 'populate_tables',
-                        mock_populate_tables)
+    monkeypatch.setattr(ClinicalTrialsData, 'update_data',
+                        mock_update_data)
     ctd = ClinicalTrialsData()
-    ctd.populate_tables()
+    ctd.update_data('phase')
     return ctd
 
 
@@ -37,6 +38,7 @@ def test_get_some_data(monkeypatch):
 def test_change_group_by_changes_data(monkeypatch):
     ctd = set_up_tests(monkeypatch)
     ctd.set_group_by('study type')
+    ctd.update_data('study_type')
     assert ctd.get_group_by() == 'study type'
     assert ctd.get_values() == [9, 1]
     labels = ['Interventional', 'Observational [Patient Registry]']
@@ -108,6 +110,7 @@ def test_replace_multiple_underscores(monkeypatch):
 def test_replace_space(monkeypatch):
     ctd = set_up_tests(monkeypatch)
     assert ctd.replace_space('study type') == 'study_type'
+    assert ctd.replace_space('Study Type') == 'study_type'
 
 
 def test_replace_multiple_spaces(monkeypatch):
