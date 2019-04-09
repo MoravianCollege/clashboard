@@ -4,7 +4,7 @@ import dash_table
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output, State
-from clashboard.clinical_trials_data import ClinicalTrialsData as CTD
+from clashboard.clinical_trials_data import ClinicalTrialsData
 import plotly.graph_objs as go
 
 study_type_counts = None
@@ -12,12 +12,10 @@ status_counts = None
 phase_counts = None
 currentGroupBy = None
 count = 0
-
+clash = ClinicalTrialsData()
 Date = '04/05/2019'
-
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
-
 
 app.layout = html.Div(children=[
     html.H1(children='ClinicalTrails.gov Data Exploration'),
@@ -90,10 +88,10 @@ def on_click(click_data, n_clicks, rows, columns, selected_rows, chart_type):
     curr_filter = get_filter(chart_type, click_data)
     if n_clicks > count:
         count += 1
-        CTD.remove_filter(currentGroupBy, curr_filter)
+        clash.remove_filter(currentGroupBy, curr_filter)
         return delete_filter(selected_rows, rows)
     else:
-        CTD.apply_filter(currentGroupBy, curr_filter)
+        clash.apply_filter(currentGroupBy, curr_filter)
         return add_filter(rows, columns, (currentGroupBy + ": " + curr_filter))
 
 
@@ -113,38 +111,52 @@ def delete_filter(selected_rows, rows):
     return rows
 
 
-def add_filter(rows, columns, filter):
-    is_in = check_if_exists(rows, filter)
+def add_filter(rows, columns, curr_filter):
+    is_in = check_if_exists(rows, curr_filter)
     if not is_in:
-        rows.append({c['id']: filter for c in columns})
+        rows.append({c['id']: curr_filter for c in columns})
     return rows
 
 
-def check_if_exists(rows, filter):
+def check_if_exists(rows, curr_filter):
     for row in rows:
-        if row.get('column-0') == filter:
+        if row.get('column-0') == curr_filter:
             return True
     return False
 
 
-@app.callback(Output('my-graph', 'figure'), [Input('dropdown-id', 'value')])
-def update_plot(value):
+@app.callback(Output('my-graph', 'figure'),
+              [Input('dropdown-id', 'value'),
+              Input('chart-type', 'value')])
+def update_plot(value, chart_type):
     global currentGroupBy
-    CTD.set_group_by(value)
-    labels = CTD.get_labels()
-    values = CTD.get_values()
-    title = currentGroupBy
+    clash.set_group_by(value)
+    labels = clash.get_labels()
+    values = clash.get_values()
+    currentGroupBy = value
+    if chart_type == 'bar_chart':
+        return go.Figure(
+                data=[
+                    go.Bar(x=labels, y=values)
 
-    return go.Figure(
-           data=[
-               go.Pie(labels=labels, values=values)
-           ],
-           layout=go.Layout(
-               title=title,
-               showlegend=True,
-               margin=go.layout.Margin(l=40, r=0, t=40, b=30)
-           )
-       )
+                ],
+                layout=go.Layout(
+                    title=currentGroupBy,
+                    showlegend=True,
+                    margin=go.layout.Margin(l=40, r=0, t=40, b=30)
+                )
+            )
+    elif chart_type == 'pie_chart':
+        return go.Figure(
+            data=[
+                go.Pie(labels=labels, values=values)
+            ],
+            layout=go.Layout(
+                title=currentGroupBy,
+                showlegend=True,
+                margin=go.layout.Margin(l=40, r=0, t=40, b=30)
+            )
+        )
 
 
 if __name__ == '__main__':
