@@ -127,25 +127,25 @@ def set_get_group_by_with_space(monkeypatch):
 
 def test_get_dropdown_choices(monkeypatch):
     ctd = set_up_tests(monkeypatch)
-    groupings = ['Study Type', 'Overall Status', 'Phase',
-                 'Enrollment Type', 'Last Known Status']
-    assert ctd.get_group_choices() == groupings
-
-
-def test_get_dropdown_choices_with_filters(monkeypatch):
-    ctd = set_up_tests(monkeypatch)
     groupings = ['Study Type', 'Overall Status',
                  'Enrollment Type', 'Last Known Status']
-    ctd.apply_filter('Phase', 'Phase 1')
     assert ctd.get_group_choices() == groupings
 
 
-def test_add_remove_filters_changes_dropdown(monkeypatch):
+def test_get_dropdown_choices_with_group_by(monkeypatch):
+    ctd = set_up_tests(monkeypatch)
+    groupings = ['Overall Status', 'Phase',
+                 'Enrollment Type', 'Last Known Status']
+    ctd.set_group_by('Study Type')
+    assert ctd.get_group_choices() == groupings
+
+
+def test_change_group_by_changes_dropdown(monkeypatch):
     ctd = set_up_tests(monkeypatch)
     groupings = ['Study Type', 'Phase', 'Enrollment Type', 'Last Known Status']
-    ctd.apply_filter('Overall Status', 'Recruiting')
+    ctd.set_group_by('Overall Status')
     assert ctd.get_group_choices() == groupings
-    new_groupings = ['Study Type', 'Overall Status', 'Phase',
+    new_groupings = ['Study Type', 'Overall Status',
                      'Enrollment Type', 'Last Known Status']
-    ctd.remove_filter('Overall Status', 'Recruiting')
+    ctd.set_group_by('Phase')
     assert ctd.get_group_choices() == new_groupings

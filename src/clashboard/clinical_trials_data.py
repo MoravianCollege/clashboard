@@ -104,11 +104,8 @@ class ClinicalTrialsData:
         return list of human-readable strings
         """
         temp_groupings = []
-        categories = []
-        for category in self.filters:
-            categories.append(category[0])
         for group in self.groupings:
-            if group not in categories:
+            if group != self.curr_group:
                 temp_groupings.append(self.replace_underscore(group))
         return temp_groupings
 
