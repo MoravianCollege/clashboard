@@ -27,7 +27,7 @@ def setup_dropdown(groups):
         group_by.append(curr_dict)
     return group_by
 
-group_by = setup_dropdown(groups)
+ggroup_by = setup_dropdown(groups)
 app.layout = html.Div(children=[
     html.H1(children='ClinicalTrails.gov Data Exploration'),
 
