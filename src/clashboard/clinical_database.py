@@ -40,12 +40,13 @@ def create_query():
     return sql_command
 
 
-# def add_filters(sql_command):
-#     global filters
-#     sql_command += " WHERE " if len(filters) > 0 else ''
-#     for name in filters:
-#         sql_command += name[0] + "='" + name[1] + "'"
-#     return sql_command
+def add_filters(sql_command):
+    global filters
+    sql_command += " WHERE " if len(filters) > 0 else ''
+    for name in filters:
+        sql_command += name[0] + "='" + name[1] + "'"
+    return sql_command
+
 
 
 def make_local_table(table, local=False):
