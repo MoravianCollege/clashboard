@@ -1,5 +1,6 @@
 import pandas as pd
 import copy
+from clashboard.clinical_database import gather_data
 
 
 class ClinicalTrialsData:
@@ -9,13 +10,15 @@ class ClinicalTrialsData:
         self.curr_group = ''
         self.studies = pd.DataFrame()
         self.filters = []
+        self.groupings = ['study_type', 'overall_status', 'phase',
+                          'enrollment_type', 'last_known_status']
 
     def replace_underscore(self, filter_category):
-        filter_category = filter_category.replace("_", " ")
+        filter_category = filter_category.replace("_", " ").title()
         return filter_category
 
     def replace_space(self, filter_category):
-        filter_category = filter_category.replace(" ", "_")
+        filter_category = filter_category.replace(" ", "_").lower()
         return filter_category
 
     def remove_filter(self, filter_category, filter_name):
@@ -30,6 +33,7 @@ class ClinicalTrialsData:
         filter_category = self.replace_space(filter_category)
         try:
             self.filters.remove([filter_category, filter_name])
+            self.update_data(self.curr_group)
         except ValueError:
             pass
 
@@ -44,6 +48,7 @@ class ClinicalTrialsData:
         """
         filter_category = self.replace_space(filter_category)
         self.filters.append([filter_category, filter_name])
+        self.update_data(self.curr_group)
 
     def get_current_filters(self):
         """
@@ -62,6 +67,7 @@ class ClinicalTrialsData:
                human-readable string
         """
         self.curr_group = self.replace_space(attribute)
+        self.update_data(self.curr_group)
 
     def get_group_by(self):
         """
@@ -77,9 +83,8 @@ class ClinicalTrialsData:
         :return:
                list of human-readable strings
         """
-        if self.curr_group in self.studies:
-            labels = self.studies.groupby(self.curr_group).size().index
-            return list(labels)
+        if self.curr_group is self.studies.index.name:
+            return list(self.studies.index)
 
         return []
 
@@ -88,25 +93,21 @@ class ClinicalTrialsData:
         Get the list of integers describing the amounts for each label
         :return: an list of ints
         """
-        if self.curr_group in self.studies:
-            values = self.studies.groupby(self.curr_group).size().values
-            return list(values)
+        if self.curr_group is self.studies.index.name:
+            return list(self.studies.values)
 
         return []
 
-    # Uncomment when tested and implemented
-    # def get_variables(self):
-    #    """
-    #    Get the variables describing the options for displaying data
-    #    :return:
-    #           a list of dictionaries containing
-    #           the label for human-readable display
-    #           and the corresponding string in terms
-    #           of the XML Schema
-    #    ex - {'label': 'Study Type', 'value': 'study_type'}
-    #         {'Study Type': 'study_type'}
-    #    """
-    #    pass
+    def get_group_choices(self):
+        """
+        bad name right now
+        return list of human-readable strings
+        """
+        temp_groupings = []
+        for group in self.groupings:
+            if group != self.curr_group:
+                temp_groupings.append(self.replace_underscore(group))
+        return temp_groupings
 
-    def populate_tables(self):
-        pass
+    def update_data(self, grouping):
+        self.studies = gather_data(grouping, self.filters)
