@@ -1,10 +1,7 @@
 #!/usr/bin/env bash
 
-#retrieval_date=$(date +%Y%m%d)
-#retrieval_day=$(date +%d)
-
-retrieval_date='20190408'
-retrieval_day='08'
+retrieval_date=$(date +%Y%m%d)
+retrieval_day=$(date +%d)
 
 url="https://aact.ctti-clinicaltrials.org/static/static_db_copies/daily/${retrieval_date}_clinical_trials.zip"
 response=$(curl -sL -w "%{http_code}" -I ${url} -o /dev/null)
