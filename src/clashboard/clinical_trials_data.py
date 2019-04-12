@@ -1,4 +1,6 @@
 import pandas as pd
+import copy
+from clashboard.clinical_database import gather_data
 
 
 class ClinicalTrialsData:
@@ -7,37 +9,56 @@ class ClinicalTrialsData:
         self.type_counts = None
         self.curr_group = ''
         self.studies = pd.DataFrame()
+        self.filters = []
+        self.groupings = ['study_type', 'overall_status', 'phase',
+                          'enrollment_type', 'last_known_status']
 
-    # Uncomment when tested and implemented
-    # def remove_filter(self, filter_category, filter_name):
-    #    """
-    #    Removes a specified filter from the list of filters,
-    #       and re-runs the query
-    #    :param filter_category:
-    #           the column in the DB that the user wants to filter
-    #    :param filter_name:
-    #           the specific value to filter on in that column
-    #    """
-    #    pass
+    def replace_underscore(self, filter_category):
+        filter_category = filter_category.replace("_", " ").title()
+        return filter_category
 
-    # Uncomment when tested and implemented
-    # def apply_filter(self, filter_category, filter_name):
-    #    """
-    #    Adds the specified filter to the list of filters,
-    #       and re-runs the current query
-    #    :param filter_category:
-    #           the column in the DB that the user wants to filter
-    #    :param filter_name:
-    #           the specific value to filter on in that column
-    #    """
-    #    pass
+    def replace_space(self, filter_category):
+        filter_category = filter_category.replace(" ", "_").lower()
+        return filter_category
+
+    def remove_filter(self, filter_category, filter_name):
+        """
+        Removes a specified filter from the list of filters,
+           and re-runs the query
+        :param filter_category:
+               the column in the DB that the user wants to filter
+        :param filter_name:
+               the specific value to filter on in that column
+        """
+        filter_category = self.replace_space(filter_category)
+        try:
+            self.filters.remove([filter_category, filter_name])
+            self.update_data(self.curr_group)
+        except ValueError:
+            pass
+
+    def apply_filter(self, filter_category, filter_name):
+        """
+        Adds the specified filter to the list of filters,
+           and re-runs the current query
+        :param filter_category:
+               the column in the DB that the user wants to filter
+        :param filter_name:
+               the specific value to filter on in that column
+        """
+        filter_category = self.replace_space(filter_category)
+        self.filters.append([filter_category, filter_name])
+        self.update_data(self.curr_group)
 
     def get_current_filters(self):
         """
         Get the list of currently applied filters
         :return: the list of human-readable strings
         """
-        return []
+        new_filters = copy.deepcopy(self.filters)
+        for x in new_filters:
+            x[0] = self.replace_underscore(x[0])
+        return new_filters
 
     def set_group_by(self, attribute):
         """
@@ -45,14 +66,15 @@ class ClinicalTrialsData:
         :param attribute:
                human-readable string
         """
-        self.curr_group = attribute
+        self.curr_group = self.replace_space(attribute)
+        self.update_data(self.curr_group)
 
     def get_group_by(self):
         """
         Get the variable currently used to group the data
         :return: a human-readable string
         """
-        return self.curr_group
+        return self.replace_underscore(self.curr_group)
 
     def get_labels(self):
         """
@@ -61,9 +83,8 @@ class ClinicalTrialsData:
         :return:
                list of human-readable strings
         """
-        if self.curr_group in self.studies:
-            labels = self.studies.groupby(self.get_group_by()).size().index
-            return list(labels)
+        if self.curr_group is self.studies.index.name:
+            return list(self.studies.index)
 
         return []
 
@@ -72,24 +93,21 @@ class ClinicalTrialsData:
         Get the list of integers describing the amounts for each label
         :return: an list of ints
         """
-        if self.curr_group in self.studies:
-            values = self.studies.groupby(self.get_group_by()).size().values
-            return list(values)
+        if self.curr_group is self.studies.index.name:
+            return list(self.studies.values)
 
         return []
 
-    # Uncomment when tested and implemented
-    # def get_variables(self):
-    #    """
-    #    Get the variables describing the options for displaying data
-    #    :return:
-    #           a list of dictionaries containing
-    #           the label for human-readable display
-    #           and the corresponding string in terms
-    #           of the XML Schema
-    #    ex - {'label': 'Study Type', 'value': 'study_type'}
-    #    """
-    #    pass
+    def get_group_choices(self):
+        """
+        bad name right now
+        return list of human-readable strings
+        """
+        temp_groupings = []
+        for group in self.groupings:
+            if group != self.curr_group:
+                temp_groupings.append(self.replace_underscore(group))
+        return temp_groupings
 
-    def populate_tables(self):
-        pass
+    def update_data(self, grouping):
+        self.studies = gather_data(grouping, self.filters)
