@@ -76,6 +76,20 @@ def test_update_data(mock):
     assert mock.called
 
 
+def test_add_no_filters():
+    assert 'Filter' == add_filters('Filter')
+
+
+@patch('clashboard.clinical_database.query_data')
+@patch('clashboard.clinical_database.update_data')
+@patch('pandas.DataFrame.size')
+def test_add_one_filter(mock_query, mock_update, mock_size):
+    mock_data = gather_data('study_type', [['Phase', 'Phase 1']])
+    initial_query = 'SELECT * FROM studies'
+    full_query = initial_query + " WHERE Phase='Phase 1'"
+    assert full_query == add_filters(initial_query)
+
+
 
 
 
