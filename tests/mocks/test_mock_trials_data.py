@@ -9,7 +9,7 @@ def test_data_read_from_standard_file():
     mctd = MockClinicalTrialsData(file_path)
     mctd.update_data('study_type')
     mctd.set_group_by('study type')
-    assert mctd.get_group_by() == 'study type'
+    assert mctd.get_group_by() == 'Study Type'
     assert mctd.get_values() == [9, 1]
     labels = ['Interventional', 'Observational [Patient Registry]']
     assert mctd.get_labels() == labels
