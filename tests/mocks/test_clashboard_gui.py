@@ -1,4 +1,4 @@
-from clashboard.clashboard_gui import add_filter, delete_filter, get_filter,check_if_exists
+from clashboard.clashboard_gui import add_filter, delete_filter, get_filter,check_if_exists, setup_dropdown
 
 columns = [{'name': 'Filters', 'id': 'column-0', 'deletable': False, 'editable_name': False}]
 
@@ -73,3 +73,13 @@ def test_if_in_not_in():
     rows = [{'column-0': 'Observational [Patient Registry]: Study Type'}]
     assert not check_if_exists(rows, "Interventional: Study Type")
 
+
+def test_dropdown_setup():
+    groups = ["Study Type", "Overall Status", "Phase", "Enrollment Type", "Overall Status"]
+    group_by = setup_dropdown(groups)
+    print("group_by:" + str(group_by))
+    assert group_by == [{'label': 'Study Type', 'value': 'Study Type'},
+                        {'label': 'Overall Status', 'value': 'Overall Status'},
+                        {'label': 'Phase', 'value': 'Phase'},
+                        {'label': 'Enrollment Type', 'value': 'Enrollment Type'},
+                        {'label': 'Overall Status', 'value': 'Overall Status'}]

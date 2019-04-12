@@ -13,9 +13,21 @@ phase_counts = None
 count = 0
 clash = ClinicalTrialsData()
 Date = '04/05/2019'
-external_stylesheets = ['https://codepen.io/JPolich/pen/XQaJWv.css']
+group_by = []
+groups = clash.get_group_choices()
+
+external_stylesheets = ['https://codepen.io/JPolich/pen/MRvYJM.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
-#https://media.giphy.com/media/54SD80eSBeLM4/giphy.gif
+
+
+def setup_dropdown(groups):
+    group_by = []
+    for group in groups:
+        curr_dict = {'label': group, 'value': group}
+        group_by.append(curr_dict)
+    return group_by
+
+group_by = setup_dropdown(groups)
 app.layout = html.Div(children=[
     html.H1(children='ClinicalTrails.gov Data Exploration'),
 
@@ -61,14 +73,7 @@ app.layout = html.Div(children=[
     ),
 
     dcc.Dropdown(
-        options=[
-            {'label': 'Study Type', 'value': 'Study Type'},
-            {'label': 'Overall Status', 'value': 'Overall Status'},
-            {'label': 'Phase', 'value': 'Phase'},
-            {'label': 'Enrollment Type', 'value': 'Enrollment Type'},
-            {'label': 'Last Known Status', 'value': 'Last Known Status'}
-
-        ],
+        options=group_by,
         value='study_type',
         id='dropdown-id',
     ),
@@ -129,13 +134,16 @@ def check_if_exists(rows, curr_filter):
     return False
 
 
+
 @app.callback(Output('my-graph', 'figure'),
               [Input('dropdown-id', 'value'),
               Input('chart-type', 'value')])
 def update_plot(value, chart_type):
     clash.set_group_by(value)
+    clash.get_group_choices()
     labels = clash.get_labels()
     values = clash.get_values()
+    setup_dropdown()
     if chart_type == 'bar_chart':
         return go.Figure(
                 data=[
