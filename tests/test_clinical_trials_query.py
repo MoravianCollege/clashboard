@@ -84,6 +84,9 @@ def test_add_no_filters():
 @patch('pandas.DataFrame.size')
 def test_add_one_filter(mock_query, mock_update, mock_size):
     mock_data = gather_data('study_type', [['Phase', 'Phase 1']])
+    assert mock_query.called
+    assert mock_update.called
+    assert mock_size.called
     initial_query = 'SELECT * FROM studies'
     full_query = initial_query + " WHERE Phase='Phase 1'"
     assert full_query == add_filters(initial_query)
