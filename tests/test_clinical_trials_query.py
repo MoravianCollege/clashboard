@@ -11,22 +11,21 @@ def test_gather_data_missing_group(mock1, mock2):
     assert mock2.called is False
 
 
-@patch('clashboard.clinical_database.query_data')
 @patch('clashboard.clinical_database.update_data')
 @patch('pandas.DataFrame.size')
-def test_gather_data_happy_path_query(query, update, size):
-    data = gather_data('phase', [['phase', 'Phase 1']])
-    assert query.called
-    assert update.called
+def test_gather_data_happy_path_query(update, size):
+    with patch('clashboard.clinical_database.query_data') as query:
+        data = gather_data('study_type', [['phase', 'Phase 1']])
+        assert query.called
     assert size.called
 
 
-@patch('clashboard.clinical_database.query_data')
 @patch('clashboard.clinical_database.update_data')
 @patch('pandas.DataFrame.size')
-def test_gather_data_happy_path_no_query(query, update, size):
-    first = gather_data('phase')
-    assert update.called
+def test_gather_data_happy_path_no_query(update, size):
+    with patch('clashboard.clinical_database.query_data') as query:
+        first = gather_data('phase')
+        assert query.called
     assert size.called
     with patch('clashboard.clinical_database.query_data') as no_query:
         data = gather_data('study_type')
@@ -88,8 +87,6 @@ def test_add_one_filter(mock_query, mock_update, mock_size):
     initial_query = 'SELECT * FROM studies'
     full_query = initial_query + " WHERE Phase='Phase 1'"
     assert full_query == add_filters(initial_query)
-
-
 
 
 

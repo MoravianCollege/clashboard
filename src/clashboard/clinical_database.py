@@ -1,9 +1,11 @@
 import pandas as pd
 import os
 import psycopg2
+from dotenv import load_dotenv
 
 
 trials_data = pd.DataFrame()
+load_dotenv()
 hostname = os.getenv('hostname')
 port = os.getenv('port')
 database = os.getenv('database')
@@ -24,8 +26,7 @@ def gather_data(new_group, new_filters=[]):
     group = new_group
     if need_query:
         query_data()
-    update_data()
-    return trials_data.size()
+    return update_data().size()
 
 
 def query_data():
@@ -62,10 +63,10 @@ def make_connection():
 
 
 def fetch_sql_data(sql_command):
-    global conn
-    return pd.read_sql(sql=sql_command, con=conn)
+    global conn, trials_data
+    trials_data = pd.read_sql(sql=sql_command, con=conn)
 
 
 def update_data():
     global group, trials_data
-    return trials_data.groupby([group])
+    return trials_data.groupby(group)

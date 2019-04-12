@@ -11,5 +11,5 @@ class MockClinicalTrialsData(ClinicalTrialsData):
         super().__init__()
         self.file = filename
 
-    def populate_tables(self):
-        self.studies = pd.read_csv(self.file)
+    def update_data(self, group):
+        self.studies = pd.read_csv(self.file).groupby(group).size()
