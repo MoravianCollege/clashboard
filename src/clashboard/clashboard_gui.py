@@ -10,13 +10,12 @@ import plotly.graph_objs as go
 study_type_counts = None
 status_counts = None
 phase_counts = None
-currentGroupBy = None
 count = 0
 clash = ClinicalTrialsData()
 Date = '04/05/2019'
-external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+external_stylesheets = ['https://codepen.io/JPolich/pen/XQaJWv.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
-
+#https://media.giphy.com/media/54SD80eSBeLM4/giphy.gif
 app.layout = html.Div(children=[
     html.H1(children='ClinicalTrails.gov Data Exploration'),
 
@@ -63,9 +62,12 @@ app.layout = html.Div(children=[
 
     dcc.Dropdown(
         options=[
-            {'label': 'Study Type', 'value': 'study_type'},
-            {'label': 'Status', 'value': 'overall_status'},
-            {'label': 'Phase', 'value': 'phase'}
+            {'label': 'Study Type', 'value': 'Study Type'},
+            {'label': 'Overall Status', 'value': 'Overall Status'},
+            {'label': 'Phase', 'value': 'Phase'},
+            {'label': 'Enrollment Type', 'value': 'Enrollment Type'},
+            {'label': 'Last Known Status', 'value': 'Last Known Status'}
+
         ],
         value='study_type',
         id='dropdown-id',
@@ -85,14 +87,15 @@ app.layout = html.Div(children=[
      State('chart-type', 'value')])
 def on_click(click_data, n_clicks, rows, columns, selected_rows, chart_type):
     global count
+    current_group_by = clash.get_group_by()
     curr_filter = get_filter(chart_type, click_data)
     if n_clicks > count:
         count += 1
-        clash.remove_filter(currentGroupBy, curr_filter)
+        clash.remove_filter(current_group_by, curr_filter)
         return delete_filter(selected_rows, rows)
     else:
-        clash.apply_filter(currentGroupBy, curr_filter)
-        return add_filter(rows, columns, (currentGroupBy + ": " + curr_filter))
+        clash.apply_filter(current_group_by, curr_filter)
+        return add_filter(rows, columns, (current_group_by + ": " + curr_filter))
 
 
 def get_filter(chart_type, click_data):
@@ -102,6 +105,7 @@ def get_filter(chart_type, click_data):
         return click_data.get("points")[0].get("x")
     else:
         return ""
+
 
 
 def delete_filter(selected_rows, rows):
@@ -129,11 +133,9 @@ def check_if_exists(rows, curr_filter):
               [Input('dropdown-id', 'value'),
               Input('chart-type', 'value')])
 def update_plot(value, chart_type):
-    global currentGroupBy
     clash.set_group_by(value)
     labels = clash.get_labels()
     values = clash.get_values()
-    currentGroupBy = value
     if chart_type == 'bar_chart':
         return go.Figure(
                 data=[
@@ -141,7 +143,7 @@ def update_plot(value, chart_type):
 
                 ],
                 layout=go.Layout(
-                    title=currentGroupBy,
+                    title=clash.get_group_by(),
                     showlegend=True,
                     margin=go.layout.Margin(l=40, r=0, t=40, b=30)
                 )
@@ -152,7 +154,7 @@ def update_plot(value, chart_type):
                 go.Pie(labels=labels, values=values)
             ],
             layout=go.Layout(
-                title=currentGroupBy,
+                title=clash.get_group_by(),
                 showlegend=True,
                 margin=go.layout.Margin(l=40, r=0, t=40, b=30)
             )
