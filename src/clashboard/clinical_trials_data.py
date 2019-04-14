@@ -1,6 +1,6 @@
 import pandas as pd
 import copy
-from clashboard.clinical_database import gather_data
+from clashboard.clinical_database import ClinicalDataCollector
 
 
 class ClinicalTrialsData:
@@ -10,6 +10,7 @@ class ClinicalTrialsData:
         self.curr_group = ''
         self.studies = pd.DataFrame()
         self.filters = []
+        self.cdc = ClinicalDataCollector()
         self.groupings = ['study_type', 'overall_status', 'phase',
                           'enrollment_type', 'last_known_status']
 
@@ -110,4 +111,4 @@ class ClinicalTrialsData:
         return temp_groupings
 
     def update_data(self, grouping):
-        self.studies = gather_data(grouping, self.filters)
+        self.studies = self.cdc.gather_data(grouping, self.filters)
