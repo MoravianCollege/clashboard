@@ -11,9 +11,11 @@ class ClinicalTrialsData:
         self.studies = pd.DataFrame()
         self.filters = []
         self.cdc = ClinicalDataCollector()
+        self.groupings = ['study_type', 'overall_status', 'phase',
+                          'enrollment_type', 'last_known_status']
 
     def replace_underscore(self, filter_category):
-        filter_category = filter_category.replace("_", " ")
+        filter_category = filter_category.replace("_", " ").title()
         return filter_category
 
     def replace_space(self, filter_category):
@@ -96,6 +98,17 @@ class ClinicalTrialsData:
             return list(self.studies.values)
 
         return []
+
+    def get_group_choices(self):
+        """
+        bad name right now
+        return list of human-readable strings
+        """
+        temp_groupings = []
+        for group in self.groupings:
+            if group != self.curr_group:
+                temp_groupings.append(self.replace_underscore(group))
+        return temp_groupings
 
     def update_data(self, grouping):
         self.studies = self.cdc.gather_data(grouping, self.filters)
