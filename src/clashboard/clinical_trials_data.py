@@ -1,6 +1,6 @@
 import pandas as pd
 import copy
-from clashboard.clinical_database import gather_data
+from clashboard.clinical_database import ClinicalDataCollector
 
 
 class ClinicalTrialsData:
@@ -10,6 +10,7 @@ class ClinicalTrialsData:
         self.curr_group = ''
         self.studies = pd.DataFrame()
         self.filters = []
+        self.cdc = ClinicalDataCollector()
 
     def replace_underscore(self, filter_category):
         filter_category = filter_category.replace("_", " ")
@@ -97,4 +98,4 @@ class ClinicalTrialsData:
         return []
 
     def update_data(self, grouping):
-        self.studies = gather_data(grouping, self.filters)
+        self.studies = self.cdc.gather_data(grouping, self.filters)
