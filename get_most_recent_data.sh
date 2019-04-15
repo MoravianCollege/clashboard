@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+count='ls -1 *.zip *. 2>/dev/null | wc -l'
+if [[ ${count} != 0 ]]; then
+    rm *.zip *.dmp
+fi
+
 retrieval_date=$(date +%Y%m%d)
 retrieval_day=$(date +%d)
 
