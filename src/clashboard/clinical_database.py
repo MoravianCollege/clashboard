@@ -18,12 +18,14 @@ class ClinicalDataCollector:
         self.group = None
         self.trials_data = pd.DataFrame()
 
-    def gather_data(self, new_group='', new_filters=[]):
+    def gather_data(self, new_group='', new_filters=None):
+        if new_filters is None:
+            new_filters = []
         if new_group == '':
             return None
         need_query = (self.group is None) or \
                      (self.filters != new_filters)
-        self.filters = new_filters
+        self.filters = new_filters[:]
         self.group = new_group
         if need_query:
             self.query_data()
