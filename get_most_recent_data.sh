@@ -23,3 +23,5 @@ while true; do
         break
     fi
 done
+
+unzip -p ${retrieval_date}_clinical_trials >postgres_data.dmp
