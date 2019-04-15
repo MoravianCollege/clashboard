@@ -1,6 +1,6 @@
 import pandas as pd
 import copy
-from clashboard.clinical_database import gather_data
+from clashboard.clinical_database import ClinicalDataCollector
 
 
 class ClinicalTrialsData:
@@ -10,9 +10,12 @@ class ClinicalTrialsData:
         self.curr_group = ''
         self.studies = pd.DataFrame()
         self.filters = []
+        self.cdc = ClinicalDataCollector()
+        self.groupings = ['study_type', 'overall_status', 'phase',
+                          'enrollment_type', 'last_known_status']
 
     def replace_underscore(self, filter_category):
-        filter_category = filter_category.replace("_", " ")
+        filter_category = filter_category.replace("_", " ").title()
         return filter_category
 
     def replace_space(self, filter_category):
@@ -96,5 +99,16 @@ class ClinicalTrialsData:
 
         return []
 
+    def get_group_choices(self):
+        """
+        bad name right now
+        return list of human-readable strings
+        """
+        temp_groupings = []
+        for group in self.groupings:
+            if group != self.curr_group:
+                temp_groupings.append(self.replace_underscore(group))
+        return temp_groupings
+
     def update_data(self, grouping):
-        self.studies = gather_data(grouping, self.filters)
+        self.studies = self.cdc.gather_data(grouping, self.filters)
