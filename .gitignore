@@ -6,4 +6,5 @@
 __pycache__/
 *.egg-info/
 .coverage
-
+/zip_extract_contents
+*.zip
