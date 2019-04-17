@@ -178,7 +178,9 @@ def mock_recent_date():
     time_data = pd.DataFrame(data, columns=['updated_at'])
     return time_data
 
+
 time_data = mock_recent_date()
+
 
 @patch('pandas.read_sql', side_effect=[time_data])
 @patch(class_location + 'make_connection')
