@@ -24,9 +24,13 @@ while true; do
         continue
     else
         echo "Most recent data found for ${retrieval_date}."
-        results=$(wget ${url})
+        results=$(curl ${url} -O)
         break
     fi
 done
 
-unzip -p ${retrieval_date}_clinical_trials >postgres_data.dmp
+unzip -o ${retrieval_date}_clinical_trials.zip
+
+dropdb aact
+createdb aact
+pg_restore -e -v -O -x --dbname=aact --no-owner --clean --create postgres_data.dmp
