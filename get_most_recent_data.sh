@@ -32,6 +32,6 @@ done
 mkdir zip_extract_contents
 unzip -o ${retrieval_date}_clinical_trials.zip -d zip_extract_contents
 
-#dropdb aact
-#createdb aact
-#pg_restore -e -v -O -x --dbname=aact --no-owner --clean --create /zip_extract_contents/postgres_data.dmp
+dropdb aact
+createdb aact
+pg_restore -e -v -O -x --dbname=aact --no-owner --clean --create /zip_extract_contents/postgres_data.dmp
