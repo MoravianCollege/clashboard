@@ -70,9 +70,11 @@ class ClinicalDataCollector:
     def get_most_recent_date(self):
         if self.conn is None:
             self.make_connection()
-        sql_command = "SELECT updated_at from " + self.make_local_table('studies', False)
+        sql_command = "SELECT updated_at from " + \
+                      self.make_local_table('studies', False)
         recent_data = pd.read_sql(sql_command, con=self.conn)
         timestamp = recent_data['updated_at'][0]
         datetime_object = time.mktime(
-            datetime.strptime(str(timestamp), "%Y-%m-%d %H:%M:%S.%f").timetuple())
+            datetime.strptime(str(timestamp),
+                              "%Y-%m-%d %H:%M:%S.%f").timetuple())
         return datetime_object
