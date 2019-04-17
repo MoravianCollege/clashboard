@@ -3,7 +3,8 @@ from unittest.mock import patch
 from pathlib import Path
 import pandas as pd
 import os
-
+from datetime import datetime
+import time
 
 class_location = 'clashboard.clinical_database.ClinicalDataCollector.'
 TEST_DATA_DIR = Path(__file__).resolve().parent / 'data'
@@ -29,6 +30,11 @@ def proper_setup():
 
 def mock_update_data():
     return pd.read_csv('{}/trial_test_data.csv'.format(TEST_DATA_DIR))
+
+
+def mock_get_time():
+    df = pd.read_csv('{}/trial_test_data.csv'.format(TEST_DATA_DIR))
+    return pd.DataFrame(df, columns=['updated_at'])
 
 
 @patch('psycopg2.connect')
@@ -170,3 +176,19 @@ def test_update_grouping(mock_groupby):
     assert cdc.update_data() == 'grouped'
     assert mock_groupby.called
     mock_groupby.assert_called_with('study_type')
+
+
+@patch('pandas.read_sql', side_effect=[mock_get_time()])
+@patch(class_location + 'make_connection')
+@patch(class_location + 'make_local_table', side_effect=['studies'])
+def test_recent_date_calls(mock_sql, mock_conn, mock_local_table):
+    mock_data = mock_update_data()
+    mock_data_date = pd.DataFrame(mock_data, columns=['updated_at'])
+    mock_timestamp = time.mktime(datetime.strptime(
+        mock_data_date['updated_at'][0], "%Y-%m-%d %H:%M:%S.%f").timetuple())
+    cdc = proper_setup()
+    recent_date = cdc.get_most_recent_date()
+    assert mock_sql.called
+    assert mock_conn.called
+    assert mock_local_table.called
+    assert recent_date == datetime.fromtimestamp(mock_timestamp)
