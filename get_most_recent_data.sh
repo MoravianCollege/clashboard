@@ -2,7 +2,7 @@
 
 count='ls -1 *.zip *. 2>/dev/null | wc -l'
 if [[ ${count} != 0 ]]; then
-    rm *.zip *.dmp
+    rm *.zip
 fi
 
 retrieval_date=$(date +%Y%m%d)
@@ -29,8 +29,9 @@ while true; do
     fi
 done
 
-unzip -o ${retrieval_date}_clinical_trials.zip
+mkdir zip_extract_contents
+unzip -o ${retrieval_date}_clinical_trials.zip -d zip_extract_contents
 
 dropdb aact
 createdb aact
-pg_restore -e -v -O -x --dbname=aact --no-owner --clean --create postgres_data.dmp
+pg_restore -e -v -O -x --dbname=aact --no-owner --clean --create /zip_extract_contents/postgres_data.dmp
