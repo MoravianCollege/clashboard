@@ -3,8 +3,10 @@
 ## Layout of Clashboard
 * The top left section contains any declared filters to be applied to the chart, and a drop-down list to select whether to display a pie chart or bar chart.
 * The top right section contains the Key for the table.
-* The top center contains the pie chart for displaying the selected information.
-* The bottom section contains the *Delete Row* button, and the drop-down for selecting the grouping variable.
+* The top center contains the pie chart for displaying the selected information, and a label stating what the current grouping variable is.
+* The bottom section contains the *Delete Row* button, the drop-down for selecting the grouping variable, and the date when the data was last updated.
+
+
 
 ## Manipulating Filters
 #### Adding a Filter
