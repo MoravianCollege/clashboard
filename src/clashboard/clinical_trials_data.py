@@ -1,5 +1,6 @@
 import pandas as pd
 import copy
+from datetime import date
 from clashboard.clinical_database import ClinicalDataCollector
 
 
@@ -101,14 +102,24 @@ class ClinicalTrialsData:
 
     def get_group_choices(self):
         """
-        bad name right now
-        return list of human-readable strings
+        Gets the potential choices for grouping the data
+        :return: list of human-readable potential groupings
         """
         temp_groupings = []
         for group in self.groupings:
             if group != self.curr_group:
                 temp_groupings.append(self.replace_underscore(group))
         return temp_groupings
+
+    def get_download_date(self):
+        """
+        Gets the most recent download date for the data
+        :return: string that represents the date
+        """
+        download_date = self.cdc.get_most_recent_date()
+        return "{}/{}/{}".format(download_date.month,
+                                 download_date.day,
+                                 download_date.year)
 
     def update_data(self, grouping):
         self.studies = self.cdc.gather_data(grouping, self.filters)
