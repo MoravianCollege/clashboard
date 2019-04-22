@@ -16,7 +16,7 @@ Date = '04/05/2019'
 group_by = []
 groups = clash.get_group_choices()
 
-external_stylesheets = ['https://codepen.io/JPolich/pen/MRvYJM.css']
+external_stylesheets = ['https://codepen.io/JPolich/pen/KYyRJG.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 
@@ -27,7 +27,8 @@ def setup_dropdown(groups):
         group_by.append(curr_dict)
     return group_by
 
-ggroup_by = setup_dropdown(groups)
+
+group_by = setup_dropdown(groups)
 app.layout = html.Div(children=[
     html.H1(children='ClinicalTrails.gov Data Exploration'),
 
@@ -89,15 +90,18 @@ app.layout = html.Div(children=[
     [State('adding-rows-table', 'data'),
      State('adding-rows-table', 'columns'),
      State('adding-rows-table', 'selected_rows'),
-     State('chart-type', 'value')])
-def on_click(click_data, n_clicks, rows, columns, selected_rows, chart_type):
+     State('chart-type', 'value'),
+     State('dropdown-id', 'value')])
+def on_click(click_data, n_clicks, rows, columns, selected_rows, chart_type, value):
     global count
     current_group_by = clash.get_group_by()
     curr_filter = get_filter(chart_type, click_data)
     if n_clicks > count:
         count += 1
-        clash.remove_filter(current_group_by, curr_filter)
+        data = rows[selected_rows[0]]['column-0'].split(':')
+        clash.remove_filter(str(data[0].strip()), str(data[1].strip()))
         return delete_filter(selected_rows, rows)
+
     else:
         clash.apply_filter(current_group_by, curr_filter)
         return add_filter(rows, columns, (current_group_by + ": " + curr_filter))
@@ -110,7 +114,6 @@ def get_filter(chart_type, click_data):
         return click_data.get("points")[0].get("x")
     else:
         return ""
-
 
 
 def delete_filter(selected_rows, rows):
@@ -134,16 +137,13 @@ def check_if_exists(rows, curr_filter):
     return False
 
 
-
 @app.callback(Output('my-graph', 'figure'),
               [Input('dropdown-id', 'value'),
               Input('chart-type', 'value')])
 def update_plot(value, chart_type):
     clash.set_group_by(value)
-    clash.get_group_choices()
     labels = clash.get_labels()
     values = clash.get_values()
-    setup_dropdown()
     if chart_type == 'bar_chart':
         return go.Figure(
                 data=[
@@ -167,6 +167,8 @@ def update_plot(value, chart_type):
                 margin=go.layout.Margin(l=40, r=0, t=40, b=30)
             )
         )
+    else:
+        return {}
 
 
 if __name__ == '__main__':
