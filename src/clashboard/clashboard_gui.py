@@ -92,10 +92,9 @@ app.layout = html.Div(children=[
     [State('adding-rows-table', 'data'),
      State('adding-rows-table', 'columns'),
      State('adding-rows-table', 'selected_rows'),
-     State('chart-type', 'value'),
-     State('dropdown-id', 'value')])
+     State('chart-type', 'value')])
 def on_click(click_data, n_clicks, rows, columns,
-             selected_rows, chart_type, value):
+             selected_rows, chart_type):
     global count
     current_group_by = clash.get_group_by()
     curr_filter = get_filter(chart_type, click_data)
