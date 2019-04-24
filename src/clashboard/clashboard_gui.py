@@ -58,7 +58,9 @@ app.layout = html.Div(children=[
             row_selectable='single',
 
         ),
-        style={'width': '30%', 'display': 'inline-block', 'vertical-align': 'top'},
+        style={'width': '30%',
+               'display': 'inline-block',
+               'vertical-align': 'top'},
     ),
     html.Div(
         dcc.Graph(
@@ -103,7 +105,8 @@ def on_click(click_data, n_clicks, rows, columns, selected_rows, chart_type):
 
     else:
         clash.apply_filter(current_group_by, curr_filter)
-        return add_filter(rows, columns, (current_group_by + ": " + curr_filter))
+        return add_filter(rows, columns,
+                          (current_group_by + ": " + curr_filter))
 
 
 def get_filter(chart_type, click_data):
