@@ -1,5 +1,6 @@
 from clashboard.clinical_trials_data import ClinicalTrialsData
 from pathlib import Path
+from datetime import date
 import pandas as pd
 
 TEST_DATA_DIR = Path(__file__).resolve().parent / 'data'
@@ -9,6 +10,13 @@ def mock_update_data(self, grouping):
     data = pd.read_csv('{}/trial_test_data.csv'.format(TEST_DATA_DIR))
     self.studies = data.groupby(grouping).size()
     self.curr_group = grouping
+
+
+def mock_get_download_date(self):
+    download_date = date(2019, 4, 13)
+    return "{}/{}/{}".format(download_date.month,
+                             download_date.day,
+                             download_date.year)
 
 
 def test_new_instance_produces_empty_data():
@@ -22,6 +30,8 @@ def test_new_instance_produces_empty_data():
 def set_up_tests(monkeypatch):
     monkeypatch.setattr(ClinicalTrialsData, 'update_data',
                         mock_update_data)
+    monkeypatch.setattr(ClinicalTrialsData, 'get_download_date',
+                        mock_get_download_date)
     ctd = ClinicalTrialsData()
     ctd.update_data('phase')
     return ctd
@@ -149,3 +159,8 @@ def test_change_group_by_changes_dropdown(monkeypatch):
                      'Enrollment Type', 'Last Known Status']
     ctd.set_group_by('Phase')
     assert ctd.get_group_choices() == new_groupings
+
+
+def test_get_download_date(monkeypatch):
+    ctd = set_up_tests(monkeypatch)
+    assert ctd.get_download_date() == "4/13/2019"

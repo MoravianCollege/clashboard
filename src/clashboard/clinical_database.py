@@ -2,6 +2,8 @@ from dotenv import load_dotenv
 import pandas as pd
 import psycopg2
 import os
+from datetime import datetime
+import time
 
 
 class ClinicalDataCollector:
@@ -18,12 +20,14 @@ class ClinicalDataCollector:
         self.group = None
         self.trials_data = pd.DataFrame()
 
-    def gather_data(self, new_group='', new_filters=[]):
+    def gather_data(self, new_group='', new_filters=None):
+        if new_filters is None:
+            new_filters = []
         if new_group == '':
             return None
         need_query = (self.group is None) or \
                      (self.filters != new_filters)
-        self.filters = new_filters
+        self.filters = new_filters[:]
         self.group = new_group
         if need_query:
             self.query_data()
@@ -62,3 +66,15 @@ class ClinicalDataCollector:
 
     def update_data(self):
         return self.trials_data.groupby(self.group)
+
+    def get_most_recent_date(self):
+        if self.conn is None:
+            self.make_connection()
+        sql_command = "SELECT updated_at from " + \
+                      self.make_local_table('studies', False)
+        recent_data = pd.read_sql(sql_command, con=self.conn)
+        timestamp = recent_data['updated_at'][0]
+        datetime_object = time.mktime(
+            datetime.strptime(str(timestamp),
+                              "%Y-%m-%d %H:%M:%S.%f").timetuple())
+        return datetime_object
