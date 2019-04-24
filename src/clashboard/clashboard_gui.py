@@ -58,7 +58,9 @@ app.layout = html.Div(children=[
             row_selectable='single',
 
         ),
-        style={'width': '30%', 'display': 'inline-block', 'vertical-align': 'top'},
+        style={'width': '30%',
+               'display': 'inline-block',
+               'vertical-align': 'top'},
     ),
     html.Div(
         dcc.Graph(
@@ -92,7 +94,8 @@ app.layout = html.Div(children=[
      State('adding-rows-table', 'selected_rows'),
      State('chart-type', 'value'),
      State('dropdown-id', 'value')])
-def on_click(click_data, n_clicks, rows, columns, selected_rows, chart_type, value):
+def on_click(click_data, n_clicks, rows, columns,
+             selected_rows, chart_type, value):
     global count
     current_group_by = clash.get_group_by()
     curr_filter = get_filter(chart_type, click_data)
@@ -104,7 +107,8 @@ def on_click(click_data, n_clicks, rows, columns, selected_rows, chart_type, val
 
     else:
         clash.apply_filter(current_group_by, curr_filter)
-        return add_filter(rows, columns, (current_group_by + ": " + curr_filter))
+        return add_filter(rows, columns,
+                          (current_group_by + ": " + curr_filter))
 
 
 def get_filter(chart_type, click_data):
