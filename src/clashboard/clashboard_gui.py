@@ -12,7 +12,7 @@ status_counts = None
 phase_counts = None
 count = 0
 clash = ClinicalTrialsData()
-Date = '04/05/2019'
+Date = clash.get_download_date()
 group_by = []
 groups = clash.get_group_choices()
 
@@ -75,7 +75,7 @@ app.layout = html.Div(children=[
 
     dcc.Dropdown(
         options=group_by,
-        value='study_type',
+        value='phase',
         id='dropdown-id',
     ),
     html.H1(children='Data from ' + Date),
@@ -90,9 +90,8 @@ app.layout = html.Div(children=[
     [State('adding-rows-table', 'data'),
      State('adding-rows-table', 'columns'),
      State('adding-rows-table', 'selected_rows'),
-     State('chart-type', 'value'),
-     State('dropdown-id', 'value')])
-def on_click(click_data, n_clicks, rows, columns, selected_rows, chart_type, value):
+     State('chart-type', 'value')])
+def on_click(click_data, n_clicks, rows, columns, selected_rows, chart_type):
     global count
     current_group_by = clash.get_group_by()
     curr_filter = get_filter(chart_type, click_data)
@@ -153,7 +152,7 @@ def update_plot(value, chart_type):
                 layout=go.Layout(
                     title=clash.get_group_by(),
                     showlegend=True,
-                    margin=go.layout.Margin(l=40, r=0, t=40, b=30)
+                    margin=go.layout.Margin(r=0, t=40, b=30)
                 )
             )
     elif chart_type == 'pie_chart':
@@ -164,7 +163,7 @@ def update_plot(value, chart_type):
             layout=go.Layout(
                 title=clash.get_group_by(),
                 showlegend=True,
-                margin=go.layout.Margin(l=40, r=0, t=40, b=30)
+                margin=go.layout.Margin(r=0, t=40, b=30)
             )
         )
     else:
