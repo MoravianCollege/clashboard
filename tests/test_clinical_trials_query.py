@@ -194,4 +194,4 @@ def test_recent_date_calls(mock_sql, mock_conn, mock_local_table):
     recent_date = cdc.get_most_recent_date()
     assert mock_sql.called
     assert mock_conn.called
-    assert recent_date == mock_timestamp
+    assert recent_date == datetime.fromtimestamp(mock_timestamp)
