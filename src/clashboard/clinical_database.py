@@ -77,4 +77,4 @@ class ClinicalDataCollector:
         datetime_object = time.mktime(
             datetime.strptime(str(timestamp),
                               "%Y-%m-%d %H:%M:%S.%f").timetuple())
-        return datetime_object
+        return datetime.fromtimestamp(datetime_object)
