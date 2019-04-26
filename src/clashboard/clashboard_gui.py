@@ -11,6 +11,7 @@ study_type_counts = None
 status_counts = None
 phase_counts = None
 count = 0
+date = "4/27/2019"
 clash = ClinicalTrialsData()
 group_by = []
 groups = clash.get_group_choices()
@@ -79,7 +80,7 @@ app.layout = html.Div(children=[
         value='phase',
         id='dropdown-id',
     ),
-    html.H1(children='Data from ' + clash.get_download_date()),
+    html.H1(id='date', children='Data from ' + date),
 
 ])
 
@@ -138,13 +139,16 @@ def check_if_exists(rows, curr_filter):
     return False
 
 
-@app.callback(Output('my-graph', 'figure'),
+@app.callback([Output('my-graph', 'figure'),
+               Output('date','children')],
               [Input('dropdown-id', 'value'),
               Input('chart-type', 'value')])
 def update_plot(value, chart_type):
+    global date
     clash.set_group_by(value)
     labels = clash.get_labels()
     values = clash.get_values()
+    date = 'Data from ' + clash.get_download_date()
     if chart_type == 'bar_chart':
         return go.Figure(
                 data=[
@@ -156,7 +160,7 @@ def update_plot(value, chart_type):
                     showlegend=True,
                     margin=go.layout.Margin(r=0, t=40, b=30)
                 )
-            )
+            ), date
     elif chart_type == 'pie_chart':
         return go.Figure(
             data=[
@@ -167,9 +171,9 @@ def update_plot(value, chart_type):
                 showlegend=True,
                 margin=go.layout.Margin(r=0, t=40, b=30)
             )
-        )
+        ), date
     else:
-        return {}
+        return {}, date
 
 
 if __name__ == '__main__':
