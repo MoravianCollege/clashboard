@@ -12,7 +12,6 @@ status_counts = None
 phase_counts = None
 count = 0
 clash = ClinicalTrialsData()
-Date = clash.get_download_date()
 group_by = []
 groups = clash.get_group_choices()
 
@@ -80,7 +79,7 @@ app.layout = html.Div(children=[
         value='phase',
         id='dropdown-id',
     ),
-    html.H1(children='Data from ' + Date),
+    html.H1(children='Data from ' + clash.get_download_date()),
 
 ])
 
