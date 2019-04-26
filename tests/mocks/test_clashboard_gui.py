@@ -1,11 +1,7 @@
-from clashboard.clinical_trials_data import ClinicalTrialsData
-from unittest.mock import MagicMock
 from clashboard.clashboard_gui import add_filter, delete_filter, \
     get_filter, check_if_exists, setup_dropdown, update_plot
 from unittest.mock import patch
 
-mock_ctd = ClinicalTrialsData()
-mock_ctd.get_download_date = MagicMock(return_value="13/32/4444")
 columns = [{'name': 'Filters', 'id': 'column-0',
             'deletable': False, 'editable_name': False}]
 
@@ -107,6 +103,7 @@ def test_dropdown_setup():
 clinical_data = 'clashboard.clinical_trials_data.ClinicalTrialsData.'
 
 
+@patch(clinical_data + 'get_download_date', side_effect="4/20/2019")
 @patch(clinical_data + 'set_group_by')
 @patch(clinical_data + 'get_labels')
 @patch(clinical_data + 'get_values')
@@ -114,10 +111,11 @@ clinical_data = 'clashboard.clinical_trials_data.ClinicalTrialsData.'
 @patch('plotly.graph_objs.Bar')
 @patch('plotly.graph_objs.Layout')
 @patch('plotly.graph_objs.layout.Margin')
-def test_update_plot_bar(mock_set_group, mock_labels,
+def test_update_plot_bar(mock_download_date, mock_set_group, mock_labels,
                          mock_values, mock_fig, mock_bar,
                          mock_layout, mock_margin):
     update_plot('Study Type', 'bar_chart')
+    assert mock_download_date.called
     assert mock_set_group.called
     assert mock_labels.called
     assert mock_values.called
@@ -127,6 +125,7 @@ def test_update_plot_bar(mock_set_group, mock_labels,
     assert mock_margin.called
 
 
+@patch(clinical_data + 'get_download_date', side_effect="4/20/2019")
 @patch(clinical_data + 'set_group_by')
 @patch(clinical_data + 'get_labels')
 @patch(clinical_data + 'get_values')
@@ -134,10 +133,11 @@ def test_update_plot_bar(mock_set_group, mock_labels,
 @patch('plotly.graph_objs.Pie')
 @patch('plotly.graph_objs.Layout')
 @patch('plotly.graph_objs.layout.Margin')
-def test_update_plot_pie(mock_set_group, mock_labels,
+def test_update_plot_pie(mock_download_date, mock_set_group, mock_labels,
                          mock_values, mock_fig, mock_pie,
                          mock_layout, mock_margin):
     update_plot('Study Type', 'pie_chart')
+    assert mock_download_date.called
     assert mock_set_group.called
     assert mock_labels.called
     assert mock_values.called
@@ -147,11 +147,14 @@ def test_update_plot_pie(mock_set_group, mock_labels,
     assert mock_margin.called
 
 
+@patch(clinical_data + 'get_download_date', side_effect="4/20/2019")
 @patch(clinical_data + 'set_group_by')
 @patch(clinical_data + 'get_labels')
 @patch(clinical_data + 'get_values')
-def test_update_plot_pie(mock_set_group, mock_labels, mock_values):
+def test_update_bad_plot(mock_download_date, mock_set_group,
+                         mock_labels, mock_values):
     update_plot('Study Type', 'Bad_Chart')
+    assert mock_download_date.called
     assert mock_set_group.called
     assert mock_labels.called
     assert mock_values.called

@@ -140,7 +140,7 @@ def check_if_exists(rows, curr_filter):
 
 
 @app.callback([Output('my-graph', 'figure'),
-               Output('date','children')],
+               Output('date', 'children')],
               [Input('dropdown-id', 'value'),
               Input('chart-type', 'value')])
 def update_plot(value, chart_type):
