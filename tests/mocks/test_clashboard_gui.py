@@ -1,7 +1,11 @@
+from clashboard.clinical_trials_data import ClinicalTrialsData
+from unittest.mock import MagicMock
 from clashboard.clashboard_gui import add_filter, delete_filter, \
     get_filter, check_if_exists, setup_dropdown, update_plot
 from unittest.mock import patch
 
+mock_ctd = ClinicalTrialsData()
+mock_ctd.get_download_date = MagicMock(return_value="13/32/4444")
 columns = [{'name': 'Filters', 'id': 'column-0',
             'deletable': False, 'editable_name': False}]
 
