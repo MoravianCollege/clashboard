@@ -5,12 +5,13 @@ from pathlib import Path
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
 
+
 class SponsorTableSifter:
     TEST_DATA_DIR = Path(__file__).resolve().parent.parent.parent / 'tests/data'
 
     def __init__(self):
         load_dotenv()
-        self.conn = None
+        self.engine = None
         self.raw_sponsor_table = pd.DataFrame()
         self.sifted_sponsors_table = pd.DataFrame()
         self.hostname = os.getenv('hostname')
@@ -21,7 +22,8 @@ class SponsorTableSifter:
 
     def make_connection(self):
         print('Establishing connection to local database...\n')
-        self.conn = psycopg2.connect(host=self.hostname,
+        self.engine = create_engine('postgresql+psycopg2://postgres:password@localhost:5432/aact')
+        conn = psycopg2.connect(host=self.hostname,
                                      database=self.database,
                                      user=self.username,
                                      password=self.password)
@@ -29,7 +31,7 @@ class SponsorTableSifter:
     def query_database(self):
         print('Collecting Data from local Database...\n')
         sql_command = 'SELECT * from ctgov.sponsors'
-        self.raw_sponsor_table = pd.read_sql(sql=sql_command, con=self.conn)
+        self.raw_sponsor_table = pd.read_sql(sql=sql_command, con=self.engine)
 
     def sift_leads(self):
         print('Removing duplicate sponsors...\n')
@@ -51,9 +53,8 @@ class SponsorTableSifter:
 
     def publish_table(self):
         print('Publishing new table to local database.\n')
-        engine = create_engine('postgresql+psycopg2://postgres:password@localhost:5432/aact')
         self.sifted_sponsors_table=self.sifted_sponsors_table[['nct_id', 'curated_sponsors']]
-        self.sifted_sponsors_table.to_sql(name='curated_sponsors_table', con=engine)
+        self.sifted_sponsors_table.to_sql(name='curated_sponsors_table', con=self.engine)
 
     def create_curated_sponsors_column(self):
         self.make_connection()
