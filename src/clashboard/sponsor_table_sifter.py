@@ -3,7 +3,7 @@ import os
 import psycopg2
 from pathlib import Path
 from dotenv import load_dotenv
-from sqlalchemy
+from sqlalchemy import create_engine
 
 class SponsorTableSifter:
     TEST_DATA_DIR = Path(__file__).resolve().parent.parent.parent / 'tests/data'
@@ -51,8 +51,9 @@ class SponsorTableSifter:
 
     def publish_table(self):
         print('Publishing new table to local database.\n')
+        engine = create_engine('postgresql+psycopg2://postgres:password@localhost:5432/aact')
         self.sifted_sponsors_table=self.sifted_sponsors_table[['nct_id', 'curated_sponsors']]
-        self.sifted_sponsors_table.to_sql(name='curated_sponsors_table', con=self.conn)
+        self.sifted_sponsors_table.to_sql(name='curated_sponsors_table', con=engine)
 
     def create_curated_sponsors_column(self):
         self.make_connection()
