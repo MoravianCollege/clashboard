@@ -114,7 +114,7 @@ clinical_data = 'clashboard.clinical_trials_data.ClinicalTrialsData.'
 def test_update_plot_bar(mock_download_date, mock_set_group, mock_labels,
                          mock_values, mock_fig, mock_bar,
                          mock_layout, mock_margin):
-    update_plot('Study Type', 'bar_chart')
+    update_plot('Study Type', "", 'bar_chart')
     assert mock_download_date.called
     assert mock_set_group.called
     assert mock_labels.called
@@ -136,7 +136,7 @@ def test_update_plot_bar(mock_download_date, mock_set_group, mock_labels,
 def test_update_plot_pie(mock_download_date, mock_set_group, mock_labels,
                          mock_values, mock_fig, mock_pie,
                          mock_layout, mock_margin):
-    update_plot('Study Type', 'pie_chart')
+    update_plot('Study Type', " ", 'pie_chart')
     assert mock_download_date.called
     assert mock_set_group.called
     assert mock_labels.called
@@ -153,7 +153,7 @@ def test_update_plot_pie(mock_download_date, mock_set_group, mock_labels,
 @patch(clinical_data + 'get_values')
 def test_update_bad_plot(mock_download_date, mock_set_group,
                          mock_labels, mock_values):
-    update_plot('Study Type', 'Bad_Chart')
+    update_plot('Study Type', " ", 'Bad_Chart')
     assert mock_download_date.called
     assert mock_set_group.called
     assert mock_labels.called
