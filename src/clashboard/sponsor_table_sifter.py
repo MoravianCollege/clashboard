@@ -23,10 +23,6 @@ class SponsorTableSifter:
     def make_connection(self):
         print('Establishing connection to local database...\n')
         self.engine = create_engine('postgresql+psycopg2://postgres:password@localhost:5432/aact')
-        conn = psycopg2.connect(host=self.hostname,
-                                     database=self.database,
-                                     user=self.username,
-                                     password=self.password)
 
     def query_database(self):
         print('Collecting Data from local Database...\n')
