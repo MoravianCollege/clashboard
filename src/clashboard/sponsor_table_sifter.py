@@ -3,7 +3,7 @@ import os
 import psycopg2
 from pathlib import Path
 from dotenv import load_dotenv
-
+from sqlalchemy
 
 class SponsorTableSifter:
     TEST_DATA_DIR = Path(__file__).resolve().parent.parent.parent / 'tests/data'
@@ -47,13 +47,12 @@ class SponsorTableSifter:
             for name in sponsor_names:
                 if name in self.sifted_sponsors_table['name'][index]:
                     self.sifted_sponsors_table['curated_sponsors'][index] = name
-                else:
-                    self.sifted_sponsors_table['curated_sponsors'][index] = 'Other'
+        self.sifted_sponsors_table.fillna(value='Other', inplace=True)
 
     def publish_table(self):
         print('Publishing new table to local database.\n')
         self.sifted_sponsors_table=self.sifted_sponsors_table[['nct_id', 'curated_sponsors']]
-        self.sifted_sponsors_table.to_sql(name='curated_sponsors_table', con=self.conn)
+        self.sifted_sponsors_table.to_sql(name='curated_sponsors_table', con=engine)
 
     def create_curated_sponsors_column(self):
         self.make_connection()
