@@ -52,7 +52,7 @@ class SponsorTableSifter:
     def publish_table(self):
         print('Publishing new table to local database.\n')
         self.sifted_sponsors_table=self.sifted_sponsors_table[['nct_id', 'curated_sponsors']]
-        self.sifted_sponsors_table.to_sql(name='curated_sponsors_table', con=engine)
+        self.sifted_sponsors_table.to_sql(name='curated_sponsors_table', con=self.conn)
 
     def create_curated_sponsors_column(self):
         self.make_connection()
