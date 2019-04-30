@@ -82,11 +82,14 @@ app.layout = html.Div(children=[
     ),
     html.H1(id='date', children='Data from ' + date),
 
+    html.Div(id='intermediate-value', style={'display': 'none'})
+
 ])
 
 
 @app.callback(
-    Output('adding-rows-table', 'data'),
+    [Output('adding-rows-table', 'data'),
+     Output('intermediate-value', 'children')],
     [Input('my-graph', 'clickData'),
      Input('Delete-rows-button', 'n_clicks')],
     [State('adding-rows-table', 'data'),
@@ -101,12 +104,12 @@ def on_click(click_data, n_clicks, rows, columns, selected_rows, chart_type):
         count += 1
         data = rows[selected_rows[0]]['column-0'].split(':')
         clash.remove_filter(str(data[0].strip()), str(data[1].strip()))
-        return delete_filter(selected_rows, rows)
+        return delete_filter(selected_rows, rows), " "
 
     else:
         clash.apply_filter(current_group_by, curr_filter)
         return add_filter(rows, columns,
-                          (current_group_by + ": " + curr_filter))
+                          (current_group_by + ": " + curr_filter)), " "
 
 
 def get_filter(chart_type, click_data):
@@ -142,8 +145,9 @@ def check_if_exists(rows, curr_filter):
 @app.callback([Output('my-graph', 'figure'),
                Output('date', 'children')],
               [Input('dropdown-id', 'value'),
+               Input('intermediate-value', "children"),
               Input('chart-type', 'value')])
-def update_plot(value, chart_type):
+def update_plot(value, n, chart_type):
     global date
     clash.set_group_by(value)
     labels = clash.get_labels()
