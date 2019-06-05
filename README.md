@@ -38,20 +38,37 @@ stored in a PostgreSQL database hosted by
 
 ## Launch on AWS
 
-* Create an t2.medium EC2 instance based on Ubuntu 18
-* `sudo apt-get update`
-* `sudo apt-get install -y python3-pip`
-* clone this repo
+* Create an t2.large EC2 instance based on Ubuntu 18. Storage should be 32+ GB.
+* Make sure to open port 80.
+* `sudo apt update`
+* `sudo apt install -y python3-pip`
+* `sudo apt install -y postgresql`
+* `sudo apt install -y unzip`
+* Clone this repo.
+* `cd clashboard`
 * `sudo pip3 install -r requirements.txt`
 * Create a file `.env` with the following:
 
   ```
-  hostname=aact-db.ctti-clinicaltrials.org
+  hostname=localhost
   port=5432
   database=aact
-  username=your_username
+  username=postgres
   password=your_password
 
   ```
-* sudo gunicorn app:app.server
 
+* [Here](https://aact.ctti-clinicaltrials.org/snapshots) we can access a walkthrough to setting up the database and [here](https://help.ubuntu.com/stable/serverguide/postgresql.html) we can get information on configuring the database. First we want to set up the database user and password:
+* `sudo -u postgres psql template1`
+* `ALTER USER postgres with password 'your_password';`
+
+* After configuring the password, edit the file `/etc/postgresql/10/main/pg_hba.conf` to use MD5 authentication with the postgres user:
+`local all postgres md5`
+
+* `sudo systemctl restart postgresql.service`
+
+* We retrieve the most recent data with the following command `sudo ./get_most_recent_data.sh`
+
+* To add the schema that AACT tables are saved in: `psql aact` and then `alter role your-username in database aact set search_path = ctgov, public;`
+
+* To launch the flask application: `sudo gunicorn clashboard_gui:app.server`
