@@ -71,4 +71,6 @@ stored in a PostgreSQL database hosted by
 
 * To add the schema that AACT tables are saved in: `psql aact` and then `alter role your-username in database aact set search_path = ctgov, public;`
 
-* To launch the flask application: `sudo gunicorn clashboard_gui:app.server`
+* To launch the flask application first we copy `clashboard.service` to the directory `/etc/systemd/system`. Next, we run the following commands: 
+* `sudo systemctl start clashboard`
+* `sudo systemctl enable clashboard`
