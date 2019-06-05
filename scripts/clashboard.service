@@ -1,0 +1,10 @@
+[Unit]
+Description=Start clashboard on Boot
+After=multi-user.target
+
+[Service]
+Type=idle
+ExecStart=/usr/local/bin/gunicorn -b 0.0.0.0:80 --chdir /home/ubuntu/clashboard/src/clashboard/ clashboard_gui:app
+
+[Install]
+WantedBy=multi-user.target
