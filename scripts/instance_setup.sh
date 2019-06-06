@@ -9,3 +9,4 @@ pip3 install -r requirements.txt
 pip3 install -e .
 echo "hostname=localhost\nport=5432\ndatabase=aact\nusername=postgres\npassword=your_password" > .env
 sudo -u postgres psql template1 -c "ALTER USER postgres with password 'your_password';"
+sed -i 's/local   all             postgres                                peer/local   all             postgres                                md5/g' /etc/postgresql/10/main/pg_hba.conf
