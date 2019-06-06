@@ -1,8 +1,8 @@
 
 # clashboard
 
-A [Plot.ly Dash](https://dash.plot.ly/) dashboard  to explore [ClinicalTrails.gov](https://clinicaltrials.gov/) data 
-stored in a PostgreSQL database hosted by 
+A [Plot.ly Dash](https://dash.plot.ly/) dashboard  to explore [ClinicalTrails.gov](https://clinicaltrials.gov/) data
+stored in a PostgreSQL database hosted by
 [Clinical Traials Transformation Initiative](https://aact.ctti-clinicaltrials.org/).
 
 
@@ -15,15 +15,15 @@ stored in a PostgreSQL database hosted by
 2. Activate the virtual environment
 
     `source .venv/bin/activate`
-    
+
 3. Install required libraries
 
     `pip install -r requirements.txt`
-    
+
 4. Install source of this repo as an editable package
 
     `pip install -e .`
-    
+
 5. Create the file `.env` containing our sensitive data (This file is named in
    `.gitignore` because it should never go in the repo)
 
@@ -67,10 +67,10 @@ stored in a PostgreSQL database hosted by
 
 * `sudo systemctl restart postgresql.service`
 
-* We retrieve the most recent data with the following command `sudo ./get_most_recent_data.sh`
+* We retrieve the most recent data with the following command `sudo ./scripts/get_most_recent_data.sh`
 
 * To add the schema that AACT tables are saved in: `psql aact` and then `alter role your-username in database aact set search_path = ctgov, public;`
 
-* To launch the flask application first we copy `clashboard.service` to the directory `/etc/systemd/system`. Next, we run the following commands: 
+* To launch the flask application first we copy `clashboard.service` to the directory `/etc/systemd/system`. Next, we run the following commands:
 * `sudo systemctl start clashboard`
 * `sudo systemctl enable clashboard`
