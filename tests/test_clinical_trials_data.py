@@ -176,7 +176,8 @@ def test_compute_results_change_group(monkeypatch):
 def test_compute_results_grouping(monkeypatch):
     ctd = set_up_tests(monkeypatch)
     group = 'overall_status'
-    assert ctd.compute_results(group, []) == (ctd.get_labels(), ctd.get_values())
+    assert ctd.compute_results(group, []) == \
+           (ctd.get_labels(), ctd.get_values())
     assert ctd.get_values() == [8, 1, 1]
     assert ctd.get_labels() == ['Completed', 'Recruiting', 'Suspended']
 
