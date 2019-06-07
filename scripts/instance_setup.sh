@@ -12,4 +12,4 @@ sudo -u postgres psql template1 -c "ALTER USER postgres with password 'your_pass
 sed -i 's/local   all             postgres                                peer/local   all             postgres                                md5/g' /etc/postgresql/10/main/pg_hba.conf
 systemctl restart postgresql.service
 # manually enter password?
-sudo sh clashboard/scripts/get_most_recent_data.sh
+sh clashboard/scripts/get_most_recent_data.sh
