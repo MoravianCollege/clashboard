@@ -16,3 +16,5 @@ systemctl restart postgresql.service
 (exec "$RECENT_DATA_SCRIPT")
 sudo -u postgres psql aact -c "alter role postgres in database aact set search_path = ctgov, public;"
 cp ./scripts/clashboard.service /etc/systemd/system
+sudo systemctl start clashboard
+sudo systemctl enable clashboard
