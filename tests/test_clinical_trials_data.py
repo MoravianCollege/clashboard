@@ -12,7 +12,7 @@ def mock_update_data(self, grouping):
     self.curr_group = grouping
 
 
-def mock_get_download_date(self):
+def mock_get_download_date():
     download_date = date(2019, 4, 13)
     return "{}/{}/{}".format(download_date.month,
                              download_date.day,
@@ -177,7 +177,7 @@ def test_compute_results_grouping(monkeypatch):
     ctd = set_up_tests(monkeypatch)
     group = 'overall_status'
     assert ctd.compute_results(group, []) == \
-           (ctd.get_labels(), ctd.get_values())
+        (ctd.get_labels(), ctd.get_values())
     assert ctd.get_values() == [8, 1, 1]
     assert ctd.get_labels() == ['Completed', 'Recruiting', 'Suspended']
 
