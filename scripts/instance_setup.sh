@@ -14,3 +14,5 @@ sed -i 's/local   all             postgres                                peer/l
 systemctl restart postgresql.service
 # manually enter password?
 (exec "$RECENT_DATA_SCRIPT")
+sudo -u postgres psql aact -c "alter role postgres in database aact set search_path = ctgov, public;"
+cp ./scripts/clashboard.service /etc/systemd/system
