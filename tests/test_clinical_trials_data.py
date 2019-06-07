@@ -188,3 +188,9 @@ def test_compute_results_filters(monkeypatch):
     group_filter = [['study_type', 'Interventional']]
     ctd.compute_results(group, group_filter)
     assert ctd.filters == group_filter
+
+
+def test_compute_results_bad_first_parameter(monkeypatch):
+    ctd = set_up_tests(monkeypatch)
+    group = ''
+    assert ctd.compute_results(group, []) == ([], [])
