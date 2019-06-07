@@ -123,3 +123,12 @@ class ClinicalTrialsData:
 
     def update_data(self, grouping):
         self.studies = self.cdc.gather_data(grouping, self.filters)
+
+    def compute_results(self, group, group_filters):
+        self.curr_group = group
+        self.filters = group_filters
+        self.update_data(group)
+        labels = self.get_labels()
+        values = self.get_values()
+
+        return labels, values
