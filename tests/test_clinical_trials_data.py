@@ -164,3 +164,10 @@ def test_change_group_by_changes_dropdown(monkeypatch):
 def test_get_download_date(monkeypatch):
     ctd = set_up_tests(monkeypatch)
     assert ctd.get_download_date() == "4/13/2019"
+
+
+def test_compute_results_change_group(monkeypatch):
+    ctd = set_up_tests(monkeypatch)
+    group = 'overall_status'
+    ctd.compute_results(group, [])
+    assert ctd.curr_group == group
