@@ -125,7 +125,8 @@ class ClinicalTrialsData:
         self.studies = self.cdc.gather_data(grouping, self.filters)
 
     def compute_results(self, group, group_filters):
-        self.curr_group = group
+        if group not in self.groupings:
+            return [], []
         self.filters = group_filters
         self.update_data(group)
         labels = self.get_labels()
