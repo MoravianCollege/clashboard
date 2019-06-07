@@ -12,7 +12,7 @@ def mock_update_data(self, grouping):
     self.curr_group = grouping
 
 
-def mock_get_download_date():
+def mock_get_download_date(self):
     download_date = date(2019, 4, 13)
     return "{}/{}/{}".format(download_date.month,
                              download_date.day,
