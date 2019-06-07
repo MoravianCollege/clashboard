@@ -179,3 +179,11 @@ def test_compute_results_grouping(monkeypatch):
     assert ctd.compute_results(group, []) == (ctd.get_labels(), ctd.get_values())
     assert ctd.get_values() == [8, 1, 1]
     assert ctd.get_labels() == ['Completed', 'Recruiting', 'Suspended']
+
+
+def test_compute_results_filters(monkeypatch):
+    ctd = set_up_tests(monkeypatch)
+    group = 'overall_status'
+    group_filter = [['study_type', 'Interventional']]
+    ctd.compute_results(group, group_filter)
+    assert ctd.filters == group_filter
