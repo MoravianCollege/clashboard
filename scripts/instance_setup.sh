@@ -8,7 +8,7 @@ apt install -y unzip
 cd clashboard
 pip3 install -r requirements.txt
 pip3 install -e .
-read -p "Enter new postgres password for PSQL: " PSQLpassword
+read -sp "Enter new postgres password for PSQL: " PSQLpassword
 echo
 echo "hostname=localhost\nport=5432\ndatabase=aact\nusername=postgres\npassword=$PSQLpassword" > .env
 sudo -u postgres psql template1 -c "ALTER USER postgres with password '$PSQLpassword';"
