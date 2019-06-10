@@ -104,7 +104,10 @@ def test_get_filters():
     rows = [{'column-0': 'Observational: Study Type'},
             {'column-0': 'Interventional: Study Type'},
             {'column-0': 'Observational [Patient Registry]: Study Type'}]
-    assert get_filters(rows) == [("study_type", "Observational"), ("study_type", "Interventional"), ("study_type", "Observational [Patient Registry]")]
+    expected_results = [("study_type", "Observational"),
+                        ("study_type", "Interventional"),
+                        ("study_type", "Observational [Patient Registry]")]
+    assert get_filters(rows) == expected_results
 
 
 clinical_data = 'clashboard.clinical_trials_data.ClinicalTrialsData.'
