@@ -30,7 +30,7 @@ def setup_dropdown(groups):
 
 group_by = setup_dropdown(groups)
 app.layout = html.Div(children=[
-    html.H1(children='ClinicalTrails.gov Data Exploration'),
+    html.H1(children='ClinicalTrials.gov Data Exploration'),
 
     dcc.Dropdown(
         options=[
