@@ -108,7 +108,7 @@ def test_query_data_calling(mock_create, mock_conn, mock_fetch):
     assert mock_create.called
     assert mock_conn.called
     assert mock_fetch.called
-    mock_fetch.assert_called_with()
+    mock_fetch.assert_called_with([])
 
 
 @patch(class_location+'make_local_table', side_effect=['studies'])
@@ -123,15 +123,15 @@ def test_create_query_empty(mock_table, mock_filters):
 
 def test_add_one_filter():
     cdc = proper_setup()
-    cdc.filters = [['Phase', 'Phase 1']]
-    assert cdc.add_filters() == " WHERE Phase = 'Phase 1'"
+    filters = [['Phase', 'Phase 1']]
+    assert cdc.add_filters(filters) == " WHERE Phase = 'Phase 1'"
 
 
 def test_add_many_filter():
     cdc = proper_setup()
-    cdc.filters = [['Phase', 'Phase 1'], ['study_type', 'Interventional']]
-    assert cdc.add_filters() == " WHERE Phase = 'Phase 1' AND " \
-                                "study_type = 'Interventional'"
+    filters = [['Phase', 'Phase 1'], ['study_type', 'Interventional']]
+    assert cdc.add_filters(filters) == " WHERE Phase = 'Phase 1' AND " \
+                                       "study_type = 'Interventional'"
 
 
 def test_local_table():
@@ -167,8 +167,8 @@ def test_fetch_data(mock_sql):
 @patch('pandas.DataFrame.groupby', side_effect=['grouped'])
 def test_update_grouping(mock_groupby):
     cdc = proper_setup()
-    cdc.group = 'study_type'
-    assert cdc.update_data() == 'grouped'
+    group = 'study_type'
+    assert cdc.update_data(group) == 'grouped'
     assert mock_groupby.called
     mock_groupby.assert_called_with('study_type')
 
