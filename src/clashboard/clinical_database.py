@@ -16,20 +16,11 @@ class ClinicalDataCollector:
         self.username = os.getenv('username')
         self.password = os.getenv('password')
         self.conn = None
-        self.filters = []
-        self.group = None
         self.trials_data = pd.DataFrame()
 
     def gather_data(self, group='', filters=None):
-        if filters is None:
-            filters = []
         if group == '':
             return None
-        need_query = (self.group is None) or \
-                     (self.filters != filters)
-        self.filters = filters[:]
-        self.group = group
-        # if need_query:
         self.query_data(filters)
         return self.update_data(group).size()
 

@@ -37,7 +37,7 @@ def mock_update_data():
 def test_complete_call(mock_conn, mock_sql):
     cdc = proper_setup()
     actual_data = mock_update_data()
-    assert cdc.gather_data('study_type').equals(
+    assert cdc.gather_data('study_type', []).equals(
         actual_data.groupby('study_type').size())
 
 
@@ -67,7 +67,6 @@ def test_gather_data_group_filter(mock_query, mock_update):
     cdc.gather_data('study_type', filters)
     assert mock_query.called
     assert mock_update.called
-    assert cdc.filters == filters
 
 
 def test_gather_data_gather_twice_query_once():
