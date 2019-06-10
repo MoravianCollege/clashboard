@@ -164,3 +164,57 @@ def test_change_group_by_changes_dropdown(monkeypatch):
 def test_get_download_date(monkeypatch):
     ctd = set_up_tests(monkeypatch)
     assert ctd.get_download_date() == "4/13/2019"
+
+
+def test_compute_results_change_group(monkeypatch):
+    ctd = set_up_tests(monkeypatch)
+    group = 'overall_status'
+    ctd.compute_results(group, [])
+    assert ctd.curr_group == group
+
+
+def test_compute_results_grouping(monkeypatch):
+    ctd = set_up_tests(monkeypatch)
+    group = 'overall_status'
+    assert ctd.compute_results(group, []) == \
+        (ctd.get_labels(), ctd.get_values())
+    assert ctd.get_values() == [8, 1, 1]
+    assert ctd.get_labels() == ['Completed', 'Recruiting', 'Suspended']
+
+
+def test_compute_results_filters(monkeypatch):
+    ctd = set_up_tests(monkeypatch)
+    group = 'Overall Status'
+    group_filter = [('Study Type', 'Interventional')]
+    computed_filter = [('study_type', 'Interventional')]
+    ctd.compute_results(group, group_filter)
+    assert ctd.filters == computed_filter
+
+
+def test_compute_results_bad_first_parameter(monkeypatch):
+    ctd = set_up_tests(monkeypatch)
+    group = ''
+    assert ctd.compute_results(group, []) == ([], [])
+
+
+def test_compute_results_filter_is_list(monkeypatch):
+    ctd = set_up_tests(monkeypatch)
+    group = 'Overall Status'
+    group_filter = [('Study Type', 'Interventional')]
+    ctd.compute_results(group, group_filter)
+    assert type(ctd.filters) == list
+
+
+def test_compute_results_group_filter_within_values(monkeypatch):
+    ctd = set_up_tests(monkeypatch)
+    filters = ['Interventional',
+               'Observational [Patient Registry]',
+               'Phase 2']
+    group = 'Overall Status'
+    group_filter = [['study_type', 'Interventional'],
+                    ['study_type', 'Observational [Patient Registry]'],
+                    ['phase', 'Phase 2']]
+    ctd.compute_results(group, group_filter)
+    for item in ctd.filters:
+        filter_name = item[1]
+        assert filter_name in filters

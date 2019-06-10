@@ -30,7 +30,7 @@ def setup_dropdown(groups):
 
 group_by = setup_dropdown(groups)
 app.layout = html.Div(children=[
-    html.H1(children='ClinicalTrails.gov Data Exploration'),
+    html.H1(children='ClinicalTrials.gov Data Exploration'),
 
     dcc.Dropdown(
         options=[
@@ -142,16 +142,28 @@ def check_if_exists(rows, curr_filter):
     return False
 
 
+def get_filters(rows):
+    filters = []
+    for i in range(len(rows)):
+        if "column-0" not in rows[i]:
+            break
+        filter_category, filter_name = rows[i]['column-0'].split(':')
+        filter_name = clash.replace_space(str(filter_name.strip()))
+        filter_category = str(filter_category.strip())
+        filters.append((filter_name, filter_category))
+    return filters
+
+
 @app.callback([Output('my-graph', 'figure'),
                Output('date', 'children')],
               [Input('dropdown-id', 'value'),
                Input('intermediate-value', "children"),
-              Input('chart-type', 'value')])
-def update_plot(value, n, chart_type):
+              Input('chart-type', 'value')],
+              [State('adding-rows-table', 'data')])
+def update_plot(value, n, chart_type, rows):
     global date
-    clash.set_group_by(value)
-    labels = clash.get_labels()
-    values = clash.get_values()
+    value = clash.replace_space(value)
+    labels, values = clash.compute_results(value, get_filters(rows))
     date = 'Data from ' + clash.get_download_date()
     if chart_type == 'bar_chart':
         return go.Figure(
