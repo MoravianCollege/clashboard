@@ -29,7 +29,7 @@ class ClinicalDataCollector:
                      (self.filters != new_filters)
         self.filters = new_filters[:]
         self.group = new_group
-        #if need_query:
+        # if need_query:
         self.query_data()
         return self.update_data().size()
 
