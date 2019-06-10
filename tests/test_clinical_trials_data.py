@@ -184,10 +184,11 @@ def test_compute_results_grouping(monkeypatch):
 
 def test_compute_results_filters(monkeypatch):
     ctd = set_up_tests(monkeypatch)
-    group = 'overall_status'
-    group_filter = [['study_type', 'Interventional']]
+    group = 'Overall Status'
+    group_filter = [('Study Type', 'Interventional')]
+    computed_filter = [('study_type', 'Interventional')]
     ctd.compute_results(group, group_filter)
-    assert ctd.filters == group_filter
+    assert ctd.filters == computed_filter
 
 
 def test_compute_results_bad_first_parameter(monkeypatch):
@@ -198,7 +199,22 @@ def test_compute_results_bad_first_parameter(monkeypatch):
 
 def test_compute_results_filter_is_list(monkeypatch):
     ctd = set_up_tests(monkeypatch)
-    group = 'overall_status'
-    group_filter = [['study_type', 'Interventional']]
+    group = 'Overall Status'
+    group_filter = [('Study Type', 'Interventional')]
     ctd.compute_results(group, group_filter)
-    assert type(group_filter) == list
+    assert type(ctd.filters) == list
+
+
+def test_compute_results_group_filter_within_values(monkeypatch):
+    ctd = set_up_tests(monkeypatch)
+    filters = [['Interventional'],
+               ['Observational [Patient Registry]'],
+               ['Phase 2']]
+    group = 'Overall Status'
+    group_filter = [['study_type', 'Interventional'],
+                    ['study_type', 'Observational [Patient Registry]'],
+                    ['phase', 'Phase 2']]
+    ctd.compute_results(group, group_filter)
+    for item in ctd.filters:
+        value = [item[1]]
+        assert value in filters
