@@ -207,14 +207,14 @@ def test_compute_results_filter_is_list(monkeypatch):
 
 def test_compute_results_group_filter_within_values(monkeypatch):
     ctd = set_up_tests(monkeypatch)
-    filters = [['Interventional'],
-               ['Observational [Patient Registry]'],
-               ['Phase 2']]
+    filters = ['Interventional',
+               'Observational [Patient Registry]',
+               'Phase 2']
     group = 'Overall Status'
     group_filter = [['study_type', 'Interventional'],
                     ['study_type', 'Observational [Patient Registry]'],
                     ['phase', 'Phase 2']]
     ctd.compute_results(group, group_filter)
     for item in ctd.filters:
-        value = [item[1]]
-        assert value in filters
+        filter_name = item[1]
+        assert filter_name in filters
