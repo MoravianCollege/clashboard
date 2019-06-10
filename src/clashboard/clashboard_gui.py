@@ -92,8 +92,7 @@ app.layout = html.Div(children=[
      Output('intermediate-value', 'children')],
     [Input('my-graph', 'clickData'),
      Input('Delete-rows-button', 'n_clicks')],
-    [State('adding-rows-table', 'data'),
-     State('adding-rows-table', 'columns'),
+    [State('adding-rows-table', 'columns'),
      State('adding-rows-table', 'selected_rows'),
      State('chart-type', 'value')])
 def on_click(click_data, n_clicks, rows, columns, selected_rows, chart_type):
@@ -146,12 +145,17 @@ def check_if_exists(rows, curr_filter):
                Output('date', 'children')],
               [Input('dropdown-id', 'value'),
                Input('intermediate-value', "children"),
-              Input('chart-type', 'value')])
-def update_plot(value, n, chart_type):
+              Input('chart-type', 'value')],
+              [State('adding-rows-table', 'data')])
+def update_plot(value, n, chart_type, rows):
     global date
-    clash.set_group_by(value)
+    '''clash.set_group_by(value)
     labels = clash.get_labels()
-    values = clash.get_values()
+    values = clash.get_values()'''
+    filters = []
+    for i in range(len(rows)):
+        filter_category, filter_name = rows[i]['column-0'].split(':')
+        filters.append([str(filter_category[0].strip()), str(filter_name[1].strip())])
     date = 'Data from ' + clash.get_download_date()
     if chart_type == 'bar_chart':
         return go.Figure(
