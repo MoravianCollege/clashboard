@@ -194,3 +194,11 @@ def test_compute_results_bad_first_parameter(monkeypatch):
     ctd = set_up_tests(monkeypatch)
     group = ''
     assert ctd.compute_results(group, []) == ([], [])
+
+
+def test_compute_results_filter_is_list(monkeypatch):
+    ctd = set_up_tests(monkeypatch)
+    group = 'overall_status'
+    group_filter = [['study_type', 'Interventional']]
+    ctd.compute_results(group, group_filter)
+    assert type(group_filter) == list
