@@ -164,3 +164,27 @@ def test_change_group_by_changes_dropdown(monkeypatch):
 def test_get_download_date(monkeypatch):
     ctd = set_up_tests(monkeypatch)
     assert ctd.get_download_date() == "4/13/2019"
+
+
+def test_compute_results_change_group(monkeypatch):
+    ctd = set_up_tests(monkeypatch)
+    group = 'overall_status'
+    ctd.compute_results(group, [])
+    assert ctd.curr_group == group
+
+
+def test_compute_results_grouping(monkeypatch):
+    ctd = set_up_tests(monkeypatch)
+    group = 'overall_status'
+    assert ctd.compute_results(group, []) == \
+        (ctd.get_labels(), ctd.get_values())
+    assert ctd.get_values() == [8, 1, 1]
+    assert ctd.get_labels() == ['Completed', 'Recruiting', 'Suspended']
+
+
+def test_compute_results_filters(monkeypatch):
+    ctd = set_up_tests(monkeypatch)
+    group = 'overall_status'
+    group_filter = [['study_type', 'Interventional']]
+    ctd.compute_results(group, group_filter)
+    assert ctd.filters == group_filter
