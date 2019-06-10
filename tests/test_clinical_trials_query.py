@@ -80,7 +80,7 @@ def test_gather_data_gather_twice_query_once():
             mock_query.reset_mock()
             mock_update.reset_mock()
             cdc.gather_data('Phase')
-            assert mock_query.called is False
+            assert mock_query.called
             assert mock_update.called
 
 
