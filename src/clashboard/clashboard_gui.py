@@ -92,7 +92,8 @@ app.layout = html.Div(children=[
      Output('intermediate-value', 'children')],
     [Input('my-graph', 'clickData'),
      Input('Delete-rows-button', 'n_clicks')],
-    [State('adding-rows-table', 'columns'),
+    [State('adding-rows-table', 'data'),
+     State('adding-rows-table', 'columns'),
      State('adding-rows-table', 'selected_rows'),
      State('chart-type', 'value')])
 def on_click(click_data, n_clicks, rows, columns, selected_rows, chart_type):
