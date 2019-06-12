@@ -78,27 +78,6 @@ class ClinicalTrialsData:
         """
         return self.replace_underscore(self.curr_group)
 
-    def get_labels(self):
-        """
-        Get the lists of strings describing each category
-           for grouping the data
-        :return:
-               list of human-readable strings
-        """
-        if self.curr_group is self.studies.index.name:
-            return list(self.studies.index)
-
-        return []
-
-    def get_values(self):
-        """
-        Get the list of integers describing the amounts for each label
-        :return: an list of ints
-        """
-        if self.curr_group is self.studies.index.name:
-            return list(self.studies.values)
-
-        return []
 
     def get_group_choices(self):
         """
@@ -121,17 +100,23 @@ class ClinicalTrialsData:
                                  download_date.day,
                                  download_date.year)
 
-    def update_data(self, grouping):
-        self.studies = self.cdc.gather_data(grouping, self.filters)
+    def update_data(self, group):
+        self.studies = self.cdc.gather_data(group, self.filters)
+
+        if group == self.studies.index.name:
+            values = list(self.studies.values)
+
+        if group == self.studies.index.name:
+            labels = list(self.studies.index)
+
+        return labels, values
 
     def compute_results(self, group, group_filters):
-        self.curr_group = self.replace_space(group)
-        if self.curr_group not in self.groupings:
+        group = self.replace_space(group)
+        if group not in self.groupings:
             return [], []
         self.filters = [(self.replace_space(value[0]), value[1])
                         for value in group_filters]
-        self.update_data(self.curr_group)
-        labels = self.get_labels()
-        values = self.get_values()
+        data = self.update_data(group)
 
-        return labels, values
+        return data

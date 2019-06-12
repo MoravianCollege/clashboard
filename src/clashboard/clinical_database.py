@@ -24,6 +24,7 @@ class ClinicalDataCollector:
         if new_filters is None:
             new_filters = []
         if new_group == '':
+            print("yikes" + new_group)
             return None
         need_query = (self.group is None) or \
                      (self.filters != new_filters)
