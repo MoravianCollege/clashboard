@@ -21,7 +21,7 @@ class ClinicalDataCollector:
         if group == '':
             return None
         sql_command = self.query_data(filters)
-        return self.get_grouped_data(sql_command, group).size()
+        return self.get_group_data(sql_command, group).size()
 
     def query_data(self, filters=[]):
         sql_command = self.create_query(filters)
@@ -54,7 +54,7 @@ class ClinicalDataCollector:
     def fetch_sql_data(self, sql_command):
         return pd.read_sql(sql=sql_command, con=self.conn)
 
-    def get_grouped_data(self, sql_command, group=''):
+    def get_group_data(self, sql_command, group=''):
         trials_data = self.fetch_sql_data(sql_command)
         return trials_data.groupby(group)
 
