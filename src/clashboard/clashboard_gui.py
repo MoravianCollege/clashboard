@@ -104,11 +104,11 @@ def on_click(click_data, n_clicks, group, rows, columns,
     if n_clicks > count:
         count += 1
         data = rows[selected_rows[0]]['column-0'].split(':')
-        clash.remove_filter(str(data[0].strip()), str(data[1].strip()))
+        clash.compute_results(group, get_filters(rows))
         return delete_filter(selected_rows, rows), " "
 
     else:
-        clash.apply_filter(group, curr_filter)
+        clash.compute_results(group, get_filters(rows))
         return add_filter(rows, columns,
                           (group + ": " + curr_filter)), " "
 
