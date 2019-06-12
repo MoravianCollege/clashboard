@@ -15,8 +15,7 @@ def setup_env_vars(cdc):
             cdc.port == os.environ['port'] and
             cdc.database == os.environ['database'] and
             cdc.username == os.environ['username'] and
-            cdc.password == os.environ['password'] and
-            cdc.trials_data.empty)
+            cdc.password == os.environ['password'])
 
 
 def proper_setup():
@@ -100,14 +99,11 @@ def test_gather_data_gather_twice_query_twice():
 
 @patch(class_location+'create_query')
 @patch(class_location+'make_connection')
-@patch(class_location+'fetch_sql_data')
-def test_query_data_calling(mock_create, mock_conn, mock_fetch):
+def test_query_data_calling(mock_create, mock_conn):
     cdc = proper_setup()
     cdc.query_data()
     assert mock_create.called
     assert mock_conn.called
-    assert mock_fetch.called
-    mock_fetch.assert_called_with([])
 
 
 @patch(class_location+'make_local_table', side_effect=['studies'])
@@ -157,14 +153,15 @@ def test_make_connection(mock):
 @patch('pandas.read_sql', side_effect=['data'])
 def test_fetch_data(mock_sql):
     cdc = proper_setup()
-    cdc.fetch_sql_data('sql command')
+    trials_data = cdc.fetch_sql_data('sql command')
     assert mock_sql.called
     mock_sql.assert_called_with(sql='sql command', con=None)
-    assert cdc.trials_data == 'data'
+    assert trials_data == 'data'
 
 
+@patch(class_location+'fetch_sql_data', side_effect=[pd.DataFrame()])
 @patch('pandas.DataFrame.groupby', side_effect=['grouped'])
-def test_update_grouping(mock_groupby):
+def test_update_grouping(mock_fetch_sql_data, mock_groupby):
     cdc = proper_setup()
     group = 'study_type'
     assert cdc.update_data(group) == 'grouped'
