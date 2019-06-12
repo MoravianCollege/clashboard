@@ -52,30 +52,17 @@ def test_replace_multiple_spaces(monkeypatch):
         'last_known_status'
 
 
-def test_get_dropdown_choices(monkeypatch):
+def test_change_group_by_changes_dropdown(monkeypatch):
     ctd = set_up_tests(monkeypatch)
     groupings = ['Study Type', 'Overall Status',
                  'Enrollment Type', 'Last Known Status']
-    assert ctd.get_group_choices() == groupings
+    assert ctd.get_group_choices('phase') == groupings
 
-
-def test_get_dropdown_choices_with_group_by(monkeypatch):
     ctd = set_up_tests(monkeypatch)
     groupings = ['Overall Status', 'Phase',
                  'Enrollment Type', 'Last Known Status']
-    ctd.set_group_by('Study Type')
-    assert ctd.get_group_choices() == groupings
-
-
-def test_change_group_by_changes_dropdown(monkeypatch):
-    ctd = set_up_tests(monkeypatch)
-    groupings = ['Study Type', 'Phase', 'Enrollment Type', 'Last Known Status']
-    ctd.set_group_by('Overall Status')
-    assert ctd.get_group_choices() == groupings
-    new_groupings = ['Study Type', 'Overall Status',
-                     'Enrollment Type', 'Last Known Status']
-    ctd.set_group_by('Phase')
-    assert ctd.get_group_choices() == new_groupings
+    ctd.compute_results('Study Type', [])
+    assert ctd.get_group_choices('study_type') == groupings
 
 
 def test_get_download_date(monkeypatch):
