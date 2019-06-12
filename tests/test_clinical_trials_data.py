@@ -88,8 +88,9 @@ def test_update_data_empty_lists(monkeypatch):
 
 def test_update_data(monkeypatch):
     ctd = set_up_tests(monkeypatch)
-    assert ctd.update_data('study_type', []) == \
-           (['Interventional', 'Observational [Patient Registry]'], [9, 1])
+    labels = ['Interventional', 'Observational [Patient Registry]']
+    values = [9, 1]
+    assert ctd.update_data('study_type', []) == (labels, values)
 
 
 def test_compute_results_bad_first_parameter(monkeypatch):
