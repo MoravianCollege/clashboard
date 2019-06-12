@@ -62,32 +62,18 @@ class ClinicalTrialsData:
             x[0] = self.replace_underscore(x[0])
         return new_filters
 
-    def set_group_by(self, attribute):
-        """
-        Sets the attribute to group the data by
-        :param attribute:
-               human-readable string
-        """
-        self.curr_group = self.replace_space(attribute)
-        self.update_data(self.curr_group)
-
-    def get_group_by(self):
-        """
-        Get the variable currently used to group the data
-        :return: a human-readable string
-        """
-        return self.replace_underscore(self.curr_group)
-
-
-    def get_group_choices(self):
+    def get_group_choices(self, group):
         """
         Gets the potential choices for grouping the data
         :return: list of human-readable potential groupings
         """
-        temp_groupings = []
-        for group in self.groupings:
-            if group != self.curr_group:
-                temp_groupings.append(self.replace_underscore(group))
+        temp_groupings = self.groupings.copy()
+
+        if group in self.groupings:
+            temp_groupings.remove(group)
+
+        temp_groupings = list(map(self.replace_underscore, temp_groupings))
+
         return temp_groupings
 
     def get_download_date(self):

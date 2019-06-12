@@ -18,7 +18,6 @@ class ClinicalDataCollector:
         self.conn = None
         self.trials_data = pd.DataFrame()
 
-
     def gather_data(self, group='', filters=None):
         if group == '':
             return None
