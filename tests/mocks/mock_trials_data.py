@@ -13,4 +13,12 @@ class MockClinicalTrialsData(ClinicalTrialsData):
         self.file = filename
 
     def update_data(self, group):
-        self.studies = pd.read_csv(self.file).groupby(group).size()
+        data = pd.read_csv(self.file).groupby(group).size()
+
+        if group == data.index.name:
+            values = list(data.values)
+
+        if group == data.index.name:
+            labels = list(data.index)
+
+        return labels, values
