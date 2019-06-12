@@ -38,7 +38,7 @@ stored in a PostgreSQL database hosted by
 
 ## Launch on AWS
 
-* Create a t2.large EC2 instance based on Ubuntu 18. Storage should be 32+ GB.
+* Create an t2.large EC2 instance based on Ubuntu 18. Storage should be 32+ GB.
 * Make sure to open port 80.
 * `sudo apt update`
 * `sudo apt install -y python3-pip`
