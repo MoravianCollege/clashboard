@@ -21,7 +21,7 @@ class ClinicalDataCollector:
         if group == '':
             return None
         sql_command = self.query_data(filters)
-        return self.update_data(sql_command, group).size()
+        return self.get_grouped_data(sql_command, group).size()
 
     def query_data(self, filters=[]):
         sql_command = self.create_query(filters)
@@ -31,10 +31,10 @@ class ClinicalDataCollector:
     def create_query(self, filters=[]):
         sql_command = 'SELECT * FROM ' + \
                       self.make_local_table('studies', False)
-        sql_command += self.add_filters(filters)
+        sql_command += self.build_filters_query(filters)
         return sql_command
 
-    def add_filters(self, filters=[]):
+    def build_filters_query(self, filters=[]):
         sql_filters = " WHERE " if len(filters) > 0 else ''
         for i, name in enumerate(filters, 1):
             sql_filters += name[0] + " = '" + name[1] + "'"
@@ -54,7 +54,7 @@ class ClinicalDataCollector:
     def fetch_sql_data(self, sql_command):
         return pd.read_sql(sql=sql_command, con=self.conn)
 
-    def update_data(self, sql_command, group=''):
+    def get_grouped_data(self, sql_command, group=''):
         trials_data = self.fetch_sql_data(sql_command)
         return trials_data.groupby(group)
 
