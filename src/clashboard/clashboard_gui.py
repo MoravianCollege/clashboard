@@ -14,7 +14,7 @@ count = 0
 date = "4/27/2019"
 clash = ClinicalTrialsData()
 group_by = []
-groups = clash.get_group_choices()
+groups = clash.get_group_choices('phase')
 
 external_stylesheets = ['https://codepen.io/JPolich/pen/KYyRJG.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
@@ -91,25 +91,26 @@ app.layout = html.Div(children=[
     [Output('adding-rows-table', 'data'),
      Output('intermediate-value', 'children')],
     [Input('my-graph', 'clickData'),
-     Input('Delete-rows-button', 'n_clicks')],
+     Input('Delete-rows-button', 'n_clicks'),
+     Input('dropdown-id', 'value')],
     [State('adding-rows-table', 'data'),
      State('adding-rows-table', 'columns'),
      State('adding-rows-table', 'selected_rows'),
      State('chart-type', 'value')])
-def on_click(click_data, n_clicks, rows, columns, selected_rows, chart_type):
+def on_click(click_data, n_clicks, group, rows, columns,
+             selected_rows, chart_type):
     global count
-    current_group_by = clash.get_group_by()
     curr_filter = get_filter(chart_type, click_data)
     if n_clicks > count:
         count += 1
         data = rows[selected_rows[0]]['column-0'].split(':')
-        clash.remove_filter(str(data[0].strip()), str(data[1].strip()))
+        clash.compute_results(group, get_filters(rows))
         return delete_filter(selected_rows, rows), " "
 
     else:
-        clash.apply_filter(current_group_by, curr_filter)
+        clash.compute_results(group, get_filters(rows))
         return add_filter(rows, columns,
-                          (current_group_by + ": " + curr_filter)), " "
+                          (group + ": " + curr_filter)), " "
 
 
 def get_filter(chart_type, click_data):
@@ -160,10 +161,10 @@ def get_filters(rows):
                Input('intermediate-value', "children"),
               Input('chart-type', 'value')],
               [State('adding-rows-table', 'data')])
-def update_plot(value, n, chart_type, rows):
+def update_plot(group, n, chart_type, rows):
     global date
-    value = clash.replace_space(value)
-    labels, values = clash.compute_results(value, get_filters(rows))
+    group = clash.replace_space(group)
+    labels, values = clash.compute_results(group, get_filters(rows))
     date = 'Data from ' + clash.get_download_date()
     if chart_type == 'bar_chart':
         return go.Figure(
@@ -172,7 +173,7 @@ def update_plot(value, n, chart_type, rows):
 
                 ],
                 layout=go.Layout(
-                    title=clash.get_group_by(),
+                    title=group,
                     showlegend=True,
                     margin=go.layout.Margin(r=0, t=40, b=30)
                 )
@@ -183,7 +184,7 @@ def update_plot(value, n, chart_type, rows):
                 go.Pie(labels=labels, values=values)
             ],
             layout=go.Layout(
-                title=clash.get_group_by(),
+                title=group,
                 showlegend=True,
                 margin=go.layout.Margin(r=0, t=40, b=30)
             )
