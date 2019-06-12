@@ -41,24 +41,26 @@ class ClinicalTrialsData:
                                  download_date.day,
                                  download_date.year)
 
-    def update_data(self, group):
+    def update_data(self, group, filters=[]):
+        if group not in self.groupings:
+            return [], []
         values, labels = [], []
-        data = self.cdc.gather_data(group, self.filters)
+        data = self.cdc.gather_data(group, filters)
 
         if group == data.index.name:
             values = list(data.values)
-
-        if group == data.index.name:
             labels = list(data.index)
+        else:
+            return [], []
 
         return labels, values
 
-    def compute_results(self, group, group_filters):
+    def compute_results(self, group, filters=[]):
         group = self.replace_space(group)
         if group not in self.groupings:
             return [], []
-        self.filters = [(self.replace_space(value[0]), value[1])
-                        for value in group_filters]
-        data = self.update_data(group)
+        filters = [(self.replace_space(value[0]),
+                    value[1]) for value in filters]
+        data = self.update_data(group, filters)
 
         return data

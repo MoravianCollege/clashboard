@@ -12,7 +12,7 @@ class MockClinicalTrialsData(ClinicalTrialsData):
         super().__init__()
         self.file = filename
 
-    def update_data(self, group):
+    def update_data(self, group, filters=[]):
         data = pd.read_csv(self.file).groupby(group).size()
 
         if group == data.index.name:

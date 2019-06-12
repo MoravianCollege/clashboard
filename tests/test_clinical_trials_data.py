@@ -1,4 +1,5 @@
 from clashboard.clinical_trials_data import ClinicalTrialsData
+from clashboard.clinical_database import ClinicalDataCollector
 from pathlib import Path
 from datetime import date
 import pandas as pd
@@ -6,11 +7,14 @@ import pandas as pd
 TEST_DATA_DIR = Path(__file__).resolve().parent / 'data'
 
 
-def mock_update_data(self, grouping):
+'''def mock_update_data(self, group):
     data = pd.read_csv('{}/trial_test_data.csv'.format(TEST_DATA_DIR))
-    self.studies = data.groupby(grouping).size()
-    self.curr_group = grouping
-
+    groupings = ['study_type', 'overall_status', 'phase',
+                 'enrollment_type', 'last_known_status']
+    if group in groupings:
+        grouped_data = data.groupby(group).size()
+        return list(grouped_data.index.values), list(grouped_data.values)
+    return [], []'''
 
 def mock_get_download_date(self):
     download_date = date(2019, 4, 13)
@@ -18,14 +22,19 @@ def mock_get_download_date(self):
                              download_date.day,
                              download_date.year)
 
+def mock_gather_data(self, group='', filters=None):
+    data = pd.read_csv('{}/trial_test_data.csv'.format(TEST_DATA_DIR))
+    return data.groupby(group).size()
+
 
 def set_up_tests(monkeypatch):
-    monkeypatch.setattr(ClinicalTrialsData, 'update_data',
-                        mock_update_data)
+    '''monkeypatch.setattr(ClinicalTrialsData, 'update_data',
+                        mock_update_data)'''
     monkeypatch.setattr(ClinicalTrialsData, 'get_download_date',
                         mock_get_download_date)
+    monkeypatch.setattr(ClinicalDataCollector, 'gather_data',
+                        mock_gather_data)
     ctd = ClinicalTrialsData()
-    ctd.update_data('phase')
     return ctd
 
 
@@ -70,20 +79,15 @@ def test_get_download_date(monkeypatch):
     assert ctd.get_download_date() == "4/13/2019"
 
 
-def test_compute_results_change_group(monkeypatch):
+def test_update_data_empty_lists(monkeypatch):
     ctd = set_up_tests(monkeypatch)
-    group = 'overall_status'
-    ctd.compute_results(group, [])
-    assert ctd.curr_group == group
+    assert ctd.update_data('') == ([], [])
 
 
-def test_compute_results_filters(monkeypatch):
+def test_update_data(monkeypatch):
     ctd = set_up_tests(monkeypatch)
-    group = 'Overall Status'
-    group_filter = [('Study Type', 'Interventional')]
-    computed_filter = [('study_type', 'Interventional')]
-    ctd.compute_results(group, group_filter)
-    assert ctd.filters == computed_filter
+    assert ctd.update_data('study_type', []) == (['Interventional',
+               'Observational [Patient Registry]'], [9, 1])
 
 
 def test_compute_results_bad_first_parameter(monkeypatch):
@@ -92,15 +96,7 @@ def test_compute_results_bad_first_parameter(monkeypatch):
     assert ctd.compute_results(group, []) == ([], [])
 
 
-def test_compute_results_filter_is_list(monkeypatch):
-    ctd = set_up_tests(monkeypatch)
-    group = 'Overall Status'
-    group_filter = [('Study Type', 'Interventional')]
-    ctd.compute_results(group, group_filter)
-    assert type(ctd.filters) == list
-
-
-def test_compute_results_group_filter_within_values(monkeypatch):
+'''def test_compute_results_group_filter_within_values(monkeypatch):
     ctd = set_up_tests(monkeypatch)
     filters = ['Interventional',
                'Observational [Patient Registry]',
@@ -112,4 +108,4 @@ def test_compute_results_group_filter_within_values(monkeypatch):
     ctd.compute_results(group, group_filter)
     for item in ctd.filters:
         filter_name = item[1]
-        assert filter_name in filters
+        assert filter_name in filters'''
