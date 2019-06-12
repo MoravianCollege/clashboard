@@ -124,9 +124,10 @@ def test_add_one_filter():
 
 def test_add_many_filter():
     cdc = proper_setup()
+    study_type = "study_type = 'Interventional'"
     filters = [['Phase', 'Phase 1'], ['study_type', 'Interventional']]
-    assert cdc.build_filters_query(filters) == " WHERE Phase = 'Phase 1' AND " \
-                                               "study_type = 'Interventional'"
+    assert cdc.build_filters_query(filters) == " WHERE Phase = 'Phase 1' " \
+                                               "AND " + study_type
 
 
 def test_local_table():
