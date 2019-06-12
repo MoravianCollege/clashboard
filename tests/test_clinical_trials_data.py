@@ -16,11 +16,13 @@ TEST_DATA_DIR = Path(__file__).resolve().parent / 'data'
         return list(grouped_data.index.values), list(grouped_data.values)
     return [], []'''
 
+
 def mock_get_download_date(self):
     download_date = date(2019, 4, 13)
     return "{}/{}/{}".format(download_date.month,
                              download_date.day,
                              download_date.year)
+
 
 def mock_gather_data(self, group='', filters=None):
     data = pd.read_csv('{}/trial_test_data.csv'.format(TEST_DATA_DIR))
