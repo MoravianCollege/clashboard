@@ -16,26 +16,25 @@ class ClinicalDataCollector:
         self.username = os.getenv('username')
         self.password = os.getenv('password')
         self.conn = None
-        self.trials_data = pd.DataFrame()
 
     def gather_data(self, group='', filters=None):
         if group == '':
             return None
-        self.query_data(filters)
-        return self.update_data(group).size()
+        sql_command = self.query_data(filters)
+        return self.get_grouped_data(sql_command, group).size()
 
     def query_data(self, filters=[]):
         sql_command = self.create_query(filters)
         self.make_connection()
-        self.fetch_sql_data(sql_command)
+        return sql_command
 
     def create_query(self, filters=[]):
         sql_command = 'SELECT * FROM ' + \
                       self.make_local_table('studies', False)
-        sql_command += self.add_filters(filters)
+        sql_command += self.build_filters_query(filters)
         return sql_command
 
-    def add_filters(self, filters=[]):
+    def build_filters_query(self, filters=[]):
         sql_filters = " WHERE " if len(filters) > 0 else ''
         for i, name in enumerate(filters, 1):
             sql_filters += name[0] + " = '" + name[1] + "'"
@@ -53,10 +52,11 @@ class ClinicalDataCollector:
                                      password=self.password)
 
     def fetch_sql_data(self, sql_command):
-        self.trials_data = pd.read_sql(sql=sql_command, con=self.conn)
+        return pd.read_sql(sql=sql_command, con=self.conn)
 
-    def update_data(self, group=''):
-        return self.trials_data.groupby(group)
+    def get_grouped_data(self, sql_command, group=''):
+        trials_data = self.fetch_sql_data(sql_command)
+        return trials_data.groupby(group)
 
     def get_most_recent_date(self):
         if self.conn is None:
