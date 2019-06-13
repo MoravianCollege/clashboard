@@ -91,7 +91,6 @@ def test_dropdown_setup():
     groups = ["Study Type", "Overall Status", "Phase",
               "Enrollment Type", "Overall Status"]
     group_by = setup_dropdown(groups)
-    print("group_by:" + str(group_by))
     assert group_by == [{'label': 'Study Type', 'value': 'Study Type'},
                         {'label': 'Overall Status', 'value': 'Overall Status'},
                         {'label': 'Phase', 'value': 'Phase'},
