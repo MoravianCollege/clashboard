@@ -121,7 +121,7 @@ clinical_data = 'clashboard.clinical_trials_data.ClinicalTrialsData.'
 @patch(clinical_data + 'compute_results', return_value=[[], []])
 def test_update_plot_bar(mock_download_date, mock_fig, mock_bar,
                          mock_layout, mock_margin, mock_compute_results):
-    update_plot('Study Type', "", 'bar_chart', [{}])
+    update_plot('Study Type', 'bar_chart', [{}])
     assert mock_download_date.called
     assert mock_fig.called
     assert mock_bar.called
@@ -138,7 +138,7 @@ def test_update_plot_bar(mock_download_date, mock_fig, mock_bar,
 @patch(clinical_data + 'compute_results', return_value=[[], []])
 def test_update_plot_pie(mock_download_date, mock_fig, mock_pie,
                          mock_layout, mock_margin, mock_compute_results):
-    update_plot('Study Type', " ", 'pie_chart', [{}])
+    update_plot('Study Type', 'pie_chart', [{}])
     assert mock_download_date.called
     assert mock_fig.called
     assert mock_pie.called
@@ -150,6 +150,6 @@ def test_update_plot_pie(mock_download_date, mock_fig, mock_pie,
 @patch(clinical_data + 'get_download_date', side_effect="4/20/2019")
 @patch(clinical_data + 'compute_results', return_value=[[], []])
 def test_update_bad_plot(mock_download_date, mock_compute_results):
-    update_plot('Study Type', " ", 'Bad_Chart', [{}])
+    update_plot('Study Type', 'Bad_Chart', [{}])
     assert mock_download_date.called
     assert mock_compute_results.called
