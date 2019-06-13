@@ -1,8 +1,8 @@
 
 # clashboard
 
-A [Plot.ly Dash](https://dash.plot.ly/) dashboard to explore [ClinicalTrials.gov](https://clinicaltrials.gov/) data 
-stored in a PostgreSQL database hosted by 
+A [Plot.ly Dash](https://dash.plot.ly/) dashboard to explore [ClinicalTrials.gov](https://clinicaltrials.gov/) data
+stored in a PostgreSQL database hosted by
 [Clinical Trials Transformation Initiative](https://aact.ctti-clinicaltrials.org/).
 
 
@@ -24,7 +24,8 @@ stored in a PostgreSQL database hosted by
 
     `pip install -e .`
 
-5. Create the file `.env` containing our sensitive data (This file is named in
+5. Create the file `.env` containing our sensitive data (This file is listed in
+
    `.gitignore` because it should never go in the repo)
 
   ```

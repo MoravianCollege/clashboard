@@ -1,16 +1,10 @@
-import pandas as pd
 import copy
-from datetime import date
 from clashboard.clinical_database import ClinicalDataCollector
 
 
 class ClinicalTrialsData:
 
     def __init__(self):
-        self.type_counts = None
-        self.curr_group = ''
-        self.studies = pd.DataFrame()
-        self.filters = []
         self.cdc = ClinicalDataCollector()
         self.groupings = ['study_type', 'overall_status', 'phase',
                           'enrollment_type', 'last_known_status']
@@ -23,92 +17,18 @@ class ClinicalTrialsData:
         filter_category = filter_category.replace(" ", "_").lower()
         return filter_category
 
-    def remove_filter(self, filter_category, filter_name):
-        """
-        Removes a specified filter from the list of filters,
-           and re-runs the query
-        :param filter_category:
-               the column in the DB that the user wants to filter
-        :param filter_name:
-               the specific value to filter on in that column
-        """
-        filter_category = self.replace_space(filter_category)
-        try:
-            self.filters.remove([filter_category, filter_name])
-            self.update_data(self.curr_group)
-        except ValueError:
-            pass
-
-    def apply_filter(self, filter_category, filter_name):
-        """
-        Adds the specified filter to the list of filters,
-           and re-runs the current query
-        :param filter_category:
-               the column in the DB that the user wants to filter
-        :param filter_name:
-               the specific value to filter on in that column
-        """
-        filter_category = self.replace_space(filter_category)
-        self.filters.append([filter_category, filter_name])
-        self.update_data(self.curr_group)
-
-    def get_current_filters(self):
-        """
-        Get the list of currently applied filters
-        :return: the list of human-readable strings
-        """
-        new_filters = copy.deepcopy(self.filters)
-        for x in new_filters:
-            x[0] = self.replace_underscore(x[0])
-        return new_filters
-
-    def set_group_by(self, attribute):
-        """
-        Sets the attribute to group the data by
-        :param attribute:
-               human-readable string
-        """
-        self.curr_group = self.replace_space(attribute)
-        self.update_data(self.curr_group)
-
-    def get_group_by(self):
-        """
-        Get the variable currently used to group the data
-        :return: a human-readable string
-        """
-        return self.replace_underscore(self.curr_group)
-
-    def get_labels(self):
-        """
-        Get the lists of strings describing each category
-           for grouping the data
-        :return:
-               list of human-readable strings
-        """
-        if self.curr_group is self.studies.index.name:
-            return list(self.studies.index)
-
-        return []
-
-    def get_values(self):
-        """
-        Get the list of integers describing the amounts for each label
-        :return: an list of ints
-        """
-        if self.curr_group is self.studies.index.name:
-            return list(self.studies.values)
-
-        return []
-
-    def get_group_choices(self):
+    def get_group_choices(self, group):
         """
         Gets the potential choices for grouping the data
         :return: list of human-readable potential groupings
         """
-        temp_groupings = []
-        for group in self.groupings:
-            if group != self.curr_group:
-                temp_groupings.append(self.replace_underscore(group))
+        temp_groupings = self.groupings.copy()
+
+        if group in self.groupings:
+            temp_groupings.remove(group)
+
+        temp_groupings = list(map(self.replace_underscore, temp_groupings))
+
         return temp_groupings
 
     def get_download_date(self):
@@ -121,17 +41,26 @@ class ClinicalTrialsData:
                                  download_date.day,
                                  download_date.year)
 
-    def update_data(self, grouping):
-        self.studies = self.cdc.gather_data(grouping, self.filters)
-
-    def compute_results(self, group, group_filters):
-        self.curr_group = self.replace_space(group)
-        if self.curr_group not in self.groupings:
+    def update_data(self, group, filters=[]):
+        if group not in self.groupings:
             return [], []
-        self.filters = [(self.replace_space(value[0]), value[1])
-                        for value in group_filters]
-        self.update_data(self.curr_group)
-        labels = self.get_labels()
-        values = self.get_values()
+        values, labels = [], []
+        data = self.cdc.gather_data(group, filters)
+
+        if group == data.index.name:
+            values = list(data.values)
+            labels = list(data.index)
+        else:
+            return [], []
 
         return labels, values
+
+    def compute_results(self, group, filters=[]):
+        group = self.replace_space(group)
+        if group not in self.groupings:
+            return [], []
+        filters = [(self.replace_space(value[0]),
+                    value[1]) for value in filters]
+        data = self.update_data(group, filters)
+
+        return data

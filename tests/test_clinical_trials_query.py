@@ -15,8 +15,7 @@ def setup_env_vars(cdc):
             cdc.port == os.environ['port'] and
             cdc.database == os.environ['database'] and
             cdc.username == os.environ['username'] and
-            cdc.password == os.environ['password'] and
-            cdc.trials_data.empty)
+            cdc.password == os.environ['password'])
 
 
 def proper_setup():
@@ -28,16 +27,16 @@ def proper_setup():
         return cdc
 
 
-def mock_update_data():
+def mock_get_group_data():
     return pd.read_csv('{}/trial_test_data.csv'.format(TEST_DATA_DIR))
 
 
 @patch('psycopg2.connect')
-@patch('pandas.read_sql', side_effect=[mock_update_data()])
+@patch('pandas.read_sql', side_effect=[mock_get_group_data()])
 def test_complete_call(mock_conn, mock_sql):
     cdc = proper_setup()
-    actual_data = mock_update_data()
-    assert cdc.gather_data('study_type').equals(
+    actual_data = mock_get_group_data()
+    assert cdc.gather_data('study_type', []).equals(
         actual_data.groupby('study_type').size())
 
 
@@ -51,7 +50,7 @@ def test_gather_data_empty():
 
 
 @patch(class_location+'query_data')
-@patch(class_location+'update_data')
+@patch(class_location+'get_group_data')
 def test_gather_data_group(mock_query, mock_update):
     cdc = proper_setup()
     cdc.gather_data('study_type')
@@ -60,20 +59,19 @@ def test_gather_data_group(mock_query, mock_update):
 
 
 @patch(class_location + 'query_data')
-@patch(class_location + 'update_data')
+@patch(class_location + 'get_group_data')
 def test_gather_data_group_filter(mock_query, mock_update):
     filters = [['Phase', 'Phase 1']]
     cdc = proper_setup()
     cdc.gather_data('study_type', filters)
     assert mock_query.called
     assert mock_update.called
-    assert cdc.filters == filters
 
 
 def test_gather_data_gather_twice_query_once():
     cdc = proper_setup()
     with patch(class_location + 'query_data') as mock_query:
-        with patch(class_location + 'update_data') as mock_update:
+        with patch(class_location + 'get_group_data') as mock_update:
             cdc.gather_data('study_type')
             assert mock_query.called
             assert mock_update.called
@@ -88,7 +86,7 @@ def test_gather_data_gather_twice_query_twice():
     cdc = proper_setup()
     filters = [['Phase', 'Phase 1']]
     with patch(class_location + 'query_data') as mock_query:
-        with patch(class_location + 'update_data') as mock_update:
+        with patch(class_location + 'get_group_data') as mock_update:
             cdc.gather_data('study_type')
             assert mock_query.called
             assert mock_update.called
@@ -101,18 +99,15 @@ def test_gather_data_gather_twice_query_twice():
 
 @patch(class_location+'create_query')
 @patch(class_location+'make_connection')
-@patch(class_location+'fetch_sql_data')
-def test_query_data_calling(mock_create, mock_conn, mock_fetch):
+def test_query_data_calling(mock_create, mock_conn):
     cdc = proper_setup()
     cdc.query_data()
     assert mock_create.called
     assert mock_conn.called
-    assert mock_fetch.called
-    mock_fetch.assert_called_with()
 
 
 @patch(class_location+'make_local_table', side_effect=['studies'])
-@patch(class_location+'add_filters', side_effect=[''])
+@patch(class_location+'build_filters_query', side_effect=[''])
 def test_create_query_empty(mock_table, mock_filters):
     cdc = proper_setup()
     result_query = cdc.create_query()
@@ -123,15 +118,16 @@ def test_create_query_empty(mock_table, mock_filters):
 
 def test_add_one_filter():
     cdc = proper_setup()
-    cdc.filters = [['Phase', 'Phase 1']]
-    assert cdc.add_filters() == " WHERE Phase = 'Phase 1'"
+    filters = [['Phase', 'Phase 1']]
+    assert cdc.build_filters_query(filters) == " WHERE Phase = 'Phase 1'"
 
 
 def test_add_many_filter():
     cdc = proper_setup()
-    cdc.filters = [['Phase', 'Phase 1'], ['study_type', 'Interventional']]
-    assert cdc.add_filters() == " WHERE Phase = 'Phase 1' AND " \
-                                "study_type = 'Interventional'"
+    study_type = "study_type = 'Interventional'"
+    filters = [['Phase', 'Phase 1'], ['study_type', 'Interventional']]
+    assert cdc.build_filters_query(filters) == " WHERE Phase = 'Phase 1' " \
+                                               "AND " + study_type
 
 
 def test_local_table():
@@ -158,17 +154,18 @@ def test_make_connection(mock):
 @patch('pandas.read_sql', side_effect=['data'])
 def test_fetch_data(mock_sql):
     cdc = proper_setup()
-    cdc.fetch_sql_data('sql command')
+    trials_data = cdc.fetch_sql_data('sql command')
     assert mock_sql.called
     mock_sql.assert_called_with(sql='sql command', con=None)
-    assert cdc.trials_data == 'data'
+    assert trials_data == 'data'
 
 
+@patch(class_location+'fetch_sql_data', side_effect=[pd.DataFrame()])
 @patch('pandas.DataFrame.groupby', side_effect=['grouped'])
-def test_update_grouping(mock_groupby):
+def test_update_grouping(mock_fetch_sql_data, mock_groupby):
     cdc = proper_setup()
-    cdc.group = 'study_type'
-    assert cdc.update_data() == 'grouped'
+    group = 'study_type'
+    assert cdc.get_group_data(group) == 'grouped'
     assert mock_groupby.called
     mock_groupby.assert_called_with('study_type')
 
@@ -186,7 +183,7 @@ time_data = mock_recent_date()
 @patch(class_location + 'make_connection')
 @patch(class_location + 'make_local_table', side_effect=['studies'])
 def test_recent_date_calls(mock_sql, mock_conn, mock_local_table):
-    mock_data = mock_update_data()
+    mock_data = mock_get_group_data()
     mock_data_date = pd.DataFrame(mock_data, columns=['updated_at'])
     mock_timestamp = time.mktime(datetime.strptime(
         mock_data_date['updated_at'][0], "%Y-%m-%d %H:%M:%S.%f").timetuple())
