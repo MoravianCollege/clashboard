@@ -158,7 +158,6 @@ def get_filters(rows):
 @app.callback([Output('my-graph', 'figure'),
                Output('date', 'children')],
               [Input('dropdown-id', 'value'),
-               Input('intermediate-value', "children"),
               Input('chart-type', 'value')],
               [State('adding-rows-table', 'data')])
 def update_plot(group, chart_type, rows):
