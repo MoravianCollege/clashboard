@@ -25,6 +25,7 @@ stored in a PostgreSQL database hosted by
     `pip install -e .`
 
 5. Create the file `.env` containing our sensitive data (This file is listed in
+
    `.gitignore` because it should never go in the repo)
 
   ```
@@ -67,7 +68,7 @@ stored in a PostgreSQL database hosted by
 
 * `sudo systemctl restart postgresql.service`
 
-* We retrieve the most recent data with the following command `sudo ./get_most_recent_data.sh`
+* We retrieve the most recent data with the following command `sudo ./scripts/get_most_recent_data.sh`
 
 * To add the schema that AACT tables are saved in: `psql aact` and then `alter role your-username in database aact set search_path = ctgov, public;`
 
