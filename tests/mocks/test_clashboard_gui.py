@@ -101,9 +101,9 @@ def test_dropdown_setup():
 
 
 def test_get_filters():
-    rows = [{'column-0': 'Observational: Study Type'},
-            {'column-0': 'Interventional: Study Type'},
-            {'column-0': 'Observational [Patient Registry]: Study Type'}]
+    rows = [{'column-0': 'Study Type: Observational'},
+            {'column-0': 'Study Type: Interventional'},
+            {'column-0': 'Study Type: Observational [Patient Registry]'}]
     expected_results = [("study_type", "Observational"),
                         ("study_type", "Interventional"),
                         ("study_type", "Observational [Patient Registry]")]
