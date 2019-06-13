@@ -155,10 +155,9 @@ def get_filters(rows):
 @app.callback([Output('my-graph', 'figure'),
                Output('date', 'children')],
               [Input('dropdown-id', 'value'),
-               Input('intermediate-value', "children"),
               Input('chart-type', 'value')],
               [State('adding-rows-table', 'data')])
-def update_plot(group, n, chart_type, rows):
+def update_plot(group, chart_type, rows):
     global date
     group = clash.replace_space(group)
     labels, values = clash.compute_results(group, get_filters(rows))
