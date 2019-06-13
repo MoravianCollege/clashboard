@@ -7,9 +7,6 @@ from dash.dependencies import Input, Output, State
 from clashboard.clinical_trials_data import ClinicalTrialsData
 import plotly.graph_objs as go
 
-study_type_counts = None
-status_counts = None
-phase_counts = None
 count = 0
 date = "4/27/2019"
 clash = ClinicalTrialsData()
@@ -158,10 +155,9 @@ def get_filters(rows):
 @app.callback([Output('my-graph', 'figure'),
                Output('date', 'children')],
               [Input('dropdown-id', 'value'),
-               Input('intermediate-value', "children"),
               Input('chart-type', 'value')],
               [State('adding-rows-table', 'data')])
-def update_plot(group, n, chart_type, rows):
+def update_plot(group, chart_type, rows):
     global date
     labels, values = clash.compute_results(group, get_filters(rows))
     date = 'Data from ' + clash.get_download_date()
