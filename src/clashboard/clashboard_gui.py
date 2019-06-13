@@ -7,9 +7,6 @@ from dash.dependencies import Input, Output, State
 from clashboard.clinical_trials_data import ClinicalTrialsData
 import plotly.graph_objs as go
 
-study_type_counts = None
-status_counts = None
-phase_counts = None
 count = 0
 date = "4/27/2019"
 clash = ClinicalTrialsData()
