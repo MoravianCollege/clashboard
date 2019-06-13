@@ -146,9 +146,9 @@ def get_filters(rows):
         if "column-0" not in rows[i]:
             break
         filter_category, filter_name = rows[i]['column-0'].split(':')
-        filter_name = clash.replace_space(str(filter_name.strip()))
-        filter_category = str(filter_category.strip())
-        filters.append((filter_name, filter_category))
+        filter_name = str(filter_name.strip())
+        filter_category = clash.replace_space(str(filter_category.strip()))
+        filters.append((filter_category, filter_name))
     return filters
 
 
@@ -159,7 +159,6 @@ def get_filters(rows):
               [State('adding-rows-table', 'data')])
 def update_plot(group, chart_type, rows):
     global date
-    group = clash.replace_space(group)
     labels, values = clash.compute_results(group, get_filters(rows))
     date = 'Data from ' + clash.get_download_date()
     if chart_type == 'bar_chart':
