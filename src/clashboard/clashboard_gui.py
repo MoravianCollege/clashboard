@@ -103,9 +103,9 @@ def on_click(click_data, n_clicks, group, rows, columns,
         data = rows[selected_rows[0]]['column-0'].split(':')
         clash.compute_results(group, get_filters(rows))
         return delete_filter(selected_rows, rows), " "
-
     else:
         clash.compute_results(group, get_filters(rows))
+        group = clash.replace_underscore(group)
         return add_filter(rows, columns,
                           (group + ": " + curr_filter)), " "
 
@@ -161,6 +161,7 @@ def update_plot(group, chart_type, rows):
     global date
     labels, values = clash.compute_results(group, get_filters(rows))
     date = 'Data from ' + clash.get_download_date()
+    group = clash.replace_underscore(group)
     if chart_type == 'bar_chart':
         return go.Figure(
                 data=[
