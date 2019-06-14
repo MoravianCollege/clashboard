@@ -10,8 +10,6 @@ import plotly.graph_objs as go
 count = 0
 date = "4/27/2019"
 clash = ClinicalTrialsData()
-group_by = []
-groups = clash.get_group_choices('phase')
 
 external_stylesheets = ['https://codepen.io/JPolich/pen/KYyRJG.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
@@ -25,7 +23,7 @@ def setup_dropdown(groups):
     return group_by
 
 
-group_by = setup_dropdown(groups)
+group_by = setup_dropdown(clash.get_group_choices('phase'))
 app.layout = html.Div(children=[
     html.H1(children='ClinicalTrials.gov Data Exploration'),
 
@@ -88,9 +86,9 @@ app.layout = html.Div(children=[
     [Output('adding-rows-table', 'data'),
      Output('intermediate-value', 'children')],
     [Input('my-graph', 'clickData'),
-     Input('Delete-rows-button', 'n_clicks'),
-     Input('dropdown-id', 'value')],
-    [State('adding-rows-table', 'data'),
+     Input('Delete-rows-button', 'n_clicks')],
+    [State('dropdown-id', 'value'),
+     State('adding-rows-table', 'data'),
      State('adding-rows-table', 'columns'),
      State('adding-rows-table', 'selected_rows'),
      State('chart-type', 'value')])
@@ -153,7 +151,8 @@ def get_filters(rows):
 
 
 @app.callback([Output('my-graph', 'figure'),
-               Output('date', 'children')],
+               Output('date', 'children'),
+               Output('dropdown-id', 'options')],
               [Input('dropdown-id', 'value'),
               Input('chart-type', 'value')],
               [State('adding-rows-table', 'data')])
@@ -173,7 +172,7 @@ def update_plot(group, chart_type, rows):
                     showlegend=True,
                     margin=go.layout.Margin(r=0, t=40, b=30)
                 )
-            ), date
+            ), date, clash.get_group_choices(group)
     elif chart_type == 'pie_chart':
         return go.Figure(
             data=[
@@ -184,9 +183,9 @@ def update_plot(group, chart_type, rows):
                 showlegend=True,
                 margin=go.layout.Margin(r=0, t=40, b=30)
             )
-        ), date
+        ), date, clash.get_group_choices(group)
     else:
-        return {}, date
+        return {}, date, clash.get_group_choices(group)
 
 
 if __name__ == '__main__':
