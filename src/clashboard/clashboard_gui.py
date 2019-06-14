@@ -1,4 +1,3 @@
-
 import dash
 import dash_table
 import dash_core_components as dcc
@@ -161,6 +160,7 @@ def update_plot(group, chart_type, rows):
     labels, values = clash.compute_results(group, get_filters(rows))
     date = 'Data from ' + clash.get_download_date()
     group = clash.replace_underscore(group)
+    group_by = setup_dropdown(clash.get_group_choices(group))
     if chart_type == 'bar_chart':
         return go.Figure(
                 data=[
@@ -172,7 +172,7 @@ def update_plot(group, chart_type, rows):
                     showlegend=True,
                     margin=go.layout.Margin(r=0, t=40, b=30)
                 )
-            ), date, clash.get_group_choices(group)
+            ), date, group_by
     elif chart_type == 'pie_chart':
         return go.Figure(
             data=[
@@ -183,9 +183,9 @@ def update_plot(group, chart_type, rows):
                 showlegend=True,
                 margin=go.layout.Margin(r=0, t=40, b=30)
             )
-        ), date, clash.get_group_choices(group)
+        ), date, group_by
     else:
-        return {}, date, clash.get_group_choices(group)
+        return {}, date, group_by
 
 
 if __name__ == '__main__':
