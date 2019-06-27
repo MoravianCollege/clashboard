@@ -1,0 +1,100 @@
+,id,nct_id,agency_class,lead_or_collaborator,name
+0,3641836,NCT03896360,Other,lead,Weill Medical College of Cornell University
+1,3641837,NCT03896347,Industry,lead,"Aziyo Biologics, Inc."
+2,3641840,NCT03896321,Other,lead,Assiut University
+3,3641841,NCT03896308,Other,lead,National Yang Ming University
+4,3641844,NCT03896269,Other,lead,M.D. Anderson Cancer Center
+5,3641845,NCT03896269,NIH,collaborator,National Cancer Institute (NCI)
+6,3641846,NCT03896256,Other,lead,Thomas Jefferson University
+7,3641847,NCT03896243,Other,lead,Kanuni Sultan Suleyman Training and Research Hospital
+8,3641848,NCT03896230,Other,lead,Hackensack Meridian Health
+9,3641849,NCT03896217,Other,lead,"University College, London"
+10,3641850,NCT03896217,Other,collaborator,MS Society
+11,3641851,NCT03896204,Other,lead,Hacettepe University
+12,3641852,NCT03896191,Other,lead,University of Bath
+13,3641853,NCT03896191,Other,collaborator,North Bristol NHS Trust
+14,3641864,NCT03896165,Other,lead,Ohio State University
+15,3641865,NCT03896165,Other,collaborator,Akron Children's Hospital
+16,3641866,NCT03896152,Industry,lead,Novartis Pharmaceuticals
+17,3641867,NCT03896139,Other,lead,Groupe Hospitalier Pitie-Salpetriere
+18,3641868,NCT03896139,Other,collaborator,Vanderbilt University Medical Center
+19,3641869,NCT03896126,Other,lead,Stanford University
+20,3641872,NCT03896087,Other,lead,"Foundation for Innovative New Diagnostics, Switzerland"
+21,3641873,NCT03896087,Other,collaborator,UNITAID
+22,3641874,NCT03896074,Other,lead,Fondazione Ricerca Traslazionale
+23,3641875,NCT03896061,Industry,lead,"Ethicon, Inc."
+24,3641876,NCT03896048,Industry,lead,Respinor AS
+25,3641877,NCT03896048,Other,collaborator,European Commission
+26,3641878,NCT03896035,U.S. Fed,lead,Dallas VA Medical Center
+27,3641879,NCT03896022,Other,lead,Columbia University
+28,3641880,NCT03896022,Other,collaborator,Society of Family Planning
+29,3641881,NCT03896009,Industry,lead,"Axsome Therapeutics, Inc."
+30,3641883,NCT03895983,Other,lead,Assiut University
+31,3641884,NCT03895970,Other,lead,Peking Union Medical College Hospital
+32,3641885,NCT03895970,Industry,collaborator,"Eisai Co., Ltd."
+33,3641886,NCT03895970,Industry,collaborator,Merck Sharp & Dohme Corp.
+34,3641887,NCT03895957,Industry,lead,Tomorrow Sp. z o.o.
+35,3641888,NCT03895957,Other,collaborator,The National Centre for Research and Development
+36,3641889,NCT03895944,Other,lead,First Affiliated Hospital Xi'an Jiaotong University
+37,3641890,NCT03895944,Industry,collaborator,Eureka Therapeutics Inc.
+38,3641891,NCT03895931,Other,lead,Klinikum Berchtesgadener Land der Schön-Kliniken
+39,3641894,NCT03895905,Other,lead,Kanuni Sultan Suleyman Training and Research Hospital
+40,3641895,NCT03895892,Other,lead,"Western University, Canada"
+41,3641899,NCT03895866,Other,lead,Peking Union Medical College Hospital
+42,3641900,NCT03895853,Other,lead,M.D. Anderson Cancer Center
+43,3641901,NCT03895853,NIH,collaborator,National Cancer Institute (NCI)
+44,3641902,NCT03895840,Other,lead,University of Kansas Medical Center
+45,3641905,NCT03895814,Other,lead,Arizona State University
+46,3641906,NCT03895814,Other,collaborator,University of Utah
+47,3641907,NCT03895814,Other,collaborator,Colorado State University
+48,3641908,NCT03895801,Industry,lead,InflaRx GmbH
+49,3641909,NCT03895801,Industry,collaborator,IQVIA
+50,3641910,NCT03895788,Other,lead,Hunan Cancer Hospital
+51,3641912,NCT03895762,Industry,lead,A.Menarini Asia-Pacific Holdings Pte Ltd
+52,3641913,NCT03895749,Other,lead,"Hypertension Institute, Nashville"
+53,3641914,NCT03895749,Other,collaborator,Neogenis Laboratories
+54,3641921,NCT03895723,Other,lead,Xu jianmin
+55,3641922,NCT03895710,Other,lead,Chinese University of Hong Kong
+56,3641923,NCT03895697,Industry,lead,Zealand Pharma
+57,3641924,NCT03895684,Industry,lead,"Salarius Pharmaceuticals, LLC"
+58,3641925,NCT03895671,Other,lead,Versailles Hospital
+59,3641930,NCT03895619,Other,lead,Simon Fraser University
+60,3641931,NCT03895619,Other,collaborator,Mbarara University of Science and Technology
+61,3641932,NCT03895619,Other,collaborator,Massachusetts General Hospital
+62,3641933,NCT03895606,Other,lead,Gangnam Severance Hospital
+63,3641934,NCT03895593,Other,lead,The Second Hospital of Nanjing Medical University
+64,3641935,NCT03895593,Other,collaborator,The First Affiliated Hospital of Zhengzhou University
+65,3641936,NCT03895593,Other,collaborator,First Affiliated Hospital of Xinjiang Medical University
+66,3641937,NCT03895593,Other,collaborator,Second Affiliated Hospital of Suzhou University
+67,3641938,NCT03895593,Other,collaborator,First Affiliated Hospital of Guangxi Medical University
+68,3641939,NCT03895593,Other,collaborator,Shenzhen Hospital of Southern Medical University
+69,3641940,NCT03895593,Other,collaborator,Wuhan University
+70,3641941,NCT03895593,Other,collaborator,Liuzhou People's Hospital
+71,3641942,NCT03895593,Other,collaborator,Lishui Country People's Hospital
+72,3641943,NCT03895580,Other,lead,University of Cincinnati
+73,3641944,NCT03895580,Other,collaborator,The Kroger Company
+74,3641945,NCT03895580,Other,collaborator,"Children's Hospital Medical Center, Cincinnati"
+75,3641946,NCT03895567,Other,lead,University of Oxford
+76,3641947,NCT03895567,Other,collaborator,Orofino Pharmaceuticals Group
+77,3641948,NCT03895554,Other,lead,Ochsner Health System
+78,3641950,NCT03895528,Industry,lead,Eiger BioPharmaceuticals
+79,3641951,NCT03895515,Industry,lead,Novo Nordisk A/S
+80,3641952,NCT03895502,Other,lead,Takeshi Morimoto
+81,3641953,NCT03895489,Other,lead,University of Alberta
+82,3641954,NCT03895476,Other,lead,University of Alabama at Birmingham
+83,3641955,NCT03895463,Industry,lead,Ipsen
+84,3641956,NCT03895450,Other,lead,University of Calgary
+85,3641957,NCT03895450,Other,collaborator,"Hotchkiss Brain Institute, University of Calgary"
+86,3641958,NCT03895437,Industry,lead,"Tolerion, Inc."
+87,3641959,NCT03895424,Other,lead,Swiss Federal Institute of Technology
+88,3641960,NCT03895424,Industry,collaborator,Mibelle AG
+89,3641961,NCT03895411,Other,lead,Shengjing Hospital
+90,3641965,NCT03895385,Industry,lead,UCB Biopharma S.P.R.L.
+91,3641966,NCT03895372,Industry,lead,Pfizer
+92,3641967,NCT03895359,Other,lead,Lawson Health Research Institute
+93,3641968,NCT03895346,Other,lead,Massachusetts General Hospital
+94,3641969,NCT03895333,Other,lead,Kanuni Sultan Suleyman Training and Research Hospital
+95,3641970,NCT03895320,Other,lead,Johns Hopkins Bloomberg School of Public Health
+96,3641972,NCT03895294,Other,lead,Universidad de Antioquia
+97,3641973,NCT03895281,Other,lead,Shanghai Children's Medical Center
+98,3641974,NCT03895281,Industry,collaborator,BioMérieux
